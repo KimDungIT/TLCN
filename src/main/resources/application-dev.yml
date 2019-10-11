@@ -1,3 +1,7 @@
+oauth2:
+  client-id: client
+  client-secret: ttgs123
+
 spring:
   profiles:
     include: default
