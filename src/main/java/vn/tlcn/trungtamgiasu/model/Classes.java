@@ -60,4 +60,6 @@ public class Classes implements Serializable {
 
     @OneToMany(mappedBy = "classes", cascade = CascadeType.ALL)
     private Set<Invoice> invoices = new HashSet<>();
+
+
 }

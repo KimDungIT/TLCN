@@ -18,7 +18,7 @@ public class ClassesService {
 
     public List<Classes> getTopSixClasses()
     {
-        logger.info("Get six top classes");
+        logger.info("Get top six classes");
         return classesRepository.findTop6By();
     }
 }

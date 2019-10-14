@@ -39,4 +39,5 @@ public class Invoice implements Serializable {
     @JoinColumn(name = "id_tutor", nullable = false)
     @JsonIgnore
     private Tutors tutors;
+    
 }

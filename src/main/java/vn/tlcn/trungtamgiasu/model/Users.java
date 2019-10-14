@@ -33,7 +33,7 @@ public class Users implements Serializable {
 
     private String email;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 100, nullable = false)
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -43,4 +43,6 @@ public class Users implements Serializable {
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private Set<Classes> classes = new HashSet<>();
+
+
 }

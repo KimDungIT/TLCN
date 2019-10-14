@@ -59,4 +59,6 @@ public class Tutors implements Serializable {
 
     @OneToMany(mappedBy = "tutors", cascade = CascadeType.ALL)
     private Set<Invoice> invoices = new HashSet<>();
+
+
 }
