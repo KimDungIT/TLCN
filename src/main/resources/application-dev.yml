@@ -17,3 +17,11 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+  flyway:
+    url: jdbc:mysql://localhost:3306/mysql
+    schemas: db_giasu
+    user: root
+    password: dungkim
+    baseline-on-migrate: true
+    check-location: true
