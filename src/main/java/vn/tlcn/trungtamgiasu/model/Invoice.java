@@ -23,9 +23,9 @@ public class Invoice implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_invoice;
+    private int idInvoice;
 
-    private double service_fee;
+    private double serviceFee;
 
     @CreatedDate
     private Date time;

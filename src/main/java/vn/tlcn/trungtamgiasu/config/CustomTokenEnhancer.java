@@ -24,7 +24,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 
         Users userByPhone = userRepository.findByPhone(oAuth2Authentication.getName()).get();
 
-        additionalInfo.put("idUser", userByPhone.getId_user());
+        additionalInfo.put("idUser", userByPhone.getIdUser());
 
         ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(additionalInfo);
         return oAuth2AccessToken;

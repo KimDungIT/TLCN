@@ -1,5 +1,6 @@
 package vn.tlcn.trungtamgiasu.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,12 +21,13 @@ public class Roles implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_role;
+    private int idRole;
 
     @Column(nullable = false)
-    private String role_name;
+    private String roleName;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private Set<Users> users = new HashSet<>();
 
 }

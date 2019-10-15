@@ -5,30 +5,43 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClassesDto {
 
-    private int id_class;
+    private int idClass;
 
+    @NotBlank
+    @NotNull
     private String grade;
 
+    @NotBlank
     private String subject;
 
-    private String time_teach;
+    @NotBlank
+    private String timeTeach;
 
+    @NotBlank
     private String address;
 
+    @NotBlank
     private double salary;
 
-    private double service_fee;
+    @NotBlank
+    private double serviceFee;
 
-    private String gender_requirement;
+    @NotNull
+    private String genderRequirement;
 
-    private String level_requirement;
+    @NotNull
+    private String levelRequirement;
 
+    @NotBlank
     private String status;
 
 
