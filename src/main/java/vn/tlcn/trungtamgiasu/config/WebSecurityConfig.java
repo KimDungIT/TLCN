@@ -23,17 +23,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http.authorizeRequests()
-                .antMatchers("/actuator/**", "/oauth/token").permitAll()
+                .antMatchers("/user/**", "/oauth/token").permitAll()
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable();
 
-//        http.authorizeRequests()
-//                .antMatchers("auth/users/forgotPassword",
-//                        "auth/users/changePassword")
-//                .hasAuthority("CHANGE_PASSWORD_PRIVILEGE");
+        http.authorizeRequests()
+                .antMatchers("/api/classes/createClass")
+                .hasAuthority("[ADMIN],[PHUHUYNH]");
+        http.authorizeRequests()
+                .antMatchers("/api/tutors/uploadImage")
+                .hasAuthority("[ADMIN],[GIASU]");
+        http.authorizeRequests()
+                .antMatchers("/api/tutors/create")
+                .hasAuthority("[ADMIN],[GIASU]");
+
 //
 //        http.antMatcher("/**")
 //                .authorizeRequests()

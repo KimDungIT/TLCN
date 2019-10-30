@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import vn.tlcn.trungtamgiasu.dto.Users.UsersDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.UsersMapper;
 import vn.tlcn.trungtamgiasu.exception.UserNotCreateException;
+import vn.tlcn.trungtamgiasu.exception.UserNotFoundException;
 import vn.tlcn.trungtamgiasu.model.Roles;
 import vn.tlcn.trungtamgiasu.model.Users;
 import vn.tlcn.trungtamgiasu.repository.UsersRepository;
@@ -22,6 +23,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -38,6 +40,8 @@ public class UsersService implements UserDetailsService {
     @Autowired
     private UsersMapper usersMapper;
 
+
+
     /**
      * Get by phone
      *
@@ -52,11 +56,19 @@ public class UsersService implements UserDetailsService {
         );
     }
 
+    public Users getById(int idUser)
+    {
+        logger.info("Get by id user "+idUser);
+        return usersRepository.findByIdUser(idUser).orElseThrow(() -> new UserNotFoundException("User not found by id "+ idUser));
+    }
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Users user = getByPhone(s);
+        Set<String> roles =  rolesService.findByUser(user.getIdUser());
+
         return new org.springframework.security.core.userdetails.User(user.getPhone(), user.getPassword(),
-                AuthorityUtils.createAuthorityList("USER"));
+                AuthorityUtils.createAuthorityList(roles.toString()));
     }
 
     @Bean
@@ -75,12 +87,19 @@ public class UsersService implements UserDetailsService {
         return usersRepository.save(users);
     }
 
+    /**
+     * Sign up
+     * @param type String: Type account
+     * @param usersDto
+     * @return user
+     */
     public Users signUp(String type, UsersDto usersDto) {
         logger.info("sign up service");
         if (type == "") {
             throw new UserNotCreateException("Not choose type");
         }
 
+        //validate
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<UsersDto>> violations = validator.validate(usersDto);
@@ -103,6 +122,5 @@ public class UsersService implements UserDetailsService {
 
         return saveUser(users);
     }
-
 
 }

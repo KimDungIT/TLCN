@@ -68,7 +68,7 @@ public class Classes implements Serializable {
     private String updatedBy;
 
     @ManyToOne
-    @JoinColumn(name = "id_parent", nullable = false)
+    @JoinColumn(name = "id_parent")
     @JsonIgnore
     private Users users;
 

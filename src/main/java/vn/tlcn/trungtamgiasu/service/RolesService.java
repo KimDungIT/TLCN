@@ -8,6 +8,13 @@ import vn.tlcn.trungtamgiasu.exception.RoleNotFoundException;
 import vn.tlcn.trungtamgiasu.model.Roles;
 import vn.tlcn.trungtamgiasu.repository.RolesRepository;
 
+import javax.persistence.SecondaryTable;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Service
 public class RolesService {
 
@@ -26,4 +33,18 @@ public class RolesService {
         logger.info("Get role by role name "+ role_name);
         return rolesRepository.findByRoleName(role_name).orElseThrow(() -> new RoleNotFoundException("Can not found role"));
     }
+
+    public Set<String> findByUser(int id)
+    {
+        List<Integer> integerList = rolesRepository.getByIdUser(id);
+
+        Set<String> list = new HashSet<>();
+
+        for (Integer idRole: integerList) {
+            list.add(rolesRepository.findByIdRole(idRole).get().getRoleName());
+        }
+        return list;
+    }
+
+
 }

@@ -37,7 +37,7 @@ create table classes
     subject            varchar(255) not null,
     time_teach         varchar(255) not null,
     updated_by         varchar(255) null,
-    id_parent          int          not null,
+    id_parent          int          ,
     constraint FK4yjsocmaeowccpdawmsfa00xc
         foreign key (id_parent) references users (id_user)
 );

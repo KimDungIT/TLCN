@@ -29,7 +29,7 @@ public class UsersDto {
     private String address;
 
     @Email(message = "Incorrect format email.")
-    @NotBlank
+
     private String email;
 
     @NotBlank

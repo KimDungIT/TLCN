@@ -35,8 +35,29 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({RoleNotFoundException.class})
     public ResponseEntity<ErrorResponse> HanderException(RoleNotFoundException r)
     {
-        logger.error("Not create user exception");
+        logger.error("Not found user exception");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("NOT_FOUND_ROLE", r.getMessage()));
+    }
+    //Not create tutor exception
+    @ExceptionHandler({TutorNotCreateException.class})
+    public ResponseEntity<ErrorResponse> HanderException(TutorNotCreateException r)
+    {
+        logger.error("Not create tutor exception");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("NOT_CREATE_TUTOR", r.getMessage()));
+    }
+    //Not create class exception
+    @ExceptionHandler({ClassNotCreateException.class})
+    public ResponseEntity<ErrorResponse> HanderException(ClassNotCreateException r)
+    {
+        logger.error("Not create class exception");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("NOT_CREATE_CLASS", r.getMessage()));
+    }
+    //Not store file exception
+    @ExceptionHandler({FileNotStoreException.class})
+    public ResponseEntity<ErrorResponse> HanderException(FileNotStoreException r)
+    {
+        logger.error("Not store file exception");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("NOT_STORE_FILE", r.getMessage()));
     }
 
 

@@ -17,7 +17,6 @@ public class ClassesDto {
     private int idClass;
 
     @NotBlank
-    @NotNull
     private String grade;
 
     @NotBlank
@@ -41,7 +40,6 @@ public class ClassesDto {
     @NotNull
     private String levelRequirement;
 
-    @NotBlank
     private String status;
 
 
