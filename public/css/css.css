@@ -2,7 +2,7 @@
 /* CSS Document */
 
 body {
-	font-family: Georgia, 'Times New Roman', Times, serif;
+	/* font-family: Georgia, 'Times New Roman', Times, serif; */
 	overflow-x: hidden;
 	background-image: url(../images/bg.jpg);
 }
@@ -35,12 +35,13 @@ i.fa{
 	margin-right: 5px;
 }
 a.nav-link{
+	font-size: 16px;
 	display: block;
-	padding: 7px 18px 8px;
+	padding: 7px 4px 4px;
 	text-decoration: none;
 	color: #fff;
-	margin-left: 20px;
-	margin-right: 20px;
+	margin-left: 15px;
+	margin-right: 15px;
 }
 
 /* h1.text
@@ -255,20 +256,30 @@ h4.widget-title{
 	background-color: black;
 }
 
-form .row {
+/* form .row {
 	display: block;
 	padding: 1px 10px;
 	margin-bottom: 4px;
-}
-form label {
-	display: inline-block;
+} */
+/* .ant-col-6 {
+    display: block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 25%;
+} */
+/* form label {
+	display: block;
 	font-size: 14px;
 	font-weight: bold;
 	width: 220px;
 	color: #464646;
-	vertical-align: top;
+	
 }
-form .obligate { color: red; }
+input.ant-radio-input {
+	margin-right: 10px;
+} */
+
+/* form .obligate { color: red; }
 input[type=submit] {
 	background-color: orange;
 	color: white;
@@ -278,7 +289,7 @@ input[type=submit] {
 	border-radius: 4px;
 	cursor: pointer;
 	float: right;
-}
+} */
 .luuy{
 	font-weight: bold;
 }
@@ -351,7 +362,6 @@ h3.tieude{
     text-transform: uppercase;
     font-size: 14px;
     font-weight: bold;
-    border-radius: 
 }
 
 .bottom-lienhe {

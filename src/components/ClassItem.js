@@ -3,11 +3,12 @@ import React, { Component } from 'react';
 class ClassItem extends Component {
     render() {
         var { classItem } = this.props
+        var serviceFee =  classItem.serviceFee * 100;
         return (
-            <div className="col-sm-4">
+            <div className="col-sm-4 mb-3">
                 <div className="dslop-home">
                     <h4>
-                        <i className="fa fa-mortar-board" /> Mã: {classItem.id}
+                        <i className="fa fa-mortar-board" /> Mã: {classItem.idClass}
                     </h4>
                     <div className="dslop-body">
                         <p>
@@ -52,7 +53,7 @@ class ClassItem extends Component {
                             </strong>
                         </p>
                         <div className="phinhanlop" 
-                            title="Phí nhận lớp 35%">{classItem.serviceFee}
+                            title="Phí nhận lớp 35%">{serviceFee}%
                         </div>
                         <a href="https://github.com" 
                             className="btn btn-success pull-right chitiet" 

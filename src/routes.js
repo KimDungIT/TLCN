@@ -37,12 +37,12 @@ const routes = [
     {
         path:"/login",
         exact: false,
-        main: () => <LoginPage />
+        main: ({history}) => <LoginPage history = {history} />
     },
     {
         path:"/signup",
         exact: false,
-        main: () => <SignupPage />
+        main: ({history}) => <SignupPage history = {history} />
     },
     {
         path:"",

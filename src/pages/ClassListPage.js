@@ -3,9 +3,18 @@ import FormSearch from '../components/FormSearch';
 import ClassList from '../components/ClassList';
 import ClassItem from '../components/ClassItem';
 
+import { actFetchClassesRequest } from './../actions/index';
+import { connect } from 'react-redux';
+
 class ClassListPage extends Component {
+   
+    componentDidMount(){
+        this.props.fetchAllClasses();
+    }
     render() {
-        var classes = [];
+
+        var classes = this.props.classes;
+        console.log(classes);
         return (
             <div className="col-lg-9 col-md-9 col-sm-9">
                 <div className="row">
@@ -19,11 +28,6 @@ class ClassListPage extends Component {
                 <ClassList>
                     {this.showClasses(classes)}
                 </ClassList>
-                <div className="xemthem">
-                    <a href="https://github.com">
-                        <i className="fa fa-play" />Xem thêm...
-                    </a>
-                </div>
                 
             </div>
         );
@@ -36,11 +40,25 @@ class ClassListPage extends Component {
                     <ClassItem
                      key = { index }
                      classItem = {classItem}/>
-                )
-            })
+                );
+            });
         }
         return result;
     }
 }
 
-export default ClassListPage;
+const mapStateToProps = state => {
+    return {
+        classes: state.classes
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        fetchAllClasses : () => {
+            dispatch(actFetchClassesRequest());
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClassListPage);

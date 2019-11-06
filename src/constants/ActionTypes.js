@@ -1,0 +1,6 @@
+export const FETCH_CLASSES = 'FETCH_CLASSES'
+export const ADD_CLASSES = 'ADD_CLASSES'
+export const LOGIN_USER = 'LOGIN_USER'
+export const SET_CURRENT_USER = 'SET_CURRENT_USER'
+export const ADD_TUTOR = 'ADD_TUTOR'
+export const UPLOAD_IMAGE = 'UPLOAD_IMAGE'
