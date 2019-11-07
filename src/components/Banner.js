@@ -26,7 +26,7 @@ class Banner extends Component {
                 </div>
                 <div className="carousel-item">
                   <img className="d-block w-100" 
-                    src="images/slide4.jpg" 
+                    src="images/slide5.jpg" 
                     alt="Third slide" />
                 </div>
               </div>

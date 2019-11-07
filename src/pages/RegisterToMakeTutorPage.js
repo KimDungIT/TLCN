@@ -1,30 +1,50 @@
 import React, { Component } from "react";
 import "./../style/signup.css";
 import "antd/dist/antd.css";
-import { Form, Input, Radio, Button, Select, Upload, Icon, Checkbox, Row,
-    Col, } from "antd";
-import {connect} from 'react-redux';
-import {actAddTutorRequest} from './../actions/index';
+import {
+  Form,
+  Input,
+  Radio,
+  Button,
+  Select,
+  Upload,
+  Icon,
+  Checkbox,
+  Row,
+  Col,
+  notification
+} from "antd";
+import { connect } from "react-redux";
+import { actAddTutorRequest } from "./../actions/index";
+import { actUploadImageRequest } from "./../actions/index";
+import axios from "axios";
 
 const { Option } = Select;
 const { TextArea } = Input;
 
-
 class RegisterToMakeTutorPage extends Component {
   handleSubmit = e => {
     e.preventDefault();
-    var {history} = this.props;
+    var { history } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
       }
-      // let data = new FormData();
-      //       for (let i = 0; i < values.image.length; i++) {
-      //           data.append('image', values.image[i]);
-      //       }
-      //       console.log(values.image);
-      this.props.onAddTutor(values);
 
+      var formData = new FormData();
+      var imagedata = values.file[0];
+      formData.append("file", imagedata.originFileObj);
+      axios
+        .post("http://localhost:8081/api/tutors/uploadImage", formData)
+        .then(function(res) {
+          console.log(res.data);
+        })
+        .catch(error => {
+          notification.error({
+            message: "Error Upload",
+            description: error.message
+          });
+        });
     });
   };
 
@@ -33,6 +53,7 @@ class RegisterToMakeTutorPage extends Component {
     if (Array.isArray(e)) {
       return e;
     }
+
     return e && e.fileList;
   };
 
@@ -106,7 +127,7 @@ class RegisterToMakeTutorPage extends Component {
                 )}
               </Form.Item>
               <Form.Item label="Ảnh thẻ">
-                {getFieldDecorator("image", {
+                {getFieldDecorator("file", {
                   valuePropName: "fileList",
                   getValueFromEvent: this.normFile,
                   rules: [
@@ -116,7 +137,7 @@ class RegisterToMakeTutorPage extends Component {
                     }
                   ]
                 })(
-                  <Upload name="image" listType="picture">
+                  <Upload name="file" listType="picture">
                     <Button>
                       <Icon type="upload" /> Click to upload
                     </Button>
@@ -155,12 +176,12 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Môn dạy">
                 {getFieldDecorator("subjects", {
-                    rules: [
-                        {
-                          required: true,
-                          message: "Please input your subjects"
-                        }
-                      ]
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please input your subjects"
+                    }
+                  ]
                 })(
                   <Checkbox.Group style={{ width: "100%" }}>
                     <Row>
@@ -206,12 +227,12 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Lớp dạy">
                 {getFieldDecorator("classes", {
-                    rules: [
-                        {
-                          required: true,
-                          message: "Please input your classes"
-                        }
-                      ]
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please input your classes"
+                    }
+                  ]
                 })(
                   <Checkbox.Group style={{ width: "100%" }}>
                     <Row>
@@ -257,12 +278,12 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Khu vực dạy">
                 {getFieldDecorator("districts", {
-                    rules: [
-                        {
-                          required: true,
-                          message: "Please input your districts"
-                        }
-                      ]
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please input your districts"
+                    }
+                  ]
                 })(
                   <Checkbox.Group style={{ width: "100%" }}>
                     <Row>
@@ -306,7 +327,9 @@ class RegisterToMakeTutorPage extends Component {
                         <Checkbox value="Quận Thủ Đức">Quận Thủ Đức</Checkbox>
                       </Col>
                       <Col span={8}>
-                        <Checkbox value="Quận Bình Thạnh">Quận Bình Thạnh</Checkbox>
+                        <Checkbox value="Quận Bình Thạnh">
+                          Quận Bình Thạnh
+                        </Checkbox>
                       </Col>
                       <Col span={8}>
                         <Checkbox value="Quận Tân Bình">Quận Tân Bình</Checkbox>
@@ -318,11 +341,11 @@ class RegisterToMakeTutorPage extends Component {
                   </Checkbox.Group>
                 )}
               </Form.Item>
-              <Form.Item label="Thông tin thêm" >
-                {getFieldDecorator ("moreInfo"),
-                <TextArea autoSize={{ minRows: 3, maxRows: 5 }}/>
-              }
-              
+              <Form.Item label="Thông tin thêm">
+                {
+                  (getFieldDecorator("moreInfo"),
+                  <TextArea autoSize={{ minRows: 3, maxRows: 5 }} />)
+                }
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">
@@ -337,12 +360,20 @@ class RegisterToMakeTutorPage extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-      onAddTutor: (tutorInfo) =>{
-        dispatch(actAddTutorRequest(tutorInfo));
-      }
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddTutor: tutorInfo => {
+      dispatch(actAddTutorRequest(tutorInfo));
+    },
+    onUploadImage: fileImage => {
+      dispatch(actUploadImageRequest(fileImage));
     }
-}
-const RegisterToMakeTutorForm = Form.create({ name: "maketutor-form" })(RegisterToMakeTutorPage);
-export default connect (null, mapDispatchToProps)(RegisterToMakeTutorForm);
+  };
+};
+const RegisterToMakeTutorForm = Form.create({ name: "maketutor-form" })(
+  RegisterToMakeTutorPage
+);
+export default connect(
+  null,
+  mapDispatchToProps
+)(RegisterToMakeTutorForm);

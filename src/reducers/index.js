@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import classes from './classes';
-// import user from './user';
+import image from './image';
 import auth from './auth';
 
 const appReducers = combineReducers ({
     classes,
-    // user,
+    image,
     auth
 });
 

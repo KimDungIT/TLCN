@@ -4,6 +4,30 @@ import { notification } from 'antd';
 import setAuthorization from './../utils/setAuthorizationToken';
 import jwtDecode from 'jwt-decode';
 
+export const actUploadImageRequest = (fileImage) => {
+    return (dispatch) => {
+        return callApi('api/tutors/uploadImage', 'POST', {
+            file: fileImage
+        }).then(res => {
+            dispatch(actUploadImage(res.data));
+            notification.success({
+                message: 'Success',
+                description: 'Upload successfully!'
+            })
+        }).catch(error => {
+            notification.error({
+                message: 'Error Upload',
+                description: error.message
+            });   
+        })
+    }
+}
+export const actUploadImage = (image) => {
+    return {
+        type: Types.UPLOAD_IMAGE,
+        image
+    }
+}
 export const actAddClassRequest = (classes, history) =>{
     return (dispatch) =>{
         var salary = classes.salary;
@@ -98,8 +122,25 @@ export const actFetchClasses = (classes) => {
 }
 export const actLoginRequest = (user, typeAccount, history) => {
     return (dispatch) => {
-        return callApi('oauth/token', 'POST', 
-        `username=${user.username}&password=${user.password}&grant_type=password&client_id=client&client_secret=ttgs123`,)
+
+        let params = {
+            username: user.username,
+            password: user.password,
+            grant_type: "grant_type",
+            client_id: "client",
+            client_secret: "ttgs123"
+        };
+
+        let formData = new FormData();
+        formData.append("username",  user.username)
+        formData.append("password", user.password)
+        formData.append("grant_type", "grant_type")
+        formData.append("client_id", "client")
+        formData.append("client_secret", "ttgs123")
+
+        return callApi(`oauth/token?username=${user.username}&password=${user.password}&grant_type=password&client_id=client&client_secret=ttgs123`, 'POST'
+        // `username=${user.username}&password=${user.password}&grant_type=password&client_id=client&client_secret=ttgs123`,)
+        )
         .then(res => {
            
             if(res.data.role === `[${typeAccount}]`){
@@ -128,12 +169,6 @@ export const actLoginRequest = (user, typeAccount, history) => {
         })
     }
 }
-// export const actLogin = (user) => {
-//     return {
-//         type: Types.LOGIN_USER,
-//         user
-//     }
-// }
 export const setCurrentUser = (user) => {
     return{
         type: Types.SET_CURRENT_USER,

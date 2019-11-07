@@ -104,7 +104,7 @@ class LoginPage extends Component {
                   <Checkbox name = 'chkbRememberMe'>
                      Lưu mật khẩu
                   </Checkbox>,
-                )},
+                )}
                 <a className="login-form-forgot" href="">
                     Quên mật khẩu
                 </a>
