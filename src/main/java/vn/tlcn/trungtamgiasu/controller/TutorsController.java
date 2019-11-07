@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class TutorsController {
 
     @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
     @PostMapping(value = "/uploadImage")
-    public ApiResponse uploadImage(@RequestPart(value = "file")MultipartFile file,
+    public ApiResponse uploadImage(@RequestPart("file") MultipartFile file,
                                    OAuth2Authentication auth)
     {
         logger.info("Upload image");
