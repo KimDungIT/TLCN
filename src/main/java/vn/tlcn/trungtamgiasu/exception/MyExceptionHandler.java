@@ -60,6 +60,22 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("NOT_STORE_FILE", r.getMessage()));
     }
 
+    //Not change password exception
+    @ExceptionHandler({NotChangePasswordException.class})
+    public ResponseEntity<ErrorResponse> HanderException(NotChangePasswordException r)
+    {
+        logger.error("Not change password exception");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("NOT_CHANGE_PASSWORD", r.getMessage()));
+    }
+
+    //Not change password exception
+    @ExceptionHandler({UserNotChangeException.class})
+    public ResponseEntity<ErrorResponse> HanderException(UserNotChangeException r)
+    {
+        logger.error("Not change info user exception");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("NOT_CHANGE_USER", r.getMessage()));
+    }
+
 
     @ExceptionHandler({ Exception.class })
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {

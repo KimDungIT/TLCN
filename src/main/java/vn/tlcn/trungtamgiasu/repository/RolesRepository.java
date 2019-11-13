@@ -5,10 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import vn.tlcn.trungtamgiasu.model.Roles;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Repository
 public interface RolesRepository extends JpaRepository<Roles, Integer> {

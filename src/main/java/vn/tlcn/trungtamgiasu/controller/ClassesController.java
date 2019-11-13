@@ -1,6 +1,5 @@
 package vn.tlcn.trungtamgiasu.controller;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import vn.tlcn.trungtamgiasu.dto.ApiResponse;
 import vn.tlcn.trungtamgiasu.dto.Classes.ClassesDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.ClassesMapper;
-import vn.tlcn.trungtamgiasu.model.Classes;
 import vn.tlcn.trungtamgiasu.service.ClassesService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/classes")
@@ -52,11 +48,10 @@ public class ClassesController {
     @GetMapping
     public ApiResponse getNewClasses(){
         logger.info("Get new classes");
-
-//        return classesService.getListClassesByStatus("Lớp mới");
         return  new ApiResponse(
                 HttpStatus.OK,
                 "Get new classes successfully",
                 classesService.getListClassesByStatus("Lớp mới"));
     }
+
 }

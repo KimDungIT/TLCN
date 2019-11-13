@@ -4,9 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vn.tlcn.trungtamgiasu.dto.ApiResponse;
@@ -22,10 +20,8 @@ public class TutorsController {
     @Autowired
     private TutorsService tutorsService;
 
-    @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
     @PostMapping(value = "/uploadImage")
-    public ApiResponse uploadImage(@RequestPart("file") MultipartFile file,
-                                   OAuth2Authentication auth)
+    public ApiResponse uploadImage(@RequestPart("file") MultipartFile file)
     {
         logger.info("Upload image");
 
@@ -37,15 +33,27 @@ public class TutorsController {
     }
 
     @PostMapping(value = "/create")
-    @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
-    public ApiResponse createTuTor(@RequestBody TutorsDto tutorsDto,
-                                   OAuth2Authentication auth)
+    public ApiResponse createTuTor(@RequestBody TutorsDto tutorsDto, @RequestParam("idUser") int idUser)
     {
         logger.info("Create tutor");
         return new ApiResponse(
                 HttpStatus.OK,
                 "Create tutor successfully",
-                tutorsService.createTutor(tutorsDto, auth));
+                tutorsService.createTutor(tutorsDto, idUser));
     }
+
+    @GetMapping(value = "/getTutor/{idUser}")
+    @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
+    public ApiResponse getTutor(@PathVariable("idUser") int idUser)
+    {
+        logger.info("Get tutor");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get tutor successfully",
+                tutorsService.getTutorByIdUser(idUser));
+    }
+
+
+
 
 }

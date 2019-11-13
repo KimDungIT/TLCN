@@ -3,7 +3,6 @@ package vn.tlcn.trungtamgiasu.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
@@ -11,12 +10,9 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 import vn.tlcn.trungtamgiasu.dto.Classes.ClassesDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.ClassesMapper;
-import vn.tlcn.trungtamgiasu.exception.ClassNotCreateException;
 import vn.tlcn.trungtamgiasu.model.Classes;
 import vn.tlcn.trungtamgiasu.repository.ClassesRepository;
 
-import javax.crypto.spec.OAEPParameterSpec;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +56,7 @@ public class ClassesService {
         //get id user from token
         int idUser = (Integer.valueOf(additionalInfo.get("idUser").toString()));
         //set status
-        classesDto.setStatus("Lớp mới");
+        classesDto.setStatus("Chờ duyệt");
         Classes classes = saveClass(classesMapper.toClasses(classesDto));
 
         //check role

@@ -4,9 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Map;
+import java.util.List;
 
 @Service
 public class TutorsService {
@@ -40,6 +37,7 @@ public class TutorsService {
     @Autowired
     private UsersService usersService;
 
+
     @Value("${file.upload-dir}")
     String path;
 
@@ -54,15 +52,19 @@ public class TutorsService {
         return tutorsRepository.save(tutors);
     }
 
+    /**
+     *
+     * Upload image
+     * @param file
+     * @return String file name
+     */
     public String uploadImage(MultipartFile file)
     {
-
         if(file.isEmpty())
         {
             throw new FileNotStoreException("Failed to store empty file");
         }
         String fileName = file.getOriginalFilename();
-
         try {
             if(fileName.contains("..")){
                 throw new FileNotStoreException("Sorry! Filename contains invalid path sequence " + fileName);
@@ -76,7 +78,6 @@ public class TutorsService {
             }
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = dir.resolve(fileName);
-
             InputStream is = file.getInputStream();
             Files.copy(is, targetLocation,
                     StandardCopyOption.REPLACE_EXISTING);
@@ -86,15 +87,17 @@ public class TutorsService {
         return fileName;
     }
 
-    public Tutors createTutor(TutorsDto tutorsDto, OAuth2Authentication auth)
-    {
-        logger.info("Create tutor service");
+    /**
+     * Create tutor
+     * @param tutorsDto
+     *
+     * @return tutors
+     */
 
-        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) auth.getDetails();
-        OAuth2AccessToken accessToken = tokenStore.readAccessToken(details.getTokenValue());
-        Map<String, Object> additionalInfo = accessToken.getAdditionalInformation();
-        //get id user from token
-        int idUser = (Integer.valueOf(additionalInfo.get("idUser").toString()));
+    public Tutors createTutor(TutorsDto tutorsDto, int idUser)
+    {
+
+        logger.info("Create tutor service");
         tutorsDto.setStatus("Chưa nhận lớp");
         Tutors tutors = saveTutor(tutorsMapper.toTutors(tutorsDto));
         //set idUser
@@ -102,4 +105,36 @@ public class TutorsService {
         return saveTutor(tutors);
     }
 
+    /**
+     * Check user exist in tutor table
+     * @param idUser
+     * @return boolean
+     */
+    public boolean isTutor(int idUser)
+    {
+        if(tutorsRepository.findByUsers(usersService.getById(idUser)).isPresent())
+            return true;
+        return  false;
+    }
+
+    /**
+     * Get list tutor
+     * @return list tutor
+     */
+    public List<Tutors> getListTutor()
+    {
+        logger.info("Get all tutors");
+        return tutorsRepository.findAll();
+    }
+
+    /**
+     * getTutorByIdUser
+     * @param idUser
+     * @return tutor
+     */
+    public Tutors getTutorByIdUser(int idUser)
+    {
+        logger.info("Get tutor by id ", idUser);
+        return tutorsRepository.findByUsers(usersService.getById(idUser)).get();
+    }
 }

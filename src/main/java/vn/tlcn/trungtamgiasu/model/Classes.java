@@ -31,7 +31,7 @@ public class Classes implements Serializable {
     private int idClass;
 
     @Column(nullable = false)
-    private String grade;
+    private String classTeach;
 
     @Column(nullable = false)
     private String subject;

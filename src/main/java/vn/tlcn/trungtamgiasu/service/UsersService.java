@@ -10,9 +10,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
+import vn.tlcn.trungtamgiasu.dto.Users.ChangeInfoUserDto;
+import vn.tlcn.trungtamgiasu.dto.Users.ChangePasswordDto;
 import vn.tlcn.trungtamgiasu.dto.Users.UsersDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.UsersMapper;
+import vn.tlcn.trungtamgiasu.exception.NotChangePasswordException;
+import vn.tlcn.trungtamgiasu.exception.UserNotChangeException;
 import vn.tlcn.trungtamgiasu.exception.UserNotCreateException;
 import vn.tlcn.trungtamgiasu.exception.UserNotFoundException;
 import vn.tlcn.trungtamgiasu.model.Roles;
@@ -23,7 +28,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -119,7 +123,52 @@ public class UsersService implements UserDetailsService {
         //insert data to table user_role
         Roles roles = rolesService.getRoleByRoleName(type);
         users.getRoles().add(roles);
+        users = saveUser(users);
+        return users;
+    }
 
+    /**
+     * changePassword
+     * @param changePasswordDto
+     * @param idUser
+     * @param auth
+     * @return user
+     */
+    public Users changePassword(ChangePasswordDto changePasswordDto, int idUser, OAuth2Authentication auth)
+    {
+        Users userById = getById(idUser);
+
+        if (passwordEncoderUser().matches(changePasswordDto.getOldPassword(), userById.getPassword()) && userById.getPhone().equals(auth.getName())) {
+            logger.info("Change password");
+            usersRepository.changePassword(passwordEncoderUser().encode(changePasswordDto.getNewPassword()), idUser);
+        } else {
+            throw new NotChangePasswordException("Can't change password");
+        }
+
+        return userById;
+    }
+
+    /**
+     * Change information user
+     * @param changeInfoUserDto
+     * @return user
+     */
+    public Users changeInfoUser(ChangeInfoUserDto changeInfoUserDto, OAuth2Authentication auth)
+    {
+        logger.info("Change information user");
+        Users users = getByPhone(auth.getName());
+        users.setAddress(changeInfoUserDto.getAddress());
+        users.setEmail(changeInfoUserDto.getEmail());
+        users.setName(changeInfoUserDto.getName());
+        if(!changeInfoUserDto.getPhone().equals(users.getPhone()))
+        {
+            if(usersRepository.findByPhone(changeInfoUserDto.getPhone()).isPresent())
+            {
+                throw new UserNotChangeException("Can not change info user");
+            }else {
+                users.setPhone(changeInfoUserDto.getPhone());
+            }
+        }
         return saveUser(users);
     }
 

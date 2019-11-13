@@ -17,7 +17,7 @@ public class ClassesDto {
     private int idClass;
 
     @NotBlank
-    private String grade;
+    private String classTeach;
 
     @NotBlank
     private String subject;

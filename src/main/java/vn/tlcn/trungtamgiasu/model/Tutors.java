@@ -82,6 +82,7 @@ public class Tutors implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private Users users;
 
 }

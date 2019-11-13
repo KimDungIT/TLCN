@@ -25,10 +25,10 @@ create table classes
     id_class           int auto_increment
         primary key,
     address            varchar(255) not null,
+    class_teach        varchar(255) not null,
     created_by         varchar(255) null,
     date_created       datetime     null,
     gender_requirement varchar(255) null,
-    grade              varchar(255) not null,
     last_update        datetime     null,
     level_requirement  varchar(255) null,
     salary             double       not null,
@@ -37,7 +37,7 @@ create table classes
     subject            varchar(255) not null,
     time_teach         varchar(255) not null,
     updated_by         varchar(255) null,
-    id_parent          int          ,
+    id_parent          int          null,
     constraint FK4yjsocmaeowccpdawmsfa00xc
         foreign key (id_parent) references users (id_user)
 );

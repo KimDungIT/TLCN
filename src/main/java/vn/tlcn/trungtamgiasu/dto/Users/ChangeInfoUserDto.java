@@ -8,14 +8,12 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsersDto {
-
+public class ChangeInfoUserDto {
     private int idUser;
 
     @NotBlank
@@ -29,10 +27,5 @@ public class UsersDto {
     private String address;
 
     @Email(message = "Incorrect format email.")
-
     private String email;
-
-    @NotBlank
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()]{6,}$")
-    private String password;
 }

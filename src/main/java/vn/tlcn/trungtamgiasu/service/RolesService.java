@@ -8,9 +8,6 @@ import vn.tlcn.trungtamgiasu.exception.RoleNotFoundException;
 import vn.tlcn.trungtamgiasu.model.Roles;
 import vn.tlcn.trungtamgiasu.repository.RolesRepository;
 
-import javax.persistence.SecondaryTable;
-import javax.persistence.criteria.CriteriaBuilder;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
