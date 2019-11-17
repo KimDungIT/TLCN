@@ -74,15 +74,18 @@ public class Tutors implements Serializable {
     @LastModifiedBy
     private String updatedBy;
 
-    @ManyToMany(mappedBy = "tutors")
-    private Set<Classes> list_class = new HashSet<>();
-
-    @OneToMany(mappedBy = "tutors", cascade = CascadeType.ALL)
-    private Set<Invoice> invoices = new HashSet<>();
+//    @ManyToMany(mappedBy = "tutors")
+//    private Set<Classes> list_class = new HashSet<>();
+//
+//    @OneToMany(mappedBy = "tutors", cascade = CascadeType.ALL)
+//    private Set<Invoice> invoices = new HashSet<>();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
     @JsonIgnore
     private Users users;
+
+    @OneToMany(mappedBy = "tutors")
+    Set<ClassRegister> classRegisters = new HashSet<>();
 
 }

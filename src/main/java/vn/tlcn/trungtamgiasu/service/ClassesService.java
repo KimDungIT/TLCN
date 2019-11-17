@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 import vn.tlcn.trungtamgiasu.dto.Classes.ClassesDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.ClassesMapper;
+import vn.tlcn.trungtamgiasu.exception.ClassesNotFoundException;
 import vn.tlcn.trungtamgiasu.model.Classes;
 import vn.tlcn.trungtamgiasu.repository.ClassesRepository;
 
@@ -59,23 +60,6 @@ public class ClassesService {
         classesDto.setStatus("Chờ duyệt");
         Classes classes = saveClass(classesMapper.toClasses(classesDto));
 
-        //check role
-//        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
-//        for (GrantedAuthority grantedAuthority : authorities)
-//        {
-//            if(grantedAuthority.getAuthority().equals("[ADMIN]")
-//                    || grantedAuthority.getAuthority().equals("[PHUHUYNH]") )
-//            {
-//
-//                classes = saveClass(classesMapper.toClasses(classesDto));
-//                classes.setUsers(usersService.getById(idUser));
-//                classes = saveClass(classes);
-//            }
-//            else {
-//                throw new ClassNotCreateException("Access is denied. Can not create class");
-//            }
-//
-//        }
         //set user
         classes.setUsers(usersService.getById(idUser));
         classes = saveClass(classes);
@@ -85,5 +69,11 @@ public class ClassesService {
     public List<Classes> getListClassesByStatus(String status){
         logger.info("Get list classes by status");
         return classesRepository.findAllByStatus(status);
+    }
+
+    public Classes getClassById(int id)
+    {
+        logger.info("Get class by id: "+ id);
+        return classesRepository.findByIdClass(id).orElseThrow(()-> new  ClassesNotFoundException("Cant not found class"));
     }
 }

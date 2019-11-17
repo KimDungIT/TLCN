@@ -139,8 +139,9 @@ public class UsersService implements UserDetailsService {
         Users userById = getById(idUser);
 
         if (passwordEncoderUser().matches(changePasswordDto.getOldPassword(), userById.getPassword()) && userById.getPhone().equals(auth.getName())) {
-            logger.info("Change password");
+            logger.info("Change password "+ idUser);
             usersRepository.changePassword(passwordEncoderUser().encode(changePasswordDto.getNewPassword()), idUser);
+            
         } else {
             throw new NotChangePasswordException("Can't change password");
         }

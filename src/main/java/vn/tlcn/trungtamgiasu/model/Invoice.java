@@ -1,6 +1,5 @@
 package vn.tlcn.trungtamgiasu.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,14 +29,18 @@ public class Invoice implements Serializable {
     @CreatedDate
     private Date time;
 
-    @ManyToOne
-    @JoinColumn(name = "id_class", nullable = false)
-    @JsonIgnore
-    private Classes classes;
+    @OneToOne(mappedBy = "invoice", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    private ClassRegister classRegister;
 
-    @ManyToOne
-    @JoinColumn(name = "id_tutor", nullable = false)
-    @JsonIgnore
-    private Tutors tutors;
+//    @ManyToOne
+//    @JoinColumn(name = "id_class", nullable = false)
+//    @JsonIgnore
+//    private Classes classes;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "id_tutor", nullable = false)
+//    @JsonIgnore
+//    private Tutors tutors;
     
 }

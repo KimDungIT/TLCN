@@ -53,5 +53,15 @@ public class ClassesController {
                 "Get new classes successfully",
                 classesService.getListClassesByStatus("Lớp mới"));
     }
+    @GetMapping(value = "/{id}/register")
+    @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
+    public ApiResponse getClassById(@PathVariable("id") int id)
+    {
+        logger.info("Get class by id: " + id);
+        return  new ApiResponse(
+                HttpStatus.OK,
+                "Get class successfully",
+                classesService.getClassById(id));
+    }
 
 }

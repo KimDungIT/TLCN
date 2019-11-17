@@ -1,3 +1,11 @@
+create table invoice
+(
+    id_invoice  int auto_increment
+        primary key,
+    service_fee double   not null,
+    time        datetime null
+);
+
 create table roles
 (
     id_role   int auto_increment
@@ -66,28 +74,26 @@ create table tutors
         foreign key (id_user) references users (id_user)
 );
 
-create table class_tutor
+create table class_register
 (
-    id_class int not null,
-    id_tutor int not null,
-    primary key (id_class, id_tutor),
-    constraint FKbv62sr46cx2urv7ke76cjnqug
-        foreign key (id_class) references classes (id_class),
-    constraint FKi9xf69k8mony38sj6nxvb0adr
-        foreign key (id_tutor) references tutors (id_tutor)
-);
-
-create table invoice
-(
-    id_invoice  int auto_increment
+    id_class_register int auto_increment
         primary key,
-    service_fee double   not null,
-    time        datetime null,
-    id_class    int      not null,
-    id_tutor    int      not null,
-    constraint FK50jvq2a29cqgmar2n68806jm
+    created_by        varchar(255) null,
+    date_created      datetime     null,
+    date_receive      datetime     not null,
+    last_update       datetime     null,
+    more_require      longtext     null,
+    payments          varchar(255) not null,
+    status            varchar(255) not null,
+    updated_by        varchar(255) null,
+    id_class          int          null,
+    id_invoice        int          null,
+    id_tutor          int          null,
+    constraint FKgn7jxkh1nc2xeypoejo1k3ndj
+        foreign key (id_invoice) references invoice (id_invoice),
+    constraint FKgp8tsn0l67gwymuhy7ar1kuuo
         foreign key (id_tutor) references tutors (id_tutor),
-    constraint FK6b18n5dwe2psjol4ant2uf84v
+    constraint FKh7drcvwirsy9err3nmth4116w
         foreign key (id_class) references classes (id_class)
 );
 

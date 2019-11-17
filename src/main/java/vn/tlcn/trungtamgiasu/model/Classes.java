@@ -72,13 +72,17 @@ public class Classes implements Serializable {
     @JsonIgnore
     private Users users;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "class_tutor", joinColumns = @JoinColumn(name = "id_class", referencedColumnName = "idClass"),
-            inverseJoinColumns = @JoinColumn(name = "id_tutor", referencedColumnName = "idTutor"))
-    private Set<Tutors> tutors;
 
-    @OneToMany(mappedBy = "classes", cascade = CascadeType.ALL)
-    private Set<Invoice> invoices = new HashSet<>();
+    @OneToMany(mappedBy = "classes")
+    Set<ClassRegister> classRegisters = new HashSet<>();
+
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "class_tutor", joinColumns = @JoinColumn(name = "id_class", referencedColumnName = "idClass"),
+//            inverseJoinColumns = @JoinColumn(name = "id_tutor", referencedColumnName = "idTutor"))
+//    private Set<Tutors> tutors;
+
+//    @OneToMany(mappedBy = "classes", cascade = CascadeType.ALL)
+//    private Set<Invoice> invoices = new HashSet<>();
 
 
 }
