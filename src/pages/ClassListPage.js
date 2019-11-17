@@ -10,11 +10,11 @@ class ClassListPage extends Component {
    
     componentDidMount(){
         this.props.fetchAllClasses();
+        console.log("Component didmount");
     }
     render() {
-
         var classes = this.props.classes;
-        console.log(classes);
+        console.log("class:", classes);
         return (
             <div className="col-lg-9 col-md-9 col-sm-9">
                 <div className="row">
@@ -53,7 +53,7 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = (dispatch, props) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         fetchAllClasses : () => {
             dispatch(actFetchClassesRequest());

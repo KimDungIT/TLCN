@@ -14,7 +14,12 @@ class QuickMenu extends Component {
                                 Học phí gia sư
                             </Link>
                         </li>
-                        <li><a href="/dang-ky-tim-gia-su">Đăng ký tìm gia sư</a></li>
+                        <li>
+                            <Link 
+                                to='/find-tutor'>
+                                Đăng ký tìm gia sư
+                            </Link>
+                        </li>
                     </ul>
                     <div className="bottom-lienhe">
                         <p className="lienhe">Phụ huynh liên hệ</p>
@@ -29,7 +34,11 @@ class QuickMenu extends Component {
                                 to='/class-list'>Lớp dạy mới
                             </Link>
                         </li>
-                        <li><a href="/dang-ky-lam-gia-su">Đăng ký làm gia sư</a></li>
+                        <li>
+                            <Link to='/make-tutor'>
+                                Đăng ký làm gia sư
+                            </Link>
+                        </li>
                     </ul>
                     <div className="bottom-lienhe">
                         <p className="lienhe">Gia sư liên hệ</p>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class ClassItem extends Component {
     render() {
@@ -12,7 +13,7 @@ class ClassItem extends Component {
                     </h4>
                     <div className="dslop-body">
                         <p>
-                            <strong>Lớp dạy: </strong>{classItem.grade}
+                            <strong>Lớp dạy: </strong>{classItem.classTeach}
                             </p>
                         <p>
                             <strong>Môn dạy: </strong>{classItem.subject}
@@ -30,10 +31,6 @@ class ClassItem extends Component {
                         <p>
                             <strong>Mức lương: </strong>
                             <span className="ha-red">{classItem.salary}</span>
-                        </p>
-                        <p>
-                            <strong>Số buổi: </strong>
-                            {classItem.timeTeach}
                         </p>
                         <p className="thoigianday">
                             <strong>Thời gian dạy: </strong>
@@ -55,12 +52,12 @@ class ClassItem extends Component {
                         <div className="phinhanlop" 
                             title="Phí nhận lớp 35%">{serviceFee}%
                         </div>
-                        <a href="https://github.com" 
+                        <Link to={`/classs/${classItem.idClass}/register`}
                             className="btn btn-success pull-right chitiet" 
-                            role="button">
+                            >
                             <i className="fa fa-pencil-square-o" />
                              Đăng ký dạy
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

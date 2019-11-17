@@ -1,23 +1,17 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
-import {
-  Form,
-  Input,
-  Radio,
-  Button, 
-  notification
-} from "antd";
-
+import {Form, Input, Button, notification} from "antd";
 import "./../style/signup.css";
 import callApi from './../utils/apiCaller';
 
 class SigupPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            confirmDirty: false
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+        confirmDirty: false
+    };
+  
+  }
     handleSubmit = e => {
         e.preventDefault();
         var {history} = this.props;
@@ -25,8 +19,7 @@ class SigupPage extends Component {
             if (!err) {
                 console.log("Received values of form: ", values);
             }
-            var typeAccount = values.radiogroup;
-            callApi(`api/users/signUp?type=${typeAccount}`, 'POST', {
+            callApi(`api/users/signUp?type=PHUHUYNH`, 'POST', {
                 name: values.name,
                 phone: values.phone,
                 address: values.address,
@@ -35,12 +28,7 @@ class SigupPage extends Component {
             }).then(res => {
                 console.log(res);
               if (res.data.status === 200){
-                if(typeAccount === "PHUHUYNH"){
-                  history.push('/login');
-                }
-                else{
-                  history.push('/make-tutor');
-                }
+                history.push('/login');
                 notification.success({
                   message: 'Success',
                   description: 'Signup successfully!'
@@ -56,26 +44,25 @@ class SigupPage extends Component {
     };
 
     handleConfirmBlur = e => {
-        const { value } = e.target;
-        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+      const { value } = e.target;
+      this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     };
-
+  
     compareToFirstPassword = (rule, value, callback) => {
-        const { form } = this.props;
-        if (value && value !== form.getFieldValue("password")) {
-            callback("Two passwords that you enter is inconsistent!");
-        } else {
-            callback();
-        }
+      const { form } = this.props;
+      if (value && value !== form.getFieldValue("password")) {
+          callback("Two passwords that you enter is inconsistent!");
+      } else {
+          callback();
+      }
     };
-
+  
     validateToNextPassword = (rule, value, callback) => {
-        const { form } = this.props;
-
-        if (value && this.state.confirmDirty) {
-            form.validateFields(["confirm"], { force: true });
-        }
-        callback();
+      const { form } = this.props;
+      if (value && this.state.confirmDirty) {
+          form.validateFields(["confirm"], { force: true });
+      }
+      callback();
     };  
     
 
@@ -97,7 +84,7 @@ class SigupPage extends Component {
               className="formal-form"
               onSubmit={this.handleSubmit}
             >
-              <Form.Item label="Chọn loại tài khoản đăng ký: ">
+              {/* <Form.Item label="Chọn loại tài khoản đăng ký: ">
                 {getFieldDecorator("radiogroup", {
                   rules: [
                     {
@@ -111,7 +98,7 @@ class SigupPage extends Component {
                     <Radio value="PHUHUYNH">Phụ huynh</Radio>
                   </Radio.Group>
                 )}
-              </Form.Item>
+              </Form.Item> */}
               <Form.Item label="Họ tên: ">
                 {getFieldDecorator("name", {
                   rules: [
@@ -152,7 +139,7 @@ class SigupPage extends Component {
                       message: "Password must have at least 6 character, require: uppercase, lowercase and number!"
                     },
                   ]
-                })(<Input.Password placeholder="Nhập mật khẩu..." />)}
+                })(<Input.Password placeholder="Nhập mật khẩu..." autoComplete="off"/>)}
               </Form.Item>
               <Form.Item label="Nhập lại mật khẩu: " hasFeedback>
                 {getFieldDecorator("confirm", {
@@ -169,6 +156,7 @@ class SigupPage extends Component {
                   <Input.Password
                     placeholder="Nhập lại mật khẩu..."
                     onBlur={this.handleConfirmBlur}
+                    autoComplete="off"
                   />
                 )}
               </Form.Item>

@@ -2,29 +2,40 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./../style/signup.css";
 import "antd/dist/antd.css";
-import { Form, Input, Radio, Button, Icon, Checkbox } from "antd";
-import {connect} from 'react-redux';
-import {actLoginRequest} from './../actions/index';
+import { Form, Input, Radio, Button, Icon, Checkbox, Modal } from "antd";
+import { connect } from "react-redux";
+import { actLoginRequest } from "./../actions/index";
 
 class LoginPage extends Component {
-
-  // constructor(props){
-  //   super(props);
-  //   this.state = ({
-  //     isDisable: false
-  //   })
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false,
+      valueRadio: 'PHUHUYNH',
+    };
+  }
   handleSubmit = e => {
     e.preventDefault();
-    var {history} = this.props;
+    var { history } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
       }
-      this.props.onLogin(values, values.radioTypeAccount, history);
+      this.props.onLogin(values, history);
     });
+  };
 
-   
+  showModal = () => {
+    this.setState({
+      visible: true
+    });
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
   };
 
   render() {
@@ -53,7 +64,7 @@ class LoginPage extends Component {
                     }
                   ]
                 })(
-                  <Radio.Group >
+                  <Radio.Group>
                     <Radio value="GIASU">Gia sư</Radio>
                     <Radio value="PHUHUYNH">Phụ huynh</Radio>
                   </Radio.Group>
@@ -61,60 +72,74 @@ class LoginPage extends Component {
               </Form.Item>
               <p>
                 Bạn vui lòng đăng nhập bằng số điện thoại đã đăng ký với Trung
-                Tâm Ánh Dương. Nếu bạn chưa có tài khoản vui lòng đăng ký
-                <Link to="/signup"> Tại đây</Link>
+                Tâm Ánh Dương.
+                <br />
+                Nếu bạn chưa có tài khoản vui lòng đăng ký
+                <Button style={{ marginLeft: 5 }} onClick={this.showModal}>
+                  Tại đây
+                </Button>
               </p>
               <Form.Item>
                 {getFieldDecorator("username", {
-                rules: [
+                  rules: [
                     { required: true, message: "Please input your username!" },
                     {
                       min: 10,
                       max: 11
                     }
-                ]
+                  ]
                 })(
-                <Input
+                  <Input
                     prefix={
-                    <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
+                      <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                     }
                     placeholder="Nhập số điện thoại..."
-                    name = 'username'
-                />
+                    name="username"
+                  />
                 )}
-            </Form.Item>
-            <Form.Item>
-                {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Please input your Password!' },
-                  {min: 6}],
-
+              </Form.Item>
+              <Form.Item>
+                {getFieldDecorator("password", {
+                  rules: [
+                    { required: true, message: "Please input your Password!" },
+                    { min: 6 }
+                  ]
                 })(
-                    <Input
-                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  <Input
+                    prefix={
+                      <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
+                    }
                     type="password"
                     placeholder="Nhập password..."
-                    name = 'password'
-                    />,
+                    name="password"
+                  />
                 )}
-            </Form.Item>
-            <Form.Item>
-                {getFieldDecorator('remember', {
-                  valuePropName: 'checked',
-                })(
-                  <Checkbox name = 'chkbRememberMe'>
-                     Lưu mật khẩu
-                  </Checkbox>,
-                )}
-                <a className="login-form-forgot" href="">
-                    Quên mật khẩu
-                </a>
-            </Form.Item>
-            <Form.Item>
-                <Button type="primary" htmlType="submit" className="login-form-button">
-                    Đăng nhập
+              </Form.Item>
+              <Form.Item>
+                {getFieldDecorator("remember", {
+                  valuePropName: "checked"
+                })(<Checkbox name="chkbRememberMe">Lưu mật khẩu</Checkbox>)}
+                <Link to="/">Quên mật khẩu</Link>
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className="login-form-button"
+                >
+                  Đăng nhập
                 </Button>
-            </Form.Item>
+              </Form.Item>
             </Form>
+            <Modal
+              title="Chọn loại tài khoản đăng ký"
+              visible={this.state.visible}
+              width={300}
+              onCancel={this.handleCancel}
+            >
+              <Link to='/make-tutor'>Gia sư</Link><br/><br/>
+              <Link to='/signup'>Phụ huynh</Link>
+            </Modal>
           </div>
         </div>
       </div>
@@ -124,11 +149,10 @@ class LoginPage extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLogin : (usersInfo, typeAccount, history) => {
-        dispatch(actLoginRequest(usersInfo, typeAccount, history));
+    onLogin: (usersInfo, history) => {
+      dispatch(actLoginRequest(usersInfo, history));
     }
-  }
-}
+  };
+};
 const LoginForm = Form.create({ name: "login-form" })(LoginPage);
-
-export default connect (null, mapDispatchToProps)(LoginForm);
+export default connect(null, mapDispatchToProps)(LoginForm);

@@ -11,19 +11,16 @@ class RegisterToFindTutorPage extends Component {
     handleSubmit = e => {
         e.preventDefault();
         var {history} = this.props;
-        
         this.props.form.validateFields((err, values) => {
           if (!err) {
             console.log("Received values of form: ", values);
           }
-          
             this.props.onAddClass(values, history);
         });
     };
 
     render() {
         const { getFieldDecorator } = this.props.form;
-
         return (
             <div className="col-lg-9 col-md-9 col-sm-9">
                 <div className="row">
@@ -49,59 +46,8 @@ class RegisterToFindTutorPage extends Component {
                                 ]
                                 })(<Input placeholder="Nhập địa chỉ..." />)}
                             </Form.Item>
-                            {/* <Form.Item label="Lớp">
-                                {getFieldDecorator("classes", {
-                                    rules: [
-                                        {
-                                        required: true,
-                                        message: "Please input your classes"
-                                        }
-                                    ]
-                                })(
-                                <Checkbox.Group style={{ width: "100%" }}>
-                                    <Row>
-                                    <Col span={8}>
-                                        <Checkbox value="Lớp 1">Lớp 1</Checkbox>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Checkbox value="Lớp 2">Lớp 2</Checkbox>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Checkbox value="Lớp 3">Lớp 3</Checkbox>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Checkbox value="Lớp 4">Lớp 4</Checkbox>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Checkbox value="Lớp 5">Lớp 5</Checkbox>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Checkbox value="Lớp 6">Lớp 6</Checkbox>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Checkbox value="Lớp 7">Lớp 7</Checkbox>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Checkbox value="Lớp 8">Lớp 8</Checkbox>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Checkbox value="Lớp 9">Lớp 9</Checkbox>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Checkbox value="Lớp 10">Lớp 10</Checkbox>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Checkbox value="Lớp 11">Lớp 11</Checkbox>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Checkbox value="Lớp 12">Lớp 12</Checkbox>
-                                    </Col>
-                                    </Row>
-                                </Checkbox.Group>
-                                )}
-                            </Form.Item> */}
-                             <Form.Item label="Cấp" hasFeedback>
-                                {getFieldDecorator("grade", {
+                             <Form.Item label="Lớp" hasFeedback>
+                                {getFieldDecorator("classTeach", {
                                 rules: [
                                     {
                                     required: true,
@@ -109,10 +55,19 @@ class RegisterToFindTutorPage extends Component {
                                     }
                                 ]
                                 })(
-                                <Select placeholder="Chọn cấp...">
-                                    <Option value="Cấp 1">Cấp 1</Option>
-                                    <Option value="Cấp 2">Cấp 2</Option>
-                                    <Option value="Cấp 3">Cấp 3</Option>
+                                <Select placeholder="Chọn lớp...">
+                                    <Option value="Lớp 1">Lớp 1</Option>
+                                    <Option value="Lớp 2">Lớp 2</Option>
+                                    <Option value="Lớp 3">Lớp 3</Option>
+                                    <Option value="Lớp 4">Lớp 4</Option>
+                                    <Option value="Lớp 5">Lớp 5</Option>
+                                    <Option value="Lớp 6">Lớp 6</Option>
+                                    <Option value="Lớp 7">Lớp 7</Option>
+                                    <Option value="Lớp 8">Lớp 8</Option>
+                                    <Option value="Lớp 9">Lớp 9</Option>
+                                    <Option value="Lớp 10">Lớp 10</Option>
+                                    <Option value="Lớp 11">Lớp 11</Option>
+                                    <Option value="Lớp 12">Lớp 12</Option>
                                 </Select>
                                 )}
                             </Form.Item>

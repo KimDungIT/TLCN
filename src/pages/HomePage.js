@@ -14,10 +14,13 @@ class HomePage extends Component {
     }
     render() {
         var classes = this.props.classes;
+        var {isAuthenticated} = this.props.auth;
+        console.log("isAuthenticated: ", isAuthenticated);
         return (
             
             <div className="col-lg-9 col-md-9 col-sm-9">
-                <QuickMenu />
+                {!isAuthenticated ? <QuickMenu /> : ""}
+                {/* <QuickMenu /> */}
                 <div className="row">
                     <div className="panel-heading">
                         <i className="fa fa-graduation-cap" 
@@ -56,7 +59,8 @@ class HomePage extends Component {
 
 const mapStateToProps = state => {
     return {
-        classes: state.classes
+        classes: state.classes,
+        auth: state.auth
     }
 }
 

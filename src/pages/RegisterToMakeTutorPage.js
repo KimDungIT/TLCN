@@ -1,28 +1,25 @@
 import React, { Component } from "react";
 import "./../style/signup.css";
 import "antd/dist/antd.css";
-import {
-  Form,
-  Input,
-  Radio,
-  Button,
-  Select,
-  Upload,
-  Icon,
-  Checkbox,
-  Row,
-  Col,
-  notification
-} from "antd";
-import { connect } from "react-redux";
-import { actAddTutorRequest } from "./../actions/index";
-import { actUploadImageRequest } from "./../actions/index";
-import axios from "axios";
+import {Form, Input, Radio, Button, Select, Upload, Icon, Checkbox, Row, Col, notification} from "antd";
+//import { connect } from "react-redux";
+//import { } from "./../actions/index";
+import callApi from './../utils/apiCaller';
+import {Link} from 'react-router-dom';
+import { actUploadImageRequest, actAddTutorRequest } from "./../actions/index";
 
 const { Option } = Select;
 const { TextArea } = Input;
 
 class RegisterToMakeTutorPage extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+        confirmDirty: false
+    };
+  
+  }
   handleSubmit = e => {
     e.preventDefault();
     var { history } = this.props;
@@ -30,21 +27,45 @@ class RegisterToMakeTutorPage extends Component {
       if (!err) {
         console.log("Received values of form: ", values);
       }
-
-      var formData = new FormData();
-      var imagedata = values.file[0];
+      
+      let formData = new FormData();
+      let imagedata = values.file[0];
       formData.append("file", imagedata.originFileObj);
-      axios
-        .post("http://localhost:8081/api/tutors/uploadImage", formData)
-        .then(function(res) {
-          console.log(res.data);
-        })
-        .catch(error => {
-          notification.error({
-            message: "Error Upload",
-            description: error.message
-          });
+
+      let tutorInfo = {
+        gender: values.gender,
+        yearOfBirth: values.yearOfBirth,
+        image: imagedata.originFileObj.name,
+        major: values.major,
+        college: values.college,
+        graduationYear: values.graduationYear,
+        subjects: values.subjects.join(","),
+        classes: values.classes.join(","),
+        districtCanTeach: values.districts.join(","),
+        moreInfo: values.moreInfo
+      };
+
+      //create tutor
+      callApi('api/users/signUp?type=GIASU', 'POST', {
+        name: values.name,
+        phone: values.phone,
+        address: values.address,
+        email: values.email,
+        password: values.password
+        }).then(res => {
+            console.log(res);
+            if (res.data.status === 200){
+                let idUser = res.data.result.idUser;
+                actUploadImageRequest(formData);
+                actAddTutorRequest(tutorInfo, idUser);
+            }
+        }).catch(error => {
+            notification.error({
+                message: 'Error signup',
+                description: error.message
+            });   
         });
+        history.push('/login');
     });
   };
 
@@ -53,13 +74,34 @@ class RegisterToMakeTutorPage extends Component {
     if (Array.isArray(e)) {
       return e;
     }
-
     return e && e.fileList;
   };
 
+  handleConfirmBlur = e => {
+    const { value } = e.target;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  };
+
+  compareToFirstPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && value !== form.getFieldValue("password")) {
+        callback("Two passwords that you enter is inconsistent!");
+    } else {
+        callback();
+    }
+  };
+
+  validateToNextPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && this.state.confirmDirty) {
+        form.validateFields(["confirm"], { force: true });
+    }
+    callback();
+  };  
+
   render() {
     const { getFieldDecorator } = this.props.form;
-
+    
     return (
       <div className="col-lg-9 col-md-9 col-sm-9">
         <div className="row">
@@ -75,6 +117,91 @@ class RegisterToMakeTutorPage extends Component {
               className="formal-form"
               onSubmit={this.handleSubmit}
             >
+                <p>
+                    Nếu bạn đã có tài khoản, vui lòng đăng nhập 
+                    <Link to="/login"> Tại đây</Link>
+              </p>
+              <Form.Item label="Họ tên: ">
+                {getFieldDecorator("name", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please input your name"
+                    }
+                  ]
+                })(<Input placeholder="Nhập họ tên..." />)}
+              </Form.Item>
+              <Form.Item label="Số điện thoại:">
+                {getFieldDecorator("phone", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please input your phone number!"
+                    },
+                    {
+                      pattern: /^\d{10,11}$/,
+                      message: "Phone is allowed only numbers. Min lenght is 10 numbers and Max lenght is 11 numbers!"
+                    }
+                    
+                  ]
+                })(<Input  placeholder="Nhập số điện thoại..." />)}
+              </Form.Item>
+              <Form.Item label="Mật khẩu: " hasFeedback>
+                {getFieldDecorator("password", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please input your password"
+                    },
+                    {
+                      validator: this.validateToNextPassword,
+                    },
+                    {
+                      pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()]{6,}$",
+                      message: "Password must have at least 6 character, require: uppercase, lowercase and number!"
+                    },
+                  ]
+                })(<Input.Password placeholder="Nhập mật khẩu..." autoComplete="off"/>)}
+              </Form.Item>
+              <Form.Item label="Nhập lại mật khẩu: " hasFeedback>
+                {getFieldDecorator("confirm", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please confirm your password!"
+                    },
+                    {
+                      validator: this.compareToFirstPassword
+                    }
+                  ]
+                })(
+                  <Input.Password
+                    placeholder="Nhập lại mật khẩu..."
+                    onBlur={this.handleConfirmBlur}
+                    autoComplete="off"
+                  />
+                )}
+              </Form.Item>
+              <Form.Item label="E-mail: ">
+                {getFieldDecorator("email", {
+                  rules: [
+                    {
+                      type: "email",
+                      message: "The input is not valid E-mail!"
+                    }
+                  ]
+                })(<Input  placeholder="Vd: abc@gmail.com" />)}
+              </Form.Item>
+              <Form.Item label="Địa chỉ: ">
+                {getFieldDecorator("address", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please input your address"
+                    }
+                  ]
+                })(<Input placeholder="Nhập địa chỉ..." />)}
+              </Form.Item>
               <Form.Item label="Giới tính: ">
                 {getFieldDecorator("gender", {
                   rules: [
@@ -360,20 +487,17 @@ class RegisterToMakeTutorPage extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onAddTutor: tutorInfo => {
-      dispatch(actAddTutorRequest(tutorInfo));
-    },
-    onUploadImage: fileImage => {
-      dispatch(actUploadImageRequest(fileImage));
-    }
-  };
-};
-const RegisterToMakeTutorForm = Form.create({ name: "maketutor-form" })(
-  RegisterToMakeTutorPage
-);
-export default connect(
-  null,
-  mapDispatchToProps
-)(RegisterToMakeTutorForm);
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     onAddTutor: tutorInfo => {
+//       dispatch(actAddTutorRequest(tutorInfo));
+//     },
+//     onUploadImage: fileImage => {
+//       dispatch(actUploadImageRequest(fileImage));
+//     },
+  
+//   };
+// };
+
+const RegisterToMakeTutorForm = Form.create({ name: "maketutor-form" })(RegisterToMakeTutorPage);
+export default RegisterToMakeTutorForm;
