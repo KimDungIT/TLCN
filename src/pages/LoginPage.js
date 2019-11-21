@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./../style/signup.css";
 import "antd/dist/antd.css";
-import { Form, Input, Radio, Button, Icon, Checkbox, Modal } from "antd";
+import { Form, Input, Radio, Button, Icon, Checkbox, Modal, notification } from "antd";
 import { connect } from "react-redux";
 import { actLoginRequest } from "./../actions/index";
 
@@ -20,8 +20,14 @@ class LoginPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
+        //send request login
+        this.props.onLogin(values, history);
+      }else {
+        notification.error({
+          message: "Error",
+          description: "Error login"
+        });
       }
-      this.props.onLogin(values, history);
     });
   };
 

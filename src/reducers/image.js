@@ -3,10 +3,10 @@ var initialState = {};
 
 const image = (state = initialState, action) => {
     switch(action.type){
-        case Types.UPLOAD_IMAGE:
+        case Types.FETCH_IMAGE:
             state = action.image.result;
             return {
-                state,
+                ...state,
             };
         default: return state;
     }

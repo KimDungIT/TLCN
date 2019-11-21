@@ -14,7 +14,7 @@ class ClassRegisterList extends Component {
           <thead>
             <tr>
               <th>Mã gia sư</th>
-              <th>Họ và tên</th>
+              <th>Giới tính</th>
               <th>Hình thức thanh toán</th>
               <th>Trạng thái</th>
             </tr>

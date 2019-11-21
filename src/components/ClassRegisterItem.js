@@ -2,8 +2,10 @@ import React, { Component } from "react";
 
 class ClassRegisterItem extends Component {
   render() {
-    var { tutorRegisterClassItem } = this.props;
-    var colorStatus =
+    let { tutorRegisterClassItem } = this.props;
+    //let {idTutor} = tutorRegisterClassItem.tutors;
+    
+    let colorStatus = 
       tutorRegisterClassItem.status === "Xem xét"
         ? '#d6d6d6'
         : tutorRegisterClassItem.status === "Đủ điều kiện"
@@ -11,8 +13,8 @@ class ClassRegisterItem extends Component {
         : '#9B0000';
     return (
       <tr>
-        <td></td>
-        <td>Nguyen Van A</td>
+        <td>{tutorRegisterClassItem.tutors.idTutor}</td>
+        <td>{tutorRegisterClassItem.tutors.gender}</td>
         <td>{tutorRegisterClassItem.payments}</td>
         <td style={{ backgroundColor: `${colorStatus}`}}></td>
       </tr>

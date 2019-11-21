@@ -26,17 +26,29 @@ const menuGS = (
     </Menu>
   );
 
-const menuTaiKhoan = (
+const menuTaiKhoanPH = (
     <Menu>
         <Menu.Item>
-            <Link className = "nav-link" to="/account" >Tài khoản của tôi</Link>
+            <Link className = "nav-link" to="/account-ph" >Tài khoản của tôi</Link>
         </Menu.Item>
         <Menu.Item>
             <Link className = "nav-link" to="/change-password" >Đổi mật khẩu</Link>
         </Menu.Item>
     </Menu>
 );
-
+const menuTaiKhoanGS = (
+    <Menu>
+        <Menu.Item>
+            <Link className = "nav-link" to="/account-gs">Tài khoản của tôi</Link>
+        </Menu.Item>
+        <Menu.Item>
+            <Link className = "nav-link" to="/account-gs" >Lớp đã đăng ký</Link>
+        </Menu.Item>
+        <Menu.Item>
+            <Link className = "nav-link" to="/change-password" >Đổi mật khẩu</Link>
+        </Menu.Item>
+    </Menu>
+);
 class MenuMain extends Component {
     logout(e){
         e.preventDefault();
@@ -73,7 +85,7 @@ class MenuMain extends Component {
                 <li className='nav-item'><Link className = "nav-link" to="/class-list" >Lớp mới chưa giao</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/tutor-fee" >Học phí gia sư</Link></li>
                 <li className='nav-item'><a href="" className = "nav-link" onClick={this.logout.bind(this)}>Đăng xuất</a></li>
-                <Dropdown overlay={menuTaiKhoan}>
+                <Dropdown overlay={menuTaiKhoanPH}>
                     <Avatar icon="user"/>
                 </Dropdown>
             </ul>
@@ -86,7 +98,7 @@ class MenuMain extends Component {
                 <li className='nav-item'><Link className = "nav-link" to="/tutor-fee" >Học phí gia sư</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/class-list" >Quy trình nhận lớp</Link></li>
                 <li className='nav-item'><a href="" className = "nav-link" onClick={this.logout.bind(this)}>Đăng xuất</a></li>
-                <Dropdown overlay={menuTaiKhoan}>
+                <Dropdown overlay={menuTaiKhoanGS}>
                     <Avatar icon="user"/>
                 </Dropdown>
             </ul>

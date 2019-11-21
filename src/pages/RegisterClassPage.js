@@ -27,8 +27,10 @@ class RegisterClassPage extends Component {
   // componentWillReceiveProps(nextProps){
   //   console.log("component will receive props");
   //   if(nextProps && nextProps.classRegister){
-  //     var {classRegister} = nextProps;
-  //     console.log("class: ", classRegister);
+  //     let {tutorRegisterClass} = nextProps;
+  //    let {idTutor} = tutorRegisterClass.tutors;
+  //    console.log("tutorRegisterClass" , tutorRegisterClass);
+  //    console.log("idTutor: ", idTutor);
   //   }
   // }
 
@@ -43,15 +45,15 @@ class RegisterClassPage extends Component {
         dateReceive: values["dateReceive"].format("YYYY-MM-DD")
       };
       console.log("Received values of form: ", fieldsValue);
-      var idClass = this.props.classRegister.idClass;
+      let idClass = this.props.classRegister.idClass;
       console.log("idClass: ", idClass);
       this.props.onTutorRegisterClass(fieldsValue, idClass);
     });
   };
 
   render() {
-    var { classRegister } = this.props;
-    var { tutorRegisterClass } = this.props;
+    let { classRegister } = this.props;
+    let { tutorRegisterClass } = this.props;
     console.log("class register: ", classRegister);
     const { getFieldDecorator } = this.props.form;
 

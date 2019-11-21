@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./../style/signup.css";
 import "antd/dist/antd.css";
-import { Form, Input,  Button, notification} from "antd";
+import { Form, Input, Button, notification } from "antd";
 import callApi from "../utils/apiCaller";
 
 class ChangePasswordPage extends Component {
@@ -11,27 +11,36 @@ class ChangePasswordPage extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
-      }
-      console.log("old pass: ", values.oldPassword);
-      console.log("new pass: ", values.newPassword);
-      callApi(`api/users/changePassword`, 'PATCH', {
-        oldPassword: values.oldPassword,
-        newPassword: values.newPassword
-      }).then(res => {
-          console.log(res);
-        if (res.data.status === 200){
-          history.push('/login');
-          notification.success({
-            message: 'Success',
-            description: 'Change password successfully!'
+
+        console.log("old pass: ", values.oldPassword);
+        console.log("new pass: ", values.newPassword);
+        //send request change password
+        callApi(`api/users/changePassword`, "PATCH", {
+          oldPassword: values.oldPassword,
+          newPassword: values.newPassword
+        })
+          .then(res => {
+            console.log(res);
+            if (res.data.status === 200) {
+              history.push("/login");
+              notification.success({
+                message: "Success",
+                description: "Change password successfully!"
+              });
+            }
           })
-        }
-      }).catch(error => {
+          .catch(error => {
+            notification.error({
+              message: "Error change password",
+              description: error.message
+            });
+          });
+      } else {
         notification.error({
-            message: 'Error change password',
-            description: error.message
-          });   
+          message: "Error",
+          description: "Error change password"
         });
+      }
     });
   };
 
@@ -55,7 +64,10 @@ class ChangePasswordPage extends Component {
               <Form.Item>
                 {getFieldDecorator("oldPassword", {
                   rules: [
-                    { required: true, message: "Please input your old password!" },
+                    {
+                      required: true,
+                      message: "Please input your old password!"
+                    },
                     {
                       pattern:
                         "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()]{6,}$",
@@ -63,9 +75,7 @@ class ChangePasswordPage extends Component {
                         "Password must have at least 6 character, require: uppercase, lowercase and number!"
                     }
                   ]
-                })(
-                  <Input.Password placeholder="Nhập mật khẩu cũ..." />
-                )}
+                })(<Input.Password placeholder="Nhập mật khẩu cũ..." />)}
               </Form.Item>
               <Form.Item hasFeedback>
                 {getFieldDecorator("newPassword", {
@@ -85,8 +95,8 @@ class ChangePasswordPage extends Component {
                     }
                   ]
                 })(<Input.Password placeholder="Nhập mật khẩu mới..." />)}
-                </Form.Item>
-                <Form.Item hasFeedback>
+              </Form.Item>
+              <Form.Item hasFeedback>
                 {getFieldDecorator("confirm", {
                   rules: [
                     {
@@ -103,8 +113,8 @@ class ChangePasswordPage extends Component {
                     onBlur={this.handleConfirmBlur}
                   />
                 )}
-                </Form.Item>
-                <Form.Item>
+              </Form.Item>
+              <Form.Item>
                 <Button
                   type="primary"
                   htmlType="submit"
@@ -121,5 +131,6 @@ class ChangePasswordPage extends Component {
   }
 }
 const ChangePasswordForm = Form.create({ name: "change-password" })(
-  ChangePasswordPage);
+  ChangePasswordPage
+);
 export default ChangePasswordForm;

@@ -5,14 +5,16 @@ import user from './user';
 import tutor from './tutor';
 import classRegister from './classRegister';
 import tutorRegisterClass from './tutorRegisterClass';
+//import image from './image';
 
 const appReducers = combineReducers ({
     classes,
     classRegister,
     tutorRegisterClass,
-    //tutor,
+    tutor,
     user,
-    auth
+    auth,
+   // image
 });
 
 export default appReducers;

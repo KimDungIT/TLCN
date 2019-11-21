@@ -20,6 +20,8 @@ import TutorFeePage from './pages/TutorFeePage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import RegisterClassPage from './pages/RegisterClassPage';
 import AccountPage from './pages/AccountPage';
+import AccountTutorPage from './pages/AccountTutorPage';
+import AccountTutorEditPage from './pages/AccountTutorEditPage';
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => {
   return <Route {...rest}
@@ -38,7 +40,7 @@ class App extends Component {
   
   render(){
     notification.config({
-      duration: 10,
+      duration: 6,
     });
     const {isAuthenticated} = this.props.auth;
     console.log(isAuthenticated);
@@ -63,7 +65,12 @@ class App extends Component {
                     component={ChangePasswordPage}
                     isAuthenticated = {isAuthenticated}/>
                   <PrivateRoute 
-                    path="/account"
+                    path="/account-gs"
+                    component={AccountTutorPage}
+                    isAuthenticated = {isAuthenticated}
+                  />
+                  <PrivateRoute 
+                    path="/account-ph"
                     component={AccountPage}
                     isAuthenticated = {isAuthenticated}
                   />
@@ -72,16 +79,17 @@ class App extends Component {
                     component={RegisterClassPage}
                     isAuthenticated = {isAuthenticated}
                     />
+                  <PrivateRoute 
+                    path="/account/:id/edit"
+                    component={AccountTutorEditPage}
+                    isAuthenticated = {isAuthenticated}
+                    />
+                  
                   <PrivateRoute
                     path="/find-tutor"
                     component={RegisterToFindTuTorPage}
                     isAuthenticated={isAuthenticated}
                   />
-                  {/* <PrivateRoute
-                    path="/make-tutor"
-                    component={RegisterToMakeTutorPage}
-                    isAuthenticated={isAuthenticated}
-                  /> */}
                  <Route component={NotFoundPage}></Route>
                  
                 </Switch>

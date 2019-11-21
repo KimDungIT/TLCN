@@ -360,6 +360,7 @@ h3.tieude {
 }
 .row.giasu-tieubieu {
   font-size: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
 }
 .row.quytrinh-nhanlop {
   margin-top: 20px;
@@ -389,18 +390,18 @@ p.noidung {
   box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.21);
 }
 .statusGreen {
-	background-color: #84B919;
-	width: 26px;
-	height: 26px;
+  background-color: #84b919;
+  width: 26px;
+  height: 26px;
   margin-left: 30px;
   margin-right: 5px;
-	box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.21);
-    }
+  box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.21);
+}
 .statusRed {
-	background-color: #9B0000;
-	width: 26px;
-	height: 26px;
+  background-color: #9b0000;
+  width: 26px;
+  height: 26px;
   margin-left: 15px;
   margin-right: 5px;
-	box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.21);
+  box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.21);
 }

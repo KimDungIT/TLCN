@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import "./../style/signup.css";
-import "antd/dist/antd.css";
 import {
   Form,
   Input,
@@ -14,35 +12,34 @@ import {
   Col,
   notification
 } from "antd";
-import callApi from "./../utils/apiCaller";
+import "./../style/signup.css";
+import { connect } from "react-redux";
+import {
+  actFetchUserRequest,
+  actFetchTutorRequest,
+  actChangeInfoUserRequest,
+  actChangeInforTutorRequest
+} from "../actions";
 import { Link } from "react-router-dom";
-import { actUploadImageRequest, actAddTutorRequest } from "./../actions/index";
-
 const { Option } = Select;
 const { TextArea } = Input;
 
-class RegisterToMakeTutorPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      confirmDirty: false
-    };
+class AccountTutorEditPage extends Component {
+  componentDidMount() {
+    this.props.fetchUser();
+    this.props.fetchTutor(this.props.auth.user.idUser);
   }
   handleSubmit = e => {
     e.preventDefault();
     var { history } = this.props;
     this.props.form.validateFields((err, values) => {
+      console.log("e: ", err);
       if (!err) {
         console.log("Received values of form: ", values);
-
-        let formData = new FormData();
-        let imagedata = values.file[0];
-        formData.append("file", imagedata.originFileObj);
-
         let tutorInfo = {
           gender: values.gender,
           yearOfBirth: values.yearOfBirth,
-          image: imagedata.originFileObj.name,
+          // image: imagedata.originFileObj.name,
           major: values.major,
           college: values.college,
           graduationYear: values.graduationYear,
@@ -52,50 +49,15 @@ class RegisterToMakeTutorPage extends Component {
           districtCanTeach: values.districts.join(","),
           moreInfo: values.moreInfo
         };
-
-        //create tutor
-        callApi("api/users/signUp?type=GIASU", "POST", {
-          name: values.name,
-          phone: values.phone,
-          address: values.address,
-          email: values.email,
-          password: values.password
-        })
-          .then(res => {
-            console.log(res);
-            if (res.data.status === 200) {
-              let idUser = res.data.result.idUser;
-              //upload image
-              actUploadImageRequest(formData)
-                .then(res => {
-                  if (res.status === 200) {
-                    //create tutor
-                    actAddTutorRequest(tutorInfo, idUser, history);
-                    //upload success
-                    notification.success({
-                      message: "Success",
-                      description: "Upload successfully!"
-                    });
-                  }
-                })
-                .catch(error => {
-                  notification.error({
-                    message: "Error Upload",
-                    description: error.message
-                  });
-                });
-            }
-          })
-          .catch(error => {
-            notification.error({
-              message: "Error create account",
-              description: error.message
-            });
-          });
+        //get info user
+        this.props.onChangeInfoUser(values);
+        //change info tutor
+        let { idTutor } = this.props.tutor;
+        this.props.onChangeInforTutor(tutorInfo, idTutor, history);
       } else {
         notification.error({
           message: "Error",
-          description: "Error signup"
+          description: "Error change information tutor"
         });
       }
     });
@@ -109,37 +71,30 @@ class RegisterToMakeTutorPage extends Component {
     return e && e.fileList;
   };
 
-  handleConfirmBlur = e => {
-    const { value } = e.target;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  };
-
-  compareToFirstPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && value !== form.getFieldValue("password")) {
-      callback("Two passwords that you enter is inconsistent!");
-    } else {
-      callback();
-    }
-  };
-
-  validateToNextPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(["confirm"], { force: true });
-    }
-    callback();
-  };
-
   render() {
-    const { getFieldDecorator } = this.props.form;
+    let { user } = this.props;
+    let { tutor } = this.props;
 
+    // let tt = {
+    //   subject: this.props.tutor.subjects,
+    //   class: this.props.tutor.classes,
+    //   districtCanTeach: this.props.tutor.districtCanTeach
+    // };
+
+    // console.log("tt ", tt);
+    const { getFieldDecorator } = this.props.form;
+    if (user.email === null) {
+      user.email = "";
+    }
+    if (tutor.moreInfo === null) {
+      tutor.moreInfo = "";
+    }
     return (
       <div className="col-lg-9 col-md-9 col-sm-9">
         <div className="row">
           <div className="panel-heading">
             <i className="fa fa-address-book" style={{ marginLeft: "5px" }} />
-            Đăng ký làm gia sư
+            Cập nhật thông tin
           </div>
         </div>
         <div className="row" id="row-form">
@@ -149,12 +104,9 @@ class RegisterToMakeTutorPage extends Component {
               className="formal-form"
               onSubmit={this.handleSubmit}
             >
-              <p>
-                Nếu bạn đã có tài khoản, vui lòng đăng nhập
-                <Link to="/login"> Tại đây</Link>
-              </p>
               <Form.Item label="Họ tên: ">
                 {getFieldDecorator("name", {
+                  initialValue: `${user.name}`,
                   rules: [
                     {
                       required: true,
@@ -165,6 +117,7 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Số điện thoại:">
                 {getFieldDecorator("phone", {
+                  initialValue: `${user.phone}`,
                   rules: [
                     {
                       required: true,
@@ -178,51 +131,9 @@ class RegisterToMakeTutorPage extends Component {
                   ]
                 })(<Input placeholder="Nhập số điện thoại..." />)}
               </Form.Item>
-              <Form.Item label="Mật khẩu: " hasFeedback>
-                {getFieldDecorator("password", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "Please input your password"
-                    },
-                    {
-                      validator: this.validateToNextPassword
-                    },
-                    {
-                      pattern:
-                        "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()]{6,}$",
-                      message:
-                        "Password must have at least 6 character, require: uppercase, lowercase and number!"
-                    }
-                  ]
-                })(
-                  <Input.Password
-                    placeholder="Nhập mật khẩu..."
-                    autoComplete="off"
-                  />
-                )}
-              </Form.Item>
-              <Form.Item label="Nhập lại mật khẩu: " hasFeedback>
-                {getFieldDecorator("confirm", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "Please confirm your password!"
-                    },
-                    {
-                      validator: this.compareToFirstPassword
-                    }
-                  ]
-                })(
-                  <Input.Password
-                    placeholder="Nhập lại mật khẩu..."
-                    onBlur={this.handleConfirmBlur}
-                    autoComplete="off"
-                  />
-                )}
-              </Form.Item>
               <Form.Item label="E-mail: ">
                 {getFieldDecorator("email", {
+                  initialValue: `${user.email}`,
                   rules: [
                     {
                       type: "email",
@@ -233,6 +144,7 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Địa chỉ: ">
                 {getFieldDecorator("address", {
+                  initialValue: `${user.address}`,
                   rules: [
                     {
                       required: true,
@@ -243,6 +155,7 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Giới tính: ">
                 {getFieldDecorator("gender", {
+                  initialValue: `${tutor.gender}`,
                   rules: [
                     {
                       required: true,
@@ -258,6 +171,7 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Năm sinh" hasFeedback>
                 {getFieldDecorator("yearOfBirth", {
+                  initialValue: `${tutor.yearOfBirth}`,
                   rules: [
                     {
                       required: true,
@@ -312,6 +226,7 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Trường đào tạo: ">
                 {getFieldDecorator("college", {
+                  initialValue: `${tutor.college}`,
                   rules: [
                     {
                       required: true,
@@ -322,6 +237,7 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Ngành học ">
                 {getFieldDecorator("major", {
+                  initialValue: `${tutor.major}`,
                   rules: [
                     {
                       required: true,
@@ -332,6 +248,7 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Năm tốt nghiệp ">
                 {getFieldDecorator("graduationYear", {
+                  initialValue: `${tutor.graduationYear}`,
                   rules: [
                     {
                       required: true,
@@ -342,6 +259,7 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Hiện là" hasFeedback>
                 {getFieldDecorator("level", {
+                  initialValue: `${tutor.level}`,
                   rules: [
                     {
                       required: true,
@@ -360,6 +278,7 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Môn dạy">
                 {getFieldDecorator("subjects", {
+                  // initialValue: `${[tutor.subjects]}`,
                   rules: [
                     {
                       required: true,
@@ -411,6 +330,7 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Lớp dạy">
                 {getFieldDecorator("classes", {
+                  // initialValue: `${[tutor.classes]}`,
                   rules: [
                     {
                       required: true,
@@ -462,6 +382,7 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item label="Khu vực dạy">
                 {getFieldDecorator("districts", {
+                  // initialValue: `${[tutor.districtCanTeach]}`,
                   rules: [
                     {
                       required: true,
@@ -526,15 +447,23 @@ class RegisterToMakeTutorPage extends Component {
                 )}
               </Form.Item>
               <Form.Item label="Thông tin thêm">
-                {
-                  (getFieldDecorator("moreInfo"),
-                  (<TextArea autoSize={{ minRows: 3, maxRows: 5 }} />))
-                }
+                {getFieldDecorator("moreInfo", {
+                  initialValue: `${tutor.moreInfo}`
+                })(<TextArea autoSize={{ minRows: 3, maxRows: 5 }} />)}
               </Form.Item>
               <Form.Item>
-                <Button type="primary" htmlType="submit">
+                {/* <Button type="primary" htmlType="submit">
                   Cập nhật
-                </Button>
+                </Button> */}
+                <button type="submit" className="btn btn-primary">
+                  Lưu lại
+                </button>
+                <Link
+                  to="/account-gs"
+                  className="btn btn-danger mr-10 pull-right"
+                >
+                  Trở lại
+                </Link>
               </Form.Item>
             </Form>
           </div>
@@ -544,19 +473,31 @@ class RegisterToMakeTutorPage extends Component {
   }
 }
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onAddTutor: tutorInfo => {
-//       dispatch(actAddTutorRequest(tutorInfo));
-//     },
-//     onUploadImage: fileImage => {
-//       dispatch(actUploadImageRequest(fileImage));
-//     },
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+    user: state.user,
+    tutor: state.tutor
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUser: () => {
+      dispatch(actFetchUserRequest());
+    },
+    fetchTutor: idUser => {
+      dispatch(actFetchTutorRequest(idUser));
+    },
+    onChangeInfoUser: infoUser => {
+      dispatch(actChangeInfoUserRequest(infoUser));
+    },
+    onChangeInforTutor: (infoTutor, idTutor, history) => {
+      dispatch(actChangeInforTutorRequest(infoTutor, idTutor, history));
+    }
+  };
+};
 
-//   };
-// };
-
-const RegisterToMakeTutorForm = Form.create({ name: "maketutor-form" })(
-  RegisterToMakeTutorPage
+const AccountTutorForm = Form.create({ name: "accountTutor-form" })(
+  AccountTutorEditPage
 );
-export default RegisterToMakeTutorForm;
+export default connect(mapStateToProps, mapDispatchToProps)(AccountTutorForm);

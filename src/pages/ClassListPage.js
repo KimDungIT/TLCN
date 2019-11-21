@@ -10,7 +10,6 @@ class ClassListPage extends Component {
    
     componentDidMount(){
         this.props.fetchAllClasses();
-        console.log("Component didmount");
     }
     render() {
         var classes = this.props.classes;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "./../style/signup.css";
 import "antd/dist/antd.css";
-import { Form, Input, Button, Select, } from "antd";
+import { Form, Input, Button, Select, notification} from "antd";
 import {connect} from 'react-redux';
 import {actAddClassRequest} from './../actions/index';
 
@@ -14,8 +14,15 @@ class RegisterToFindTutorPage extends Component {
         this.props.form.validateFields((err, values) => {
           if (!err) {
             console.log("Received values of form: ", values);
-          }
+            //send request add class
             this.props.onAddClass(values, history);
+          } else {
+            notification.error({
+              message: "Error",
+              description: "Error add class"
+            });
+          }
+           
         });
     };
 
