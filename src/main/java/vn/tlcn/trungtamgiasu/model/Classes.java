@@ -74,6 +74,7 @@ public class Classes implements Serializable {
 
 
     @OneToMany(mappedBy = "classes")
+    @JsonIgnore
     Set<ClassRegister> classRegisters = new HashSet<>();
 
 //    @ManyToMany(cascade = CascadeType.ALL)

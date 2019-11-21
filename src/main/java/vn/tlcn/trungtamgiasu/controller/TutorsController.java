@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vn.tlcn.trungtamgiasu.dto.ApiResponse;
@@ -53,7 +54,39 @@ public class TutorsController {
                 tutorsService.getTutorByIdUser(idUser));
     }
 
+    @PostMapping(value = "/changeInfo/{idTutor}")
+    @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
+    public ApiResponse changeInfoTutor(@PathVariable("idTutor") int idTutor,
+                                        @RequestBody TutorsDto tutorsDto,
+                                        OAuth2Authentication auth)
+    {
+        logger.info("Change info tutor "+ idTutor);
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Change info tutor successfully",
+                tutorsService.changeInfoTutor(tutorsDto, idTutor, auth));
+    }
 
+    @GetMapping(value = "/readImage")
+    @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
+    public ApiResponse readBytesArrayImage(@RequestParam("idUser") int idUser, OAuth2Authentication auth)
+    {
+        logger.info("Read bytes[] by idUser: " + idUser);
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Successfully",
+                tutorsService.readBytesFromFile(idUser, auth));
+    }
 
+    @PostMapping(value = "/changeImage")
+    @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
+    public ApiResponse changeImageTutor(@RequestPart("file") MultipartFile file, OAuth2Authentication auth)
+    {
+        logger.info("Change image tutor");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Change image tutor successfully",
+                tutorsService.changeImage(file, auth));
+    }
 
 }

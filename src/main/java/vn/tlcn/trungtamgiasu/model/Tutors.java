@@ -47,6 +47,9 @@ public class Tutors implements Serializable {
     @Column(length = 11, nullable = false)
     private String graduationYear;
 
+    @Column(nullable = false)
+    private String level;
+
     @Column(nullable = false, columnDefinition = "TEXT")
     private String subjects;
 
@@ -86,6 +89,7 @@ public class Tutors implements Serializable {
     private Users users;
 
     @OneToMany(mappedBy = "tutors")
+    @JsonIgnore
     Set<ClassRegister> classRegisters = new HashSet<>();
 
 }

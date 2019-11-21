@@ -28,12 +28,12 @@ public class ClassRegister{
     private int idClassRegister;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "id_class")
     Classes classes;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "id_tutor")
     Tutors tutors;
 

@@ -68,6 +68,7 @@ public class ClassesService {
 
     public List<Classes> getListClassesByStatus(String status){
         logger.info("Get list classes by status");
+
         return classesRepository.findAllByStatus(status);
     }
 

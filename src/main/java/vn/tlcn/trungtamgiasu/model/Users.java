@@ -1,5 +1,6 @@
 package vn.tlcn.trungtamgiasu.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,5 +59,6 @@ public class Users implements Serializable {
 
     @OneToOne(mappedBy = "users", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = false)
+//    @JsonIgnore
     private Tutors tutors;
 }

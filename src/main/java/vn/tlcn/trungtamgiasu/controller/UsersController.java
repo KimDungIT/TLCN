@@ -86,4 +86,15 @@ public class UsersController {
                 usersService.changeInfoUser(changeInfoUserDto, auth));
     }
 
+    @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
+    @GetMapping(value = "/getUserByTutor")
+    public ApiResponse getListUserRegisterClass(@RequestParam("idClass")int idClass)
+    {
+        logger.info("Get User by id tutor: " + idClass);
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get user by id tutor successfully",
+                usersService.getUserByIdTutor(idClass));
+    }
+
 }

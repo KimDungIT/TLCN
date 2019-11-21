@@ -1,5 +1,6 @@
 package vn.tlcn.trungtamgiasu.service;
 
+import net.bytebuddy.asm.Advice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import vn.tlcn.trungtamgiasu.exception.NotChangePasswordException;
 import vn.tlcn.trungtamgiasu.exception.UserNotChangeException;
 import vn.tlcn.trungtamgiasu.exception.UserNotCreateException;
 import vn.tlcn.trungtamgiasu.exception.UserNotFoundException;
+import vn.tlcn.trungtamgiasu.model.ClassRegister;
 import vn.tlcn.trungtamgiasu.model.Roles;
 import vn.tlcn.trungtamgiasu.model.Users;
 import vn.tlcn.trungtamgiasu.repository.UsersRepository;
@@ -28,6 +30,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -40,6 +44,12 @@ public class UsersService implements UserDetailsService {
 
     @Autowired
     private RolesService rolesService;
+
+    @Autowired
+    private TutorsService tutorsService;
+
+    @Autowired
+    private ClassRegisterService classRegisterService;
 
     @Autowired
     private UsersMapper usersMapper;
@@ -138,7 +148,8 @@ public class UsersService implements UserDetailsService {
     {
         Users userById = getById(idUser);
 
-        if (passwordEncoderUser().matches(changePasswordDto.getOldPassword(), userById.getPassword()) && userById.getPhone().equals(auth.getName())) {
+        if (passwordEncoderUser().matches(changePasswordDto.getOldPassword(), userById.getPassword())
+                && userById.getPhone().equals(auth.getName())) {
             logger.info("Change password "+ idUser);
             usersRepository.changePassword(passwordEncoderUser().encode(changePasswordDto.getNewPassword()), idUser);
             
@@ -171,6 +182,23 @@ public class UsersService implements UserDetailsService {
             }
         }
         return saveUser(users);
+    }
+
+    //?
+    public List<Users> getUserByIdTutor(int idClass)
+    {
+        logger.info("Get user by idTutor: "+ idClass);
+        List<Users> users = new ArrayList<>();
+        List<ClassRegister> classRegisters = classRegisterService.getListTutorRegister(idClass);
+        if(classRegisters.size() > 0)
+        {
+            for (ClassRegister item: classRegisters) {
+                int idTutor = item.getTutors().getIdTutor();
+                int idUser = tutorsService.getTutorByIdTutor(idTutor).getUsers().getIdUser();
+                users.add(getById(idUser));
+            }
+        }
+        return users;
     }
 
 }

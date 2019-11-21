@@ -63,6 +63,7 @@ create table tutors
     graduation_year    varchar(11)  not null,
     image              varchar(255) null,
     last_update        datetime     null,
+    level              varchar(255) not null,
     major              varchar(255) not null,
     more_info          longtext     null,
     status             varchar(255) not null,

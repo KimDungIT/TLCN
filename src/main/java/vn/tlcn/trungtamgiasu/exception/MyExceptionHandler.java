@@ -89,6 +89,21 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
         logger.error("Not register class exception");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("NOT_REGISTER_CLASS", r.getMessage()));
     }
+    //Not found tutor exception
+    @ExceptionHandler({TutorNotFoundException.class})
+    public ResponseEntity<ErrorResponse> HanderException(TutorNotFoundException r)
+    {
+        logger.error("Not found tutor exception");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("NOT_FOUND_TUTOR", r.getMessage()));
+    }
+
+    //Not change tutor exception
+    @ExceptionHandler({TutorNotChangeException.class})
+    public ResponseEntity<ErrorResponse> HanderException(TutorNotChangeException r)
+    {
+        logger.error("Not change tutor exception");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("NOT_CHANGE_TUTOR", r.getMessage()));
+    }
 
     @ExceptionHandler({ Exception.class })
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {

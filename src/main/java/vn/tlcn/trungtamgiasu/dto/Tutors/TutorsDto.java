@@ -33,6 +33,9 @@ public class TutorsDto {
     private String graduationYear;
 
     @NotBlank
+    private String level;
+
+    @NotBlank
     private String subjects;
 
     @NotBlank
