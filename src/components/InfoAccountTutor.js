@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import {
-  Form,
-  Button,
-  Upload,
-  Icon,
-  notification
-} from "antd";
+import { Form, Button, Upload, Icon, notification } from "antd";
 import callApi from "../utils/apiCaller";
+import { actChangeImageRequest } from "../actions";
+import { connect } from "react-redux";
 
 class InfoAccountTutor extends Component {
   constructor(props) {
@@ -14,10 +10,15 @@ class InfoAccountTutor extends Component {
     super(props);
     this.state = {
       check: true,
-      imageInfo: this.props.imageInfo
+      imageInfo: this.props.imageInfo,
     };
   }
 
+  // componentDidMount(){
+  //   this.setState({
+  //     imageInfo: this.props.imageInfo,
+  //   })
+  // }
   normFile = e => {
     console.log("Upload event:", e);
     if (Array.isArray(e)) {
@@ -35,39 +36,20 @@ class InfoAccountTutor extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
-
         let formData = new FormData();
         let imageData = values.file[0];
         formData.append("file", imageData.originFileObj);
-        
-        //send request change image
-        callApi("api/tutors/changeImage", "POST", formData)
+        this.props.onChangeImage(formData);
+        callApi(
+          `api/tutors/readImage?idUser=${this.props.userInfo.idUser}`,
+          "GET",
+          null
+        )
           .then(res => {
             if (res.status === 200) {
-              //send request read image
-              callApi(
-                `api/tutors/readImage?idUser=${this.props.userInfo.idUser}`,
-                "GET",
-                null
-              )
-                .then(res => {
-                  if (res.status === 200) {
-                    this.setState({
-                      imageInfo: res.data.result
-                    });
-                    notification.success({
-                      message: "Success",
-                      description: "Get image successfully!"
-                    });
-                  }
-                })
-                .catch(error => {
-                  notification.error({
-                    message: "Error get image",
-                    description: error.message
-                  });
-                });
-              //success
+              this.setState({
+                imageInfo: res.data.result
+              });
               notification.success({
                 message: "Success",
                 description: "Get image successfully!"
@@ -84,9 +66,11 @@ class InfoAccountTutor extends Component {
     });
   };
   render() {
+    console.log("render");
     let { userInfo } = this.props;
     let { tutorInfo } = this.props;
     let { imageInfo } = this.props;
+    //let {imageInfo} = this.state;
     const { getFieldDecorator } = this.props.form;
     let { check } = this.state;
 
@@ -183,5 +167,20 @@ class InfoAccountTutor extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    tutor: state.tutor
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onChangeImage: formData => {
+      dispatch(actChangeImageRequest(formData));
+    }
+  };
+};
+
 const AccountTutor = Form.create({ name: "accountTutor" })(InfoAccountTutor);
-export default AccountTutor;
+export default connect(mapStateToProps, mapDispatchToProps)(AccountTutor);

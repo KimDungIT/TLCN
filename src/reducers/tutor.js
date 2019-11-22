@@ -12,7 +12,12 @@ const tutor = (state = initialState, action) => {
       state = action.tutorInfo.result;
       return {
         ...state
-      }
+      };
+    case Types.CHANGE_IMAGE:
+      state.image = action.image.result;
+      return {
+        ...state
+      };
     default:
       return state;
   }

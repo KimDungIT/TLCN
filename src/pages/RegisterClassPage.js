@@ -24,16 +24,6 @@ class RegisterClassPage extends Component {
     }
   }
 
-  // componentWillReceiveProps(nextProps){
-  //   console.log("component will receive props");
-  //   if(nextProps && nextProps.classRegister){
-  //     let {tutorRegisterClass} = nextProps;
-  //    let {idTutor} = tutorRegisterClass.tutors;
-  //    console.log("tutorRegisterClass" , tutorRegisterClass);
-  //    console.log("idTutor: ", idTutor);
-  //   }
-  // }
-
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {

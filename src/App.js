@@ -59,7 +59,6 @@ class App extends Component {
                   <Route path="/signup" component={SignupPage}></Route>
                   <Route path="/login" component={LoginPage}></Route>
                   <Route path="/make-tutor" component={RegisterToMakeTutorPage}></Route>
-                  {/* <Route path="/change-password" component={ChangePasswordPage}></Route> */}
                   <PrivateRoute 
                     path="/change-password"
                     component={ChangePasswordPage}

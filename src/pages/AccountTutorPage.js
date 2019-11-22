@@ -15,7 +15,6 @@ class AccountTutorPage extends Component {
   }
 
   componentDidMount() {
-    console.log("component didmount");
     this.props.fetchUser();
     this.props.fetchTutor(this.props.auth.user.idUser);
     //send request read image

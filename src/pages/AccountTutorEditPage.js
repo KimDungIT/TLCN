@@ -3,10 +3,7 @@ import {
   Form,
   Input,
   Radio,
-  Button,
   Select,
-  Upload,
-  Icon,
   Checkbox,
   Row,
   Col,
@@ -206,7 +203,7 @@ class AccountTutorEditPage extends Component {
                   </Select>
                 )}
               </Form.Item>
-              <Form.Item label="Ảnh thẻ">
+              {/* <Form.Item label="Ảnh thẻ">
                 {getFieldDecorator("file", {
                   valuePropName: "fileList",
                   getValueFromEvent: this.normFile,
@@ -223,7 +220,7 @@ class AccountTutorEditPage extends Component {
                     </Button>
                   </Upload>
                 )}
-              </Form.Item>
+              </Form.Item> */}
               <Form.Item label="Trường đào tạo: ">
                 {getFieldDecorator("college", {
                   initialValue: `${tutor.college}`,

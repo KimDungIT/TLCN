@@ -4,6 +4,27 @@ import { notification } from "antd";
 import setAuthorization from "./../utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
 
+//send request change image
+export const actChangeImageRequest = (formData) => {
+  return dispatch => {
+    return  callApi("api/tutors/changeImage", "POST", formData).then(res => {
+      dispatch(actChangeImage(res.data));
+    }).catch(error => {
+      notification.error({
+        message: "Error get image",
+        description: error.message
+      });
+    });
+  }
+}
+
+export const actChangeImage = (image) =>{
+  return {
+    type: Types.CHANGE_IMAGE,
+    image
+  }
+} 
+
 //send request change information user
 export const actChangeInforTutorRequest = (tutorInfo, idTutor, history) => {
   return dispatch => {

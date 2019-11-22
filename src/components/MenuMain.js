@@ -84,7 +84,7 @@ class MenuMain extends Component {
                 <li className='nav-item'><Link className = "nav-link" to="/find-tutor" >Gia sư tiêu biểu</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/class-list" >Lớp mới chưa giao</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/tutor-fee" >Học phí gia sư</Link></li>
-                <li className='nav-item'><a href="" className = "nav-link" onClick={this.logout.bind(this)}>Đăng xuất</a></li>
+                <li className='nav-item'><a href="/login" className = "nav-link" onClick={this.logout.bind(this)}>Đăng xuất</a></li>
                 <Dropdown overlay={menuTaiKhoanPH}>
                     <Avatar icon="user"/>
                 </Dropdown>
@@ -97,7 +97,7 @@ class MenuMain extends Component {
                 <li className='nav-item'><Link className = "nav-link" to="/class-list" >Lớp mới chưa giao</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/tutor-fee" >Học phí gia sư</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/class-list" >Quy trình nhận lớp</Link></li>
-                <li className='nav-item'><a href="" className = "nav-link" onClick={this.logout.bind(this)}>Đăng xuất</a></li>
+                <li className='nav-item'><a href="/login" className = "nav-link" onClick={this.logout.bind(this)}>Đăng xuất</a></li>
                 <Dropdown overlay={menuTaiKhoanGS}>
                     <Avatar icon="user"/>
                 </Dropdown>
