@@ -1,5 +1,7 @@
 package vn.tlcn.trungtamgiasu.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,10 @@ import vn.tlcn.trungtamgiasu.dto.ClassRegister.ClassRegisterDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.ClassRegisterMapper;
 import vn.tlcn.trungtamgiasu.exception.TutorNotRegisterClassException;
 import vn.tlcn.trungtamgiasu.model.ClassRegister;
-import vn.tlcn.trungtamgiasu.model.Classes;
 import vn.tlcn.trungtamgiasu.model.Tutors;
 import vn.tlcn.trungtamgiasu.repository.ClassRegisterRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +39,7 @@ public class ClassRegisterService {
     @Autowired
     private UsersService usersService;
 
+
     @Autowired
     TokenStore tokenStore;
 
@@ -45,6 +48,7 @@ public class ClassRegisterService {
         logger.info("save class register");
         return classRegisterRepository.save(classRegister);
     }
+
 
     public ClassRegister createClassRegister(ClassRegisterDto classRegisterDto, int idClass, OAuth2Authentication auth)
     {
@@ -55,19 +59,19 @@ public class ClassRegisterService {
         //get id user from token
         int idUser = (Integer.valueOf(additionalInfo.get("idUser").toString()));
         Tutors tutors = tutorsService.getTutorByIdUser(idUser);
-        List<ClassRegister> classRegisters = getListTutorRegister(idClass);
+        List<ClassRegister> classRegisters = classRegisterRepository.findAllByClasses(classesService.getClassById(idClass));
         //check tutor has already registered and check max tutor can register
         if(classRegisters.size() > 0)
         {
             for (ClassRegister item: classRegisters) {
                 if (item.getTutors().getIdTutor() == tutors.getIdTutor())
                 {
-                    throw new TutorNotRegisterClassException("Can not register class " + idClass);
+                    throw new TutorNotRegisterClassException("Tutor is already registered. Can not register class " + idClass);
                 }
             }
-            if(classRegisters.size() > 5)
+            if(classRegisters.size() >= 5)
             {
-                throw new TutorNotRegisterClassException("Can not register class " + idClass);
+                throw new TutorNotRegisterClassException("Five tutors were registered. Can not register class " + idClass);
             }
         }
 
@@ -81,11 +85,26 @@ public class ClassRegisterService {
         return saveClassRegister(classRegister);
     }
 
-    public List<ClassRegister> getListTutorRegister(int idClass)
+    public List getListTutorRegister(int idClass)
     {
-        logger.info("Get list ");
-        return classRegisterRepository.findAllByClasses(classesService.getClassById(idClass));
+        logger.info("Get list tutor register");
+        //List<String> foo = new ArrayList<>();
+        //foo =  classRegisterRepository.getAllInfo(idClass);
+        //String json = new Gson().toJson(foo );
+       return classRegisterRepository.findAllByClasses(classesService.getClassById(idClass));
+//        List<String> result = classRegisterRepository.getAllInfo(idClass);
+//        JSONObject entity = new JSONObject();
+//        for (String item: result) {
+//            obj.addProperty("");
+//        }
+        //return classRegisterRepository.getAllInfo(idClass);
+        //return json;
     }
 
-
+    public List<ClassRegister> getListTutorRegisterClass(int idUser)
+    {
+        logger.info("Get list tutor register class");
+        Tutors tutors = tutorsService.getTutorByIdUser(idUser);
+        return classRegisterRepository.findAllByTutors(tutors);
+    }
 }

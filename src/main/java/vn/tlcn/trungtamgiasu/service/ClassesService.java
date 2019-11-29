@@ -12,8 +12,12 @@ import vn.tlcn.trungtamgiasu.dto.Classes.ClassesDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.ClassesMapper;
 import vn.tlcn.trungtamgiasu.exception.ClassesNotFoundException;
 import vn.tlcn.trungtamgiasu.model.Classes;
+import vn.tlcn.trungtamgiasu.model.Tutors;
+import vn.tlcn.trungtamgiasu.model.Users;
+import vn.tlcn.trungtamgiasu.repository.ClassRegisterRepository;
 import vn.tlcn.trungtamgiasu.repository.ClassesRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +34,15 @@ public class ClassesService {
 
     @Autowired
     private UsersService usersService;
+
+    @Autowired
+    private ClassRegisterService classRegisterService;
+
+    @Autowired
+    private ClassRegisterRepository classRegisterRepository;
+
+    @Autowired
+    private TutorsService tutorsService;
 
     @Autowired
     TokenStore tokenStore;
@@ -68,8 +81,17 @@ public class ClassesService {
 
     public List<Classes> getListClassesByStatus(String status){
         logger.info("Get list classes by status");
+        List<Classes> classesList = classesRepository.findAllByStatus(status);
 
-        return classesRepository.findAllByStatus(status);
+        List<Classes> classesListOutput = new ArrayList<>();
+        for (Classes item: classesList) {
+            if (classRegisterRepository.findAllByClasses(item).size() < 4)
+            {
+                classesListOutput.add(item);
+            }
+        }
+
+        return classesListOutput;
     }
 
     public Classes getClassById(int id)
@@ -77,4 +99,27 @@ public class ClassesService {
         logger.info("Get class by id: "+ id);
         return classesRepository.findByIdClass(id).orElseThrow(()-> new  ClassesNotFoundException("Cant not found class"));
     }
+
+    public List<Classes> getListClassTutorCanTeach(OAuth2Authentication auth)
+    {
+        logger.info("Get list class tutor can teach");
+        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) auth.getDetails();
+        OAuth2AccessToken accessToken = tokenStore.readAccessToken(details.getTokenValue());
+        Map<String, Object> additionalInfo = accessToken.getAdditionalInformation();
+        //get id user from token
+        int idUser = (Integer.valueOf(additionalInfo.get("idUser").toString()));
+        logger.info("Get list class by class teach");
+        Tutors tutors = tutorsService.getTutorByIdUser(idUser);
+        return classesRepository.getListClassByClassTeach(tutors.getClasses(), tutors.getDistrictCanTeach());
+    }
+    public List<Classes> getListClassesOfUser(OAuth2Authentication auth)
+    {
+        logger.info("Get list classes of user");
+        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) auth.getDetails();
+        OAuth2AccessToken accessToken = tokenStore.readAccessToken(details.getTokenValue());
+        Map<String, Object> additionalInfo = accessToken.getAdditionalInformation();
+        int idUser = (Integer.valueOf(additionalInfo.get("idUser").toString()));
+        return classesRepository.getListClassByUser(idUser);
+    }
+
 }

@@ -43,4 +43,15 @@ public class ClassRegisterController {
                 "Get list register successfully",
                 classRegisterService.getListTutorRegister(idClass));
     }
+
+    @GetMapping(value = "/getListClassTutorRegister")
+    @PreAuthorize(("hasAnyAuthority('[ADMIN]', '[GIASU]')"))
+    public ApiResponse getListClassTutorRegister(@RequestParam("idUser") int idUser)
+    {
+        logger.info("Get list class tutor register");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get list class register successfully",
+                classRegisterService.getListTutorRegisterClass(idUser));
+    }
 }

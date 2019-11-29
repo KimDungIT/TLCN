@@ -88,13 +88,13 @@ public class UsersController {
 
     @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
     @GetMapping(value = "/getUserByTutor")
-    public ApiResponse getListUserRegisterClass(@RequestParam("idClass")int idClass)
+    public ApiResponse getListUserRegisterClass(@RequestParam("phone")String phone)
     {
-        logger.info("Get User by id tutor: " + idClass);
+        logger.info("Get User by id tutor: " + phone);
         return new ApiResponse(
                 HttpStatus.OK,
                 "Get user by id tutor successfully",
-                usersService.getUserByIdTutor(idClass));
+                usersService.getUserByIdTutor(phone));
     }
 
 }

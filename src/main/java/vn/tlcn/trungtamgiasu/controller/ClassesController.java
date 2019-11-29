@@ -63,5 +63,24 @@ public class ClassesController {
                 "Get class successfully",
                 classesService.getClassById(id));
     }
+    @GetMapping(value = "/listClassByClasses")
+    @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
+    public ApiResponse getListClassTutorCanTeach(OAuth2Authentication auth)
+    {
+        logger.info("Get list classes tutor can teach");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get list classes tutor can teach successfully",
+                classesService.getListClassTutorCanTeach(auth));
+    }
 
+    @GetMapping(value = "/listClassesOfUser")
+    @PreAuthorize("hasAnyAuthority('[ADMIN]', '[PHUHUYNH]')")
+    public ApiResponse getListClassesOfUser(OAuth2Authentication auth)
+    {
+        logger.info("Get list class of user");
+        return new ApiResponse(HttpStatus.OK,
+                "Get list class of user successfully!",
+                classesService.getListClassesOfUser(auth));
+    }
 }

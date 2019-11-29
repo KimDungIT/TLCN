@@ -1,6 +1,5 @@
 package vn.tlcn.trungtamgiasu.service;
 
-import net.bytebuddy.asm.Advice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import vn.tlcn.trungtamgiasu.exception.NotChangePasswordException;
 import vn.tlcn.trungtamgiasu.exception.UserNotChangeException;
 import vn.tlcn.trungtamgiasu.exception.UserNotCreateException;
 import vn.tlcn.trungtamgiasu.exception.UserNotFoundException;
-import vn.tlcn.trungtamgiasu.model.ClassRegister;
 import vn.tlcn.trungtamgiasu.model.Roles;
 import vn.tlcn.trungtamgiasu.model.Users;
 import vn.tlcn.trungtamgiasu.repository.UsersRepository;
@@ -30,8 +28,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -185,20 +181,13 @@ public class UsersService implements UserDetailsService {
     }
 
     //?
-    public List<Users> getUserByIdTutor(int idClass)
+    public Users getUserByIdTutor(String idTutor)
     {
-        logger.info("Get user by idTutor: "+ idClass);
-        List<Users> users = new ArrayList<>();
-        List<ClassRegister> classRegisters = classRegisterService.getListTutorRegister(idClass);
-        if(classRegisters.size() > 0)
-        {
-            for (ClassRegister item: classRegisters) {
-                int idTutor = item.getTutors().getIdTutor();
-                int idUser = tutorsService.getTutorByIdTutor(idTutor).getUsers().getIdUser();
-                users.add(getById(idUser));
-            }
-        }
+        logger.info("Get user by idTutor: "+ idTutor);
+//        int idUser = tutorsService.getTutorByIdTutor(idTutor).getUsers().getIdUser();
+        Users users = getByPhone(idTutor);
         return users;
     }
+
 
 }
