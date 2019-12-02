@@ -397,6 +397,14 @@ p.noidung {
   margin-right: 5px;
   box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.21);
 }
+.statusBlue {
+  background-color: #20adbd;
+  width: 26px;
+  height: 26px;
+  margin-left: 25px;
+  margin-right: 5px;
+  box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.21);
+}
 .statusRed {
   background-color: #9b0000;
   width: 26px;
@@ -404,4 +412,16 @@ p.noidung {
   margin-left: 15px;
   margin-right: 5px;
   box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.21);
+}
+.row.status {
+  margin: 0 auto;
+
+}
+table,
+thead,
+tr,
+tbody,
+th,
+td {
+  text-align: center;
 }

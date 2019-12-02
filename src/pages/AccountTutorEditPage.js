@@ -1,31 +1,19 @@
 import React, { Component } from "react";
-import {
-  Form,
-  Input,
-  Radio,
-  Select,
-  Checkbox,
-  Row,
-  Col,
-  notification
-} from "antd";
+import {Form,Input, Radio, Select, Checkbox, Row, Col, notification} from "antd";
 import "./../style/signup.css";
 import { connect } from "react-redux";
-import {
-  actFetchUserRequest,
-  actFetchTutorRequest,
-  actChangeInfoUserRequest,
-  actChangeInforTutorRequest
-} from "../actions";
+import {actFetchUserRequest, actFetchTutorRequest, actChangeInfoUserRequest, actChangeInforTutorRequest} from "../actions";
 import { Link } from "react-router-dom";
 const { Option } = Select;
 const { TextArea } = Input;
 
 class AccountTutorEditPage extends Component {
+ 
   componentDidMount() {
     this.props.fetchUser();
     this.props.fetchTutor(this.props.auth.user.idUser);
   }
+
   handleSubmit = e => {
     e.preventDefault();
     var { history } = this.props;
@@ -46,7 +34,7 @@ class AccountTutorEditPage extends Component {
           districtCanTeach: values.districts.join(","),
           moreInfo: values.moreInfo
         };
-        //get info user
+        //change info user
         this.props.onChangeInfoUser(values);
         //change info tutor
         let { idTutor } = this.props.tutor;
@@ -60,25 +48,31 @@ class AccountTutorEditPage extends Component {
     });
   };
 
-  normFile = e => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
+  // normFile = e => {
+  //   console.log("Upload event:", e);
+  //   if (Array.isArray(e)) {
+  //     return e;
+  //   }
+  //   return e && e.fileList;
+  // };
 
   render() {
     let { user } = this.props;
     let { tutor } = this.props;
+    console.log("render tutor ",tutor);
 
-    // let tt = {
-    //   subject: this.props.tutor.subjects,
-    //   class: this.props.tutor.classes,
-    //   districtCanTeach: this.props.tutor.districtCanTeach
-    // };
-
-    // console.log("tt ", tt);
+    if(tutor.classes !=null){
+      var arrClasses = tutor.classes.split(',');
+      console.log("arrClasses ", arrClasses);
+    }
+    if(tutor.subjects !=null){
+      var arrSubject = tutor.subjects.split(',');
+      console.log("render arrSubject ",arrSubject);
+    }
+    if(tutor.districtCanTeach !=null){
+      var arrDistric = tutor.districtCanTeach.split(',');
+      console.log("render arrDistric ",arrDistric);
+    }
     const { getFieldDecorator } = this.props.form;
     if (user.email === null) {
       user.email = "";
@@ -86,6 +80,7 @@ class AccountTutorEditPage extends Component {
     if (tutor.moreInfo === null) {
       tutor.moreInfo = "";
     }
+
     return (
       <div className="col-lg-9 col-md-9 col-sm-9">
         <div className="row">
@@ -275,7 +270,7 @@ class AccountTutorEditPage extends Component {
               </Form.Item>
               <Form.Item label="Môn dạy">
                 {getFieldDecorator("subjects", {
-                  // initialValue: `${[tutor.subjects]}`,
+                  initialValue: arrSubject,
                   rules: [
                     {
                       required: true,
@@ -327,7 +322,7 @@ class AccountTutorEditPage extends Component {
               </Form.Item>
               <Form.Item label="Lớp dạy">
                 {getFieldDecorator("classes", {
-                  // initialValue: `${[tutor.classes]}`,
+                   initialValue: arrClasses,
                   rules: [
                     {
                       required: true,
@@ -379,7 +374,7 @@ class AccountTutorEditPage extends Component {
               </Form.Item>
               <Form.Item label="Khu vực dạy">
                 {getFieldDecorator("districts", {
-                  // initialValue: `${[tutor.districtCanTeach]}`,
+                  initialValue: arrDistric,
                   rules: [
                     {
                       required: true,
@@ -452,7 +447,7 @@ class AccountTutorEditPage extends Component {
                 {/* <Button type="primary" htmlType="submit">
                   Cập nhật
                 </Button> */}
-                <button type="submit" className="btn btn-primary">
+                <button  type="submit" className="btn btn-primary">
                   Lưu lại
                 </button>
                 <Link

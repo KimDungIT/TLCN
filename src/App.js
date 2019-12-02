@@ -22,6 +22,7 @@ import RegisterClassPage from './pages/RegisterClassPage';
 import AccountPage from './pages/AccountPage';
 import AccountTutorPage from './pages/AccountTutorPage';
 import AccountTutorEditPage from './pages/AccountTutorEditPage';
+import StatusClassTutorRegisterPage from './pages/StatusClassTutorRegisterPage';
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => {
   return <Route {...rest}
@@ -40,7 +41,7 @@ class App extends Component {
   
   render(){
     notification.config({
-      duration: 6,
+      duration: 3,
     });
     const {isAuthenticated} = this.props.auth;
     console.log(isAuthenticated);
@@ -87,6 +88,11 @@ class App extends Component {
                   <PrivateRoute
                     path="/find-tutor"
                     component={RegisterToFindTuTorPage}
+                    isAuthenticated={isAuthenticated}
+                  />
+                  <PrivateRoute
+                    path="/tutor-classes"
+                    component={StatusClassTutorRegisterPage}
                     isAuthenticated={isAuthenticated}
                   />
                  <Route component={NotFoundPage}></Route>

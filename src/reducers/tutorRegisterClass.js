@@ -9,9 +9,9 @@ const tutorRegisterClass = (state = initialState, action) => {
             case Types.TUTOR_REGISTER_CLASS:
                   state.push(action.classRegisterInfo.result);
                   return [...state];
-            case Types.FETCH_USER_REGISTER: 
-                  state.push(action.users.result);
-                  return [...state]
+            case Types.FETCH_CLASS_TUTOR_REGISTER:
+                  state = action.classRegister.result;
+                  return [...state];
             default: return [...state];
       }
 }

@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 
 class ClassRegisterItem extends Component {
+  
   render() {
     let { tutorRegisterClassItem } = this.props;
-    //let {idTutor} = tutorRegisterClassItem.tutors;
-    
     let colorStatus = 
       tutorRegisterClassItem.status === "Xem xét"
         ? '#d6d6d6'

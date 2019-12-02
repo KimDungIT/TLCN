@@ -533,7 +533,7 @@ class RegisterToMakeTutorPage extends Component {
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">
-                  Cập nhật
+                  Đăng ký
                 </Button>
               </Form.Item>
             </Form>
@@ -543,18 +543,6 @@ class RegisterToMakeTutorPage extends Component {
     );
   }
 }
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onAddTutor: tutorInfo => {
-//       dispatch(actAddTutorRequest(tutorInfo));
-//     },
-//     onUploadImage: fileImage => {
-//       dispatch(actUploadImageRequest(fileImage));
-//     },
-
-//   };
-// };
 
 const RegisterToMakeTutorForm = Form.create({ name: "maketutor-form" })(
   RegisterToMakeTutorPage

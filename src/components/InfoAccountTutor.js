@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 
 class InfoAccountTutor extends Component {
   constructor(props) {
-    console.log("constructor");
     super(props);
     this.state = {
       check: true,
@@ -66,7 +65,6 @@ class InfoAccountTutor extends Component {
     });
   };
   render() {
-    console.log("render");
     let { userInfo } = this.props;
     let { tutorInfo } = this.props;
     let { imageInfo } = this.props;

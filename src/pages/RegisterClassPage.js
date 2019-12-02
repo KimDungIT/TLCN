@@ -36,7 +36,6 @@ class RegisterClassPage extends Component {
       };
       console.log("Received values of form: ", fieldsValue);
       let idClass = this.props.classRegister.idClass;
-      console.log("idClass: ", idClass);
       this.props.onTutorRegisterClass(fieldsValue, idClass);
     });
   };
@@ -45,6 +44,7 @@ class RegisterClassPage extends Component {
     let { classRegister } = this.props;
     let { tutorRegisterClass } = this.props;
     console.log("class register: ", classRegister);
+    console.log("tutor register class: ", tutorRegisterClass);
     const { getFieldDecorator } = this.props.form;
 
     return (

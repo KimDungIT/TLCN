@@ -42,7 +42,7 @@ const menuTaiKhoanGS = (
             <Link className = "nav-link" to="/account-gs">Tài khoản của tôi</Link>
         </Menu.Item>
         <Menu.Item>
-            <Link className = "nav-link" to="/account-gs" >Lớp đã đăng ký</Link>
+            <Link className = "nav-link" to="/tutor-classes" >Lớp đã đăng ký</Link>
         </Menu.Item>
         <Menu.Item>
             <Link className = "nav-link" to="/change-password" >Đổi mật khẩu</Link>
@@ -81,7 +81,7 @@ class MenuMain extends Component {
             <ul className="navbar-nav mr-auto" key="mnPH">
                 <li className='nav-item'><Link className = "nav-link" to="/" ><i className="fa fa-fw fa-home"></i>Trang chủ</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/find-tutor" >Đăng ký tìm gia sư</Link></li>
-                <li className='nav-item'><Link className = "nav-link" to="/find-tutor" >Gia sư tiêu biểu</Link></li>
+                <li className='nav-item'><Link className = "nav-link" to="/find-tutor" >Lớp đã đăng</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/class-list" >Lớp mới chưa giao</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/tutor-fee" >Học phí gia sư</Link></li>
                 <li className='nav-item'><a href="/login" className = "nav-link" onClick={this.logout.bind(this)}>Đăng xuất</a></li>

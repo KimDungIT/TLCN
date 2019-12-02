@@ -4,6 +4,39 @@ import { notification } from "antd";
 import setAuthorization from "./../utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
 
+//get list tutor register class by idUser
+export const actFetchListClassTutorRegisterRequest = idUser => {
+  return dispatch => {
+    return callApi(
+      `api/classRegister/getListClassTutorRegister?idUser=${idUser}`,
+      "GET",
+      null
+    )
+      .then(res => {
+        dispatch(actFetchListClassTutorRegister(res.data));
+        if (res.status === 200) {
+          notification.success({
+            message: "Success",
+            description: "Get list tutor register class successfully!"
+          });
+        }
+      })
+      .catch(error => {
+        notification.error({
+          message: "Error get list tutor register class",
+          description: error.message
+        });
+      });
+  };
+};
+
+export const actFetchListClassTutorRegister = classRegister => {
+  return {
+    type: Types.FETCH_CLASS_TUTOR_REGISTER,
+    classRegister
+  };
+};
+
 //send request change image
 export const actChangeImageRequest = (formData) => {
   return dispatch => {
@@ -54,34 +87,27 @@ export const actChangeInforTutor = (tutorInfo) => {
   }
 }
 
-//get name
-export const actFetchUserNameRequest = idClass => {
-  return dispatch => {
-    return callApi(`api/users/getUserByTutor?idClass=${idClass}`, "GET", null)
-      .then(res => {
-        if (res.status === 200) {
-          dispatch(actFetchUserName(res.data));
-          notification.success({
-            message: "Success",
-            description: "Get username successfully!"
-          });
-        }
-      })
-      .catch(error => {
-        notification.error({
-          message: "Error Get username",
-          description: error.message
-        });
-      });
-  };
-};
-// dispatch
-export const actFetchUserName = users => {
-  return {
-    type: Types.FETCH_USER_REGISTER,
-    users
-  };
-};
+// //get name
+// export const actFetchUserNameRequest = idClass => {
+//   return dispatch => {
+//     return callApi(`api/users/getUserByTutor?idClass=${idTutor}`, "GET", null)
+//       .then(res => {
+//         if (res.status === 200) {
+//           notification.success({
+//             message: "Success",
+//             description: "Get username successfully!"
+//           });
+//         }
+//       })
+//       .catch(error => {
+//         notification.error({
+//           message: "Error Get username",
+//           description: error.message
+//         });
+//       });
+//   };
+// };
+
 //tutor register class
 export const actTutorRegisterClassRequest = (classRegisterInfo, idClass) => {
   return dispatch => {
@@ -241,20 +267,6 @@ export const actFetchTutor = tutor => {
 //Upload image
 export const actUploadImageRequest = fileImage => {
   return callApi("api/tutors/uploadImage", "POST", fileImage);
-    // .then(res => {
-    //   if (res.status === 200) {
-    //     notification.success({
-    //       message: "Success",
-    //       description: "Upload successfully!"
-    //     });
-    //   }
-    // })
-    // .catch(error => {
-    //   notification.error({
-    //     message: "Error Upload",
-    //     description: error.message
-    //   });
-    // });
 };
 
 //Add tutor
@@ -353,8 +365,7 @@ export const actLoginRequest = (user, history) => {
     return callApi(
       `oauth/token?username=${user.username}&password=${user.password}&grant_type=password&client_id=client&client_secret=ttgs123`,
       "POST"
-    )
-      .then(res => {
+    ).then(res => {
         let typeAccount = user.radioTypeAccount;
         console.log("type acc: ", typeAccount);
         if (res.data.role === `[${typeAccount}]`) {
