@@ -13,7 +13,6 @@ import vn.tlcn.trungtamgiasu.dto.mapper.ClassesMapper;
 import vn.tlcn.trungtamgiasu.exception.ClassesNotFoundException;
 import vn.tlcn.trungtamgiasu.model.Classes;
 import vn.tlcn.trungtamgiasu.model.Tutors;
-import vn.tlcn.trungtamgiasu.model.Users;
 import vn.tlcn.trungtamgiasu.repository.ClassRegisterRepository;
 import vn.tlcn.trungtamgiasu.repository.ClassesRepository;
 

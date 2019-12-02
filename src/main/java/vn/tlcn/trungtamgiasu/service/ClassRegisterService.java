@@ -1,7 +1,5 @@
 package vn.tlcn.trungtamgiasu.service;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +9,13 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 import vn.tlcn.trungtamgiasu.dto.ClassRegister.ClassRegisterDto;
+import vn.tlcn.trungtamgiasu.dto.TutorRegisterDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.ClassRegisterMapper;
 import vn.tlcn.trungtamgiasu.exception.TutorNotRegisterClassException;
 import vn.tlcn.trungtamgiasu.model.ClassRegister;
 import vn.tlcn.trungtamgiasu.model.Tutors;
 import vn.tlcn.trungtamgiasu.repository.ClassRegisterRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -85,7 +83,7 @@ public class ClassRegisterService {
         return saveClassRegister(classRegister);
     }
 
-    public List getListTutorRegister(int idClass)
+    public List<ClassRegister> getListTutorRegister(int idClass)
     {
         logger.info("Get list tutor register");
         //List<String> foo = new ArrayList<>();
