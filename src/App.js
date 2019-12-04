@@ -23,6 +23,8 @@ import AccountPage from './pages/AccountPage';
 import AccountTutorPage from './pages/AccountTutorPage';
 import AccountTutorEditPage from './pages/AccountTutorEditPage';
 import StatusClassTutorRegisterPage from './pages/StatusClassTutorRegisterPage';
+import PannelLeftParent from './components/PannelLeftParent';
+import StatusClassParentRegisterPage from './pages/StatusClassParentRegisterPage';
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => {
   return <Route {...rest}
@@ -44,6 +46,7 @@ class App extends Component {
       duration: 3,
     });
     const {isAuthenticated} = this.props.auth;
+    const { role } = this.props.auth.user;
     console.log(isAuthenticated);
     return (
       <Router>
@@ -52,7 +55,7 @@ class App extends Component {
           <MenuMain />
           <Banner />
           <div className="row" id="main">
-                <PanelLeft />
+              {isAuthenticated && role === '[PHUHUYNH]'? <PannelLeftParent /> : <PanelLeft />}
                 <Switch>
                   <Route path="/" exact component={HomePage}></Route>
                   <Route path="/class-list" component={ClassListPage}></Route>
@@ -72,6 +75,11 @@ class App extends Component {
                   <PrivateRoute 
                     path="/account-ph"
                     component={AccountPage}
+                    isAuthenticated = {isAuthenticated}
+                  />
+                   <PrivateRoute 
+                    path="/parent-classes"
+                    component={StatusClassParentRegisterPage}
                     isAuthenticated = {isAuthenticated}
                   />
                   <PrivateRoute 

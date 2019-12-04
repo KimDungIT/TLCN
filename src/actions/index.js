@@ -4,6 +4,40 @@ import { notification } from "antd";
 import setAuthorization from "./../utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
 
+export const actFetchListClassParentRegisterRequest = ()  => {
+  return dispatch => {
+    return callApi(
+      'api/classes/listClassesOfUser',
+      "GET",
+      null
+    )
+      .then(res => {
+        dispatch(actFetchListClassParentRegister(res.data));
+        // if (res.status === 200) {
+        //   notification.success({
+        //     message: "Success",
+        //     description: "Get list tutor register class successfully!"
+        //   });
+        // }
+      })
+      .catch(error => {
+        notification.error({
+          message: "Error ",
+          description: error.message
+        });
+      });
+  };
+}
+
+export const actFetchListClassParentRegister = classes => {
+  return {
+    type: Types.FETCH_CLASS_PARENT_REGISTER,
+    classes
+  };
+};
+
+
+
 //get list tutor register class by idUser
 export const actFetchListClassTutorRegisterRequest = idUser => {
   return dispatch => {

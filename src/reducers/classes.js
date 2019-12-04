@@ -6,6 +6,9 @@ const classes = (state = initialState, action) => {
         case Types.FETCH_CLASSES:
             state = action.classes.result;
             return [...state];
+        case Types.FETCH_CLASS_PARENT_REGISTER:
+            state = action.classes.result;
+            return [...state];
         case Types.ADD_CLASSES:
             state.push(action.classes.result);
             return [...state];

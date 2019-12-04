@@ -14,7 +14,6 @@ class StatusClassTutorRegisterPage extends Component {
   render() {
     var {tutorRegisterClass} = this.props;
     console.log("tutorRegisterClass: ", tutorRegisterClass);
-    // console.log("id: ", tutorRegisterClass.classes);
     return (
       <div className="col-lg-9 col-md-9 col-sm-9">
         <div className="row">

@@ -81,8 +81,8 @@ class MenuMain extends Component {
             <ul className="navbar-nav mr-auto" key="mnPH">
                 <li className='nav-item'><Link className = "nav-link" to="/" ><i className="fa fa-fw fa-home"></i>Trang chủ</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/find-tutor" >Đăng ký tìm gia sư</Link></li>
-                <li className='nav-item'><Link className = "nav-link" to="/find-tutor" >Lớp đã đăng</Link></li>
-                <li className='nav-item'><Link className = "nav-link" to="/class-list" >Lớp mới chưa giao</Link></li>
+                <li className='nav-item'><Link className = "nav-link" to="/parent-classes" >Lớp đã đăng</Link></li>
+                <li className='nav-item'><Link className = "nav-link" to="/class-list" >Phụ huynh lưu ý</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/tutor-fee" >Học phí gia sư</Link></li>
                 <li className='nav-item'><a href="/login" className = "nav-link" onClick={this.logout.bind(this)}>Đăng xuất</a></li>
                 <Dropdown overlay={menuTaiKhoanPH}>

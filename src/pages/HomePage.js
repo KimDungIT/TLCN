@@ -4,6 +4,7 @@ import FormSearch from '../components/FormSearch';
 import ClassList from '../components/ClassList';
 import {Link} from 'react-router-dom';
 import ClassItem from '../components/ClassItem';
+import TutorFreePage from './TutorFeePage';
 
 import { actFetchClassesRequest } from './../actions/index';
 import { connect } from 'react-redux';
@@ -15,28 +16,26 @@ class HomePage extends Component {
     render() {
         var classes = this.props.classes;
         var {isAuthenticated} = this.props.auth;
-        console.log("isAuthenticated: ", isAuthenticated);
         return (
-            
             <div className="col-lg-9 col-md-9 col-sm-9">
                 {!isAuthenticated ? <QuickMenu /> : ""}
-                {/* <QuickMenu /> */}
-                <div className="row">
-                    <div className="panel-heading">
-                        <i className="fa fa-graduation-cap" 
-                            style={{ marginLeft: '5px' }} />
-                            Lớp dạy kèm mới
+                    <div className="row">
+                        <div className="panel-heading">
+                            <i className="fa fa-graduation-cap" 
+                                style={{ marginLeft: '5px' }} />
+                                Lớp dạy kèm mới
+                        </div>
                     </div>
-                </div>
-                <FormSearch />
-                <ClassList>
-                    {this.showClasses(classes)}
-                </ClassList>
-                <div className="xemthem">
-                    <Link to='/class-list'>
-                        <i className="fa fa-play" />Xem thêm...
-                    </Link>
-                </div>
+                    <FormSearch />
+                    <ClassList>
+                        {this.showClasses(classes)}
+                    </ClassList>
+                    <div className="xemthem">
+                        <Link to='/class-list'>
+                            <i className="fa fa-play" />Xem thêm...
+                        </Link>
+                    </div>
+                
                 
             </div>
         );
