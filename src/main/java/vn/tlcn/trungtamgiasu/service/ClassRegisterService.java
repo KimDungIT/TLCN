@@ -86,12 +86,6 @@ public class ClassRegisterService {
         logger.info("Get list ");
         return classRegisterRepository.findAllByClasses(classesService.getClassById(idClass));
     }
-    public List<ClassRegister> getListTutorRegisterClass (int idUser){
-        Tutors tutors = tutorsService.getTutorByIdUser((idUser));
-        return classRegisterRepository.findAllByTutors(tutors);
-    }
 
-    public List<ClassRegister> getAllListClassRegister(){
-        return classRegisterRepository.findAll();
-    }
+
 }

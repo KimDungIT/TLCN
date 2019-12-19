@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import vn.tlcn.trungtamgiasu.model.Classes;
-import vn.tlcn.trungtamgiasu.model.Tutors;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 

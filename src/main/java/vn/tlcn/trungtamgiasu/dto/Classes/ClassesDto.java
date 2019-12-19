@@ -29,6 +29,9 @@ public class ClassesDto {
     private String address;
 
     @NotBlank
+    private String district;
+
+    @NotBlank
     private double salary;
 
     @NotBlank

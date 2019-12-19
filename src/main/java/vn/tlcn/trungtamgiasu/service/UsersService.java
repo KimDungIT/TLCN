@@ -201,14 +201,4 @@ public class UsersService implements UserDetailsService {
         return users;
     }
 
-    public Users addUser(String type, UsersDto usersDto){
-        usersDto.setPassword(passwordEncoderUser().encode(usersDto.getPassword()));
-        Users users = saveUser(usersMapper.toUsers(usersDto));
-        //insert data to table user_role
-        Roles roles = rolesService.getRoleByRoleName(type);
-        users.getRoles().add(roles);
-        users = saveUser(users);
-        return users;
-    }
-
 }

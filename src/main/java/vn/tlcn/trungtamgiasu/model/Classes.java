@@ -44,6 +44,9 @@ public class Classes implements Serializable {
     private String address;
 
     @Column(nullable = false)
+    private String district;
+
+    @Column(nullable = false)
     private double salary;
 
     @Column(nullable = false)
