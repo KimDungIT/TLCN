@@ -43,4 +43,34 @@ public class ClassRegisterController {
                 "Get list register successfully",
                 classRegisterService.getListTutorRegister(idClass));
     }
+
+    @GetMapping(value = "/getListClassTutorRegister")
+    @PreAuthorize(("hasAnyAuthority('[ADMIN]', '[GIASU]')"))
+    public ApiResponse getListClassTutorRegister(@RequestParam("idUser") int idUser)
+    {
+        logger.info("Get list class tutor register");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get list class register successfully",
+                classRegisterService.getListTutorRegisterClass(idUser));
+    }
+
+    @PatchMapping(value = "/changeStatus")
+    @PreAuthorize(("hasAnyAuthority('[ADMIN]', '[GIASU]')"))
+    public ApiResponse changeStatusClassRegister(@RequestParam("idClassRegister") int idClassRegister) {
+        logger.info("Change status class register");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Change status class register successfully",
+                classRegisterService.changeStatusClassRegister("Đã huỷ", idClassRegister));
+    }
+    @GetMapping()
+    public ApiResponse getAllListClassRegester(){
+        logger.info("Get all list class register");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get all list class register",
+                classRegisterService.getAllListClassRegister()
+        );
+    }
 }

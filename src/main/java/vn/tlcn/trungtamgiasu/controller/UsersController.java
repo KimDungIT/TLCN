@@ -45,15 +45,6 @@ public class UsersController {
                 users);
     }
 
-    @PostMapping
-    public ApiResponse addUser(@RequestParam("type") String type ,@RequestBody UsersDto usersDto){
-        return new ApiResponse(
-                HttpStatus.OK,
-                "Add user",
-                usersService.addUser(type, usersDto)
-        );
-    }
-
     @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]', '[PHUHUYNH]')")
     @PatchMapping(value = "/changePassword")
     public ApiResponse changePassword(@RequestBody ChangePasswordDto changePasswordDto, OAuth2Authentication auth) {
@@ -105,16 +96,5 @@ public class UsersController {
                 "Get user by id tutor successfully",
                 usersService.getUserByIdTutor(phone));
     }
-
-    @GetMapping(value = "/getUserById")
-    public ApiResponse getUserById(@RequestParam("idUser") int idUser){
-        return new ApiResponse(
-                HttpStatus.OK,
-                "Get user by Id",
-                usersService.getById(idUser)
-        );
-    }
-
-
 
 }
