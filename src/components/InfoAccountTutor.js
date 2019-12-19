@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useCallback } from "react";
 import { Form, Button, Upload, Icon, notification } from "antd";
 import callApi from "../utils/apiCaller";
 import { actChangeImageRequest } from "../actions";
@@ -9,15 +9,10 @@ class InfoAccountTutor extends Component {
     super(props);
     this.state = {
       check: true,
-      imageInfo: this.props.imageInfo,
+      imageInfo: ''
     };
   }
 
-  // componentDidMount(){
-  //   this.setState({
-  //     imageInfo: this.props.imageInfo,
-  //   })
-  // }
   normFile = e => {
     console.log("Upload event:", e);
     if (Array.isArray(e)) {
@@ -27,18 +22,26 @@ class InfoAccountTutor extends Component {
   };
   onHandle() {
     this.setState({
-      check: false
+      check: false,
+      //imageInfo: this.props.imageInfo
     });
   }
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    
+    console.log('xong rồi đấy!')
+    this.props.form.validateFields(async(err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
         let formData = new FormData();
         let imageData = values.file[0];
         formData.append("file", imageData.originFileObj);
-        this.props.onChangeImage(formData);
+        try{
+          await this.props.onChangeImage(formData);
+          console.log('xong rồi đấy!')
+        } catch(e) {
+          console.log(`có vấn đề tại ${ e }`)
+        }
         callApi(
           `api/tutors/readImage?idUser=${this.props.userInfo.idUser}`,
           "GET",
@@ -54,6 +57,7 @@ class InfoAccountTutor extends Component {
                 description: "Get image successfully!"
               });
             }
+            
           })
           .catch(error => {
             notification.error({
@@ -63,15 +67,16 @@ class InfoAccountTutor extends Component {
           });
       }
     });
+
   };
   render() {
     let { userInfo } = this.props;
     let { tutorInfo } = this.props;
     let { imageInfo } = this.props;
-    //let {imageInfo} = this.state;
+    
     const { getFieldDecorator } = this.props.form;
     let { check } = this.state;
-
+    //let {imageInfo} = this.state;
     return (
       <div className="row giasu-tieubieu">
         <div className="col-lg-4 col-md-4 col-sm-4">

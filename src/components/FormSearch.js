@@ -1,20 +1,52 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from './../actions/index';
 
 class FormSearch extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            txtId: '',
+            selectClass: '',
+            selectSubject: '',
+            selectDistrict: ''
+        }
+    }
+    onChange = (e) => {
+        var target = e.target;
+        var name = target.name;
+        var value = target.value;
+        this.setState({
+            [name] : value
+        })
+    }
+    onSave = (e) => {
+        e.preventDefault();
+        var {txtId, selectClass, selectSubject, selectDistrict} = this.state;
+        let search = {
+            keywordIdClass: txtId, 
+            keywordClass: selectClass,
+            keywordSubject: selectSubject,
+            keywordDistrict: selectDistrict
+        }
+        this.props.onSearch(search);
+    }
     render() {
         return (
             <div className="row">
-                <form className="form-search">
+                <form className="form-search" onSubmit = {this.onSave}>
                     <div className="form-group">
                         <input type="text" 
                             className="form-control form-control-sm" 
                             id="exampleInputEmail1" 
+                            name = 'txtId'
+                            onChange = {this.onChange}
                             placeholder="Nhập mã lớp và tìm kiếm..." />
                     </div>
                     <div className="form-row">
                         <div className="form-group col-md-3">
-                            <select id="lop" className="form-control">
-                                <option value="Chọn lớp">...Chọn lớp...</option>
+                            <select id="lop" name = 'selectClass' onChange = {this.onChange} className="form-control">
+                                <option value="">...Chọn lớp...</option>
                                 <option value="Lớp 1">Lớp 1</option>
                                 <option value="Lớp 2">Lớp 2</option>
                                 <option value="Lớp 3">Lớp 3</option>
@@ -30,8 +62,8 @@ class FormSearch extends Component {
                             </select>
                         </div>
                         <div className="form-group col-md-3">
-                            <select id="mon" className="form-control">
-                                <option value="Chọn môn học">...Chọn môn học...</option>
+                            <select id="mon" className="form-control" name = 'selectSubject' onChange = {this.onChange}>
+                                <option value="">...Chọn môn học...</option>
                                 <option value="Toán">Toán</option>
                                 <option value="Lý">Lý</option>
                                 <option value="Hóa">Hóa</option>
@@ -47,8 +79,8 @@ class FormSearch extends Component {
                             </select>
                         </div>
                         <div className="form-group col-md-3">
-                            <select id="mon" className="form-control">
-                                <option value="Chọn quận">...Chọn quận...</option>
+                            <select id="mon" className="form-control" name = 'selectDistrict' onChange = {this.onChange}>
+                                <option value="">...Chọn quận...</option>
                                 <option value="Quận 1">Quận 1</option>
                                 <option value="Quận 2">Quận 2</option>
                                 <option value="Quận 3">Quận 3</option>
@@ -83,4 +115,12 @@ class FormSearch extends Component {
     }
 }
 
-export default FormSearch;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSearch : (search) => {
+            dispatch(actions.searchClass(search));
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(FormSearch);

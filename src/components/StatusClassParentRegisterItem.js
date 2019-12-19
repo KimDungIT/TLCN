@@ -1,6 +1,11 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { actDeleteClassRequest } from './../actions/index';
 
 class StatusClassParentRegisterItem extends Component {
+  onDelete = (idClass) => {
+    this.props.onDeleteClass(idClass);
+  }
   render() {
     var { parentRegisterClassItem } = this.props;
     let colorStatus = 
@@ -28,7 +33,8 @@ class StatusClassParentRegisterItem extends Component {
           <button
             type="button"
             className="btn btn-danger btn-sm"
-            onClick={() => this.onDelete()}
+            onClick={() => this.onDelete(parentRegisterClassItem.idClass)}
+            disabled = {parentRegisterClassItem.status === "Chờ duyệt" ? false : true}
           >
             Huỷ lớp
           </button>
@@ -37,5 +43,11 @@ class StatusClassParentRegisterItem extends Component {
     );
   }
 }
-
-export default StatusClassParentRegisterItem;
+const mapDispatchToProps = dispatch => {
+  return {
+    onDeleteClass: (idClass) => {
+      dispatch(actDeleteClassRequest(idClass));
+    }
+  }
+}
+export default connect(null, mapDispatchToProps)(StatusClassParentRegisterItem);

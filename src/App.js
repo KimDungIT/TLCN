@@ -25,6 +25,8 @@ import AccountTutorEditPage from './pages/AccountTutorEditPage';
 import StatusClassTutorRegisterPage from './pages/StatusClassTutorRegisterPage';
 import PannelLeftParent from './components/PannelLeftParent';
 import StatusClassParentRegisterPage from './pages/StatusClassParentRegisterPage';
+import HomeParentPage from './pages/HomeParentPage';
+import ClassListSearchPage from './pages/ClassListSearchPage';
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => {
   return <Route {...rest}
@@ -59,10 +61,15 @@ class App extends Component {
                 <Switch>
                   <Route path="/" exact component={HomePage}></Route>
                   <Route path="/class-list" component={ClassListPage}></Route>
+                  <Route path="/classes/:search" component={ClassListPage}></Route>
                   <Route path="/tutor-fee" component={TutorFeePage}></Route>
                   <Route path="/signup" component={SignupPage}></Route>
                   <Route path="/login" component={LoginPage}></Route>
                   <Route path="/make-tutor" component={RegisterToMakeTutorPage}></Route>
+                  <PrivateRoute 
+                    path="/parent"
+                    component={HomeParentPage}
+                    isAuthenticated = {isAuthenticated}/>
                   <PrivateRoute 
                     path="/change-password"
                     component={ChangePasswordPage}
@@ -83,7 +90,7 @@ class App extends Component {
                     isAuthenticated = {isAuthenticated}
                   />
                   <PrivateRoute 
-                    path="/classs/:id/register"
+                    path="/class/:id/register"
                     component={RegisterClassPage}
                     isAuthenticated = {isAuthenticated}
                     />

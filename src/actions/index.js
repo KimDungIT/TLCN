@@ -4,10 +4,107 @@ import { notification } from "antd";
 import setAuthorization from "./../utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
 
-export const actFetchListClassParentRegisterRequest = ()  => {
+//search
+export const searchClass = (search) => {
+  return {
+    type: Types.SEARCH,
+    search
+  }
+}
+//delete class register
+export const actDeleteClassRegisterRequest = idClassRegister => {
   return dispatch => {
     return callApi(
-      'api/classes/listClassesOfUser',
+      `api/classRegister/changeStatus?idClassRegister=${idClassRegister}`,
+      "PATCH",
+      null
+    ).then(res => {
+      if (res.status === 200) {
+        dispatch(actDeleteClassRegister(idClassRegister));
+        notification.success({
+          message: "Success",
+          description: "Delete class register successfully!"
+        });
+      }
+    }).catch(error => {
+      notification.error({
+        message: "Error ",
+        description: error.message
+      });
+    });
+  }
+}
+export const actDeleteClassRegister = idClassRegister => {
+  return {
+    type: Types.DELETE_CLASS_REGISTER,
+    idClassRegister
+  }
+}
+
+//delete class
+export const actDeleteClassRequest = idClass => {
+  return dispatch => {
+    return callApi(
+      `api/classes/changeStatus?idClass=${idClass}`,
+      "PATCH",
+      null
+    ).then(res => {
+      if (res.status === 200) {
+        dispatch(actDeleteClass(idClass));
+        notification.success({
+          message: "Success",
+          description: "Delete class successfully!"
+        });
+      }
+    }).catch(error => {
+      notification.error({
+        message: "Error ",
+        description: error.message
+      });
+    });
+  }
+}
+export const actDeleteClass = idClass => {
+  return {
+    type: Types.DELETE_CLASS,
+    idClass
+  }
+}
+
+//Get list class by class teach
+export const actSearchByClassTeachRequest = searchInput => {
+  return dispatch => {
+    return callApi(
+      `api/classes/class?classTeach=${searchInput}`, 
+      "GET", 
+      null).then(res => {
+        if (res.status === 200) {
+          dispatch(actSearchByClassTeach(res.data));
+          notification.success({
+            message: "Success",
+            description: "Get list class by class teach!"
+          });
+        }
+      }).catch(error => {
+        notification.error({
+          message: "Error ",
+          description: error.message
+        });
+      })
+  }
+}
+export const actSearchByClassTeach = classes => {
+  return {
+    type: Types.SEARCH_BY_CLASS_TEACH,
+    classes
+  };
+}
+
+//get list class parent register
+export const actFetchListClassParentRegisterRequest = (idUser)  => {
+  return dispatch => {
+    return callApi(
+      `api/classes/listClassesOfUser?idUser=${idUser}`,
       "GET",
       null
     )
@@ -35,8 +132,6 @@ export const actFetchListClassParentRegister = classes => {
     classes
   };
 };
-
-
 
 //get list tutor register class by idUser
 export const actFetchListClassTutorRegisterRequest = idUser => {
@@ -95,7 +190,7 @@ export const actChangeImage = (image) =>{
 //send request change information user
 export const actChangeInforTutorRequest = (tutorInfo, idTutor, history) => {
   return dispatch => {
-    return callApi(`api/tutors/changeInfo/${idTutor}`, 'POST', tutorInfo).then(res => 
+    return callApi(`api/tutors/changeInfo/${idTutor}`, "POST", tutorInfo).then(res => 
       {
         if(res.status === 200){
           dispatch(actChangeInforTutor(res.data));
@@ -120,27 +215,6 @@ export const actChangeInforTutor = (tutorInfo) => {
     tutorInfo
   }
 }
-
-// //get name
-// export const actFetchUserNameRequest = idClass => {
-//   return dispatch => {
-//     return callApi(`api/users/getUserByTutor?idClass=${idTutor}`, "GET", null)
-//       .then(res => {
-//         if (res.status === 200) {
-//           notification.success({
-//             message: "Success",
-//             description: "Get username successfully!"
-//           });
-//         }
-//       })
-//       .catch(error => {
-//         notification.error({
-//           message: "Error Get username",
-//           description: error.message
-//         });
-//       });
-//   };
-// };
 
 //tutor register class
 export const actTutorRegisterClassRequest = (classRegisterInfo, idClass) => {
@@ -334,14 +408,15 @@ export const actAddClassRequest = (classes, history) => {
       subject: classes.subjects,
       timeTeach: classes.time,
       address: classes.address,
+      district: classes.district,
       salary: parseFloat(salary),
       serviceFee: 0.25,
       genderRequirement: classes.requireGender,
       levelRequirement: classes.requireLevel
     })
       .then(res => {
-        dispatch(actAddClass(res.data));
-        history.push("/");
+       // dispatch(actAddClass(res.data));
+       // history.push("/");
         if (res.status === 200) {
           notification.success({
             message: "Success",
@@ -358,12 +433,12 @@ export const actAddClassRequest = (classes, history) => {
       });
   };
 };
-export const actAddClass = classes => {
-  return {
-    type: Types.ADD_CLASSES,
-    classes
-  };
-};
+// export const actAddClass = classes => {
+//   return {
+//     type: Types.ADD_CLASSES,
+//     classes
+//   };
+// };
 
 //logout
 export const logout = () => {
@@ -376,10 +451,15 @@ export const logout = () => {
 
 //Get classes by status = "Lớp mới"
 //send request to server
-export const actFetchClassesRequest = () => {
+export const actFetchClassesRequest = (page) => {
   return dispatch => {
-    return callApi("api/classes", "GET", null).then(res => {
+    return callApi(`api/classes?page=${page}`, "GET", null).then(res => {
       dispatch(actFetchClasses(res.data));
+      notification.success({
+        message: "Success",
+        description:
+          "Get classes by status successful!"
+      });
     });
   };
 };

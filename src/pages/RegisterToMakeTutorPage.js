@@ -38,7 +38,6 @@ class RegisterToMakeTutorPage extends Component {
         let formData = new FormData();
         let imagedata = values.file[0];
         formData.append("file", imagedata.originFileObj);
-
         let tutorInfo = {
           gender: values.gender,
           yearOfBirth: values.yearOfBirth,

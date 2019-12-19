@@ -1,16 +1,17 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { actFetchListClassParentRegisterRequest } from "../actions/index";
+
 import StatusClassParentRegisterItem from "./../components/StatusClassParentRegisterItem";
 import StatusClassParentRegisterList from "../components/StatusClassParentRegisterList";
+import { connect } from "react-redux";
+import { actFetchListClassParentRegisterRequest } from "../actions/index";
 
 class StatusClassParentRegisterPage extends Component {
   componentDidMount() {
-    
-    this.props.onFetchListClassParentRegister();
+    let idUser = this.props.auth.user.idUser
+    this.props.onFetchListClassParentRegister(idUser);
   }
   render() {
-    var {classes} = this.props;
+    var {classParent} = this.props;
     return (
       <div className="col-lg-9 col-md-9 col-sm-9">
         <div className="row">
@@ -20,7 +21,7 @@ class StatusClassParentRegisterPage extends Component {
           </div>
         </div>
         <StatusClassParentRegisterList>
-          {this.showStatusClassParentRegister(classes)}
+          {this.showStatusClassParentRegister(classParent)}
         </StatusClassParentRegisterList>
       </div>
     );
@@ -45,19 +46,16 @@ class StatusClassParentRegisterPage extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    classes: state.classes
+    classParent: state.classParent
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchListClassParentRegister: () => {
-      dispatch(actFetchListClassParentRegisterRequest());
+    onFetchListClassParentRegister: (idUser) => {
+      dispatch(actFetchListClassParentRegisterRequest(idUser));
     }
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StatusClassParentRegisterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(StatusClassParentRegisterPage);

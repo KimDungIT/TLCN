@@ -8,62 +8,62 @@ class PanelLeft extends Component {
                 <div id="left">
                     <div className="list-group">
                         <h4 className="widget-title">Lớp cần gia sư</h4>
-                        <Link className="list-group-item" to='/class-list'>
+                        <Link className="list-group-item" to='/classes/Lớp 1'>
                             <i className="fa fa-play" 
                                 style={{ color: '#F28E11' }} />
                                 Lớp 1
                         </Link>
-                        <Link className="list-group-item" to='/class-list'>
+                        <Link className="list-group-item" to='/classes/Lớp 2'>
                             <i className="fa fa-play" 
                                 style={{ color: '#F28E11' }} />
                                 Lớp 2
                         </Link>
-                        <Link className="list-group-item" to='/class-list'>
+                        <Link className="list-group-item" to='/classes/Lớp 3'>
                             <i className="fa fa-play" 
                                 style={{ color: '#F28E11' }} />
                                 Lớp 3
                         </Link>
-                        <Link className="list-group-item" to='/class-list'>
+                        <Link className="list-group-item" to='/classes/Lớp 4'>
                             <i className="fa fa-play" 
                                 style={{ color: '#F28E11' }} />
                                 Lớp 4
                         </Link>
-                        <Link className="list-group-item" to='/class-list'>
+                        <Link className="list-group-item" to='/classes/Lớp 5'>
                             <i className="fa fa-play" 
                                 style={{ color: '#F28E11' }} />
                                 Lớp 5
                         </Link>
-                        <Link className="list-group-item" to='/class-list'>
+                        <Link className="list-group-item" to='/classes/Lớp 6'>
                             <i className="fa fa-play" 
                                 style={{ color: '#F28E11' }} />
                                 Lớp 6
                         </Link>
-                        <Link className="list-group-item" to='/class-list'>
+                        <Link className="list-group-item" to='/classes/Lớp 7'>
                             <i className="fa fa-play" 
                                 style={{ color: '#F28E11' }} />
                                 Lớp 7
                         </Link>
-                        <Link className="list-group-item" to='/class-list'>
+                        <Link className="list-group-item" to='/classes/Lớp 8'>
                             <i className="fa fa-play" 
                                 style={{ color: '#F28E11' }} />
                                 Lớp 8
                         </Link>
-                        <Link className="list-group-item" to='/class-list'>
+                        <Link className="list-group-item" to='/classes/Lớp 9'>
                             <i className="fa fa-play" 
                                 style={{ color: '#F28E11' }} />
                                 Lớp 9
                         </Link>
-                        <Link className="list-group-item" to='/class-list'>
+                        <Link className="list-group-item" to='/classes/Lớp 10'>
                             <i className="fa fa-play" 
                                 style={{ color: '#F28E11' }} />
                                 Lớp 10
                         </Link>
-                        <Link className="list-group-item" to='/class-list'>
+                        <Link className="list-group-item" to='/classes/Lớp 11'>
                             <i className="fa fa-play" 
                                 style={{ color: '#F28E11' }} />
                                 Lớp 11
                         </Link>
-                        <Link className="list-group-item" to='/class-list'>
+                        <Link className="list-group-item" to='/classes/Lớp 12'>
                             <i className="fa fa-play" 
                                 style={{ color: '#F28E11' }} />
                                 Lớp 12

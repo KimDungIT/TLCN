@@ -79,7 +79,7 @@ class MenuMain extends Component {
         );
         const menusPH = (
             <ul className="navbar-nav mr-auto" key="mnPH">
-                <li className='nav-item'><Link className = "nav-link" to="/" ><i className="fa fa-fw fa-home"></i>Trang chủ</Link></li>
+                <li className='nav-item'><Link className = "nav-link" to="/parent" ><i className="fa fa-fw fa-home"></i>Trang chủ</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/find-tutor" >Đăng ký tìm gia sư</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/parent-classes" >Lớp đã đăng</Link></li>
                 <li className='nav-item'><Link className = "nav-link" to="/class-list" >Phụ huynh lưu ý</Link></li>

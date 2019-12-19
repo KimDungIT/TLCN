@@ -25,7 +25,7 @@ class ClassItem extends Component {
                                 <strong>
                                     <i className="ha-red fa fa-map-marker fa-2x" />
                                 </strong>
-                                {classItem.address}
+                                {classItem.address}, {classItem.district}, TP. Hồ Chí Minh
                             </a>
                         </p>
                         <p>
@@ -49,10 +49,10 @@ class ClassItem extends Component {
                                 <span className="ha-red">0902684422 - 0902504900</span>
                             </strong>
                         </p>
-                        <div className="phinhanlop" 
-                            title="Phí nhận lớp 35%">{serviceFee}%
+                        <div className="phinhanlop">
+                            {serviceFee}%
                         </div>
-                        <Link to={`/classs/${classItem.idClass}/register`}
+                        <Link to={`/class/${classItem.idClass}/register`}
                             className="btn btn-success pull-right chitiet" 
                             >
                             <i className="fa fa-pencil-square-o" />
