@@ -29,7 +29,6 @@ public class UsersDto {
     private String address;
 
     @Email(message = "Incorrect format email.")
-
     private String email;
 
     @NotBlank

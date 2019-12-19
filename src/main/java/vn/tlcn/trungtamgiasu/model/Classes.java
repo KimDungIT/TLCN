@@ -12,6 +12,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
@@ -56,12 +57,14 @@ public class Classes implements Serializable {
     private String status;
 
     @CreatedDate
+    @Column(updatable = false, nullable = false)
     private Instant dateCreated;
 
     @LastModifiedDate
     private Instant lastUpdate;
 
     @CreatedBy
+    @Column(updatable = false, nullable = false)
     private String createdBy;
 
     @LastModifiedBy
@@ -71,7 +74,6 @@ public class Classes implements Serializable {
     @JoinColumn(name = "id_parent")
     @JsonIgnore
     private Users users;
-
 
     @OneToMany(mappedBy = "classes")
     @JsonIgnore
