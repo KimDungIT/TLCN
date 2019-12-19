@@ -1,0 +1,17 @@
+.mr-2{
+    margin-right: 2px;
+  }
+  #wrapper{
+    background-color: white;
+  }
+  .err-message{
+    color: red;
+  }
+  .profile{
+    background-color: #ecedee;
+    height: auto;
+    border-radius: .7rem!important;
+    padding: 15px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+  }
