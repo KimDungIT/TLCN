@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import ClassItem from "../components/ClassItem";
 
 import { actFetchClassesRequest } from "./../actions/index";
+import { actSearchRequest } from "./../actions/index";
 import { connect } from "react-redux";
 
 class HomePage extends Component {
@@ -19,17 +20,39 @@ class HomePage extends Component {
   componentDidMount() {
     this.props.fetchAllClasses();
   }
-  componentDidUpdate(){
-    if(this.props.classes.content !== this.state.classList) {
-        this.setState({
-            classList: this.props.classes.content
-        })
+  onSave = search => {
+    let id = 0;
+    if (
+        search.keywordIdClass !== "" ||
+        search.keywordClass !== "" ||
+        search.keywordSubject !== "" ||
+        search.keywordDistrict !== ""
+    ) {
+      if (search.keywordIdClass !== "") {
+        id = parseInt(search.keywordIdClass);
+      }
+      let searchInfo = {
+        idClass: id,
+        classTeach: search.keywordClass,
+        subject: search.keywordSubject,
+        district: search.keywordDistrict
+      };
+      this.props.onSearch(searchInfo);
     }
-}
-  render() {
-    let content = this.state.classList;
+  };
 
+  render() {
+    let { search } = this.props;
+    let content = this.props.classes.content;
     var { isAuthenticated } = this.props.auth;
+    if(search.content) {
+      if( search.content.length > 0) {
+        content = search.content;
+      }
+      else {
+        content = [];
+      }
+  }
     return (
       <div className="col-lg-9 col-md-9 col-sm-9">
         {!isAuthenticated ? <QuickMenu /> : ""}
@@ -39,7 +62,7 @@ class HomePage extends Component {
             Lớp dạy kèm mới
           </div>
         </div>
-        <FormSearch />
+        <FormSearch onSearchClasses={this.onSave}/>
         <ClassList>{this.showClasses(content)}</ClassList>
         <div className="xemthem">
           <Link to="/class-list">
@@ -67,7 +90,8 @@ class HomePage extends Component {
 const mapStateToProps = state => {
   return {
     classes: state.classes,
-    auth: state.auth
+    auth: state.auth,
+    search: state.search
   };
 };
 
@@ -75,6 +99,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchAllClasses: () => {
       dispatch(actFetchClassesRequest());
+    },
+    onSearch: searchInfo => {
+      dispatch(actSearchRequest(searchInfo));
     }
   };
 };

@@ -3,18 +3,17 @@ import FormSearch from '../components/FormSearch';
 import ClassList from '../components/ClassList';
 import ClassItem from '../components/ClassItem';
 
-import { actSearchByClassTeachRequest } from './../actions/index';
+//import { actSearchByClassTeachRequest } from './../actions/index';
 import { connect } from 'react-redux';
 
 class ClassListSearchPage extends Component {
    
     componentDidMount(){
         var { match } = this.props;
-        debugger;
         if (match) {
-            var {search} = match.params;
-            console.log("info: ", search);
-            this.props.onSearchByClassTeach(search);
+            var {value} = match.params;
+            console.log("info: ", value);
+            //this.props.onSearchByClassTeach(search);
         }
     }
     render() {
@@ -62,9 +61,9 @@ const mapDispatchToProps = (dispatch) => {
     debugger;
     return {
         
-        onSearchByClassTeach : (searchInput) => {
-            dispatch(actSearchByClassTeachRequest(searchInput));
-        }
+        // onSearchByClassTeach : (searchInput) => {
+        //     dispatch(actSearchByClassTeachRequest(searchInput));
+        // }
     }
 }
 

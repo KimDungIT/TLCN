@@ -1,24 +1,14 @@
-import * as Types from './../constants/ActionTypes';
+import * as Types from "./../constants/ActionTypes";
 
-var initialState = {
-  keywordIdClass: '',
-  keywordClass: '',
-  keywordSubject: '',
-  keywordDistrict: ''
-}
+var initialState = {};
 
 const search = (state = initialState, action) => {
-      switch (action.type) {
-        case Types.SEARCH:
-          return {
-            keywordIdClass: action.search.keywordIdClass,
-            keywordClass: action.search.keywordClass,
-            keywordSubject: action.search.keywordSubject,
-            keywordDistrict: action.search.keywordDistrict
-          };
-        default:
-          return state;
-      }
-    };
-    
-    export default search;
+  switch (action.type) {
+    case Types.SEARCH:
+      state = action.classes.result;
+      return { ...state };
+    default:
+      return state;
+  }
+};
+export default search;

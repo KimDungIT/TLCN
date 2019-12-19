@@ -4,19 +4,12 @@ import { notification } from "antd";
 import setAuthorization from "./../utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
 
-//search
-export const searchClass = (search) => {
-  return {
-    type: Types.SEARCH,
-    search
-  }
-}
 //delete class register
 export const actDeleteClassRegisterRequest = idClassRegister => {
   return dispatch => {
     return callApi(
       `api/classRegister/changeStatus?idClassRegister=${idClassRegister}`,
-      "PATCH",
+      "DELETE",
       null
     ).then(res => {
       if (res.status === 200) {
@@ -46,7 +39,7 @@ export const actDeleteClassRequest = idClass => {
   return dispatch => {
     return callApi(
       `api/classes/changeStatus?idClass=${idClass}`,
-      "PATCH",
+      "DELETE",
       null
     ).then(res => {
       if (res.status === 200) {
@@ -71,19 +64,13 @@ export const actDeleteClass = idClass => {
   }
 }
 
-//Get list class by class teach
-export const actSearchByClassTeachRequest = searchInput => {
+//search dynamic classes
+export const actSearchRequest = (searchInput, page) => {
   return dispatch => {
     return callApi(
-      `api/classes/class?classTeach=${searchInput}`, 
-      "GET", 
-      null).then(res => {
+      `api/classes/spec?page=${page}`, "POST", searchInput).then(res => {
         if (res.status === 200) {
-          dispatch(actSearchByClassTeach(res.data));
-          notification.success({
-            message: "Success",
-            description: "Get list class by class teach!"
-          });
+          dispatch(actSearch(res.data));
         }
       }).catch(error => {
         notification.error({
@@ -93,9 +80,9 @@ export const actSearchByClassTeachRequest = searchInput => {
       })
   }
 }
-export const actSearchByClassTeach = classes => {
+export const actSearch = classes => {
   return {
-    type: Types.SEARCH_BY_CLASS_TEACH,
+    type: Types.SEARCH,
     classes
   };
 }
@@ -381,7 +368,6 @@ export const actUploadImageRequest = fileImage => {
 export const actAddTutorRequest = (tutor, idUser, history) => {
   return callApi(`api/tutors/create/?idUser=${idUser}`, "POST", tutor)
     .then(res => {
-      console.log("Status: ", res.data);
       if (res.status === 200) {
         history.push("/login");
         notification.success({
@@ -455,11 +441,11 @@ export const actFetchClassesRequest = (page) => {
   return dispatch => {
     return callApi(`api/classes?page=${page}`, "GET", null).then(res => {
       dispatch(actFetchClasses(res.data));
-      notification.success({
-        message: "Success",
-        description:
-          "Get classes by status successful!"
-      });
+      // notification.success({
+      //   message: "Success",
+      //   description:
+      //     "Get classes by status successful!"
+      // });
     });
   };
 };
@@ -481,7 +467,6 @@ export const actLoginRequest = (user, history) => {
       "POST"
     ).then(res => {
         let typeAccount = user.radioTypeAccount;
-        console.log("type acc: ", typeAccount);
         if (res.data.role === `[${typeAccount}]`) {
           const token = res.data.access_token;
           localStorage.setItem("token", token);

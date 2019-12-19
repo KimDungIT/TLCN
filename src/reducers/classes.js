@@ -1,6 +1,5 @@
 import * as Types from './../constants/ActionTypes';
-var initialState = {
-};
+var initialState = {};
 
 const classes = (state = initialState, action) => {
     switch(action.type){
@@ -10,10 +9,6 @@ const classes = (state = initialState, action) => {
         //case Types.ADD_CLASSES:
            // state.push(action.classes.result);
            // return {...state};
-        case Types.SEARCH_BY_CLASS_TEACH:
-            state = action.classes.result;
-            return {...state};
-
         default: return state;
     }
 };

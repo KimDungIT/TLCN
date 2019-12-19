@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import * as actions from './../actions/index';
 
 class FormSearch extends Component {
     constructor(props){
@@ -29,7 +27,8 @@ class FormSearch extends Component {
             keywordSubject: selectSubject,
             keywordDistrict: selectDistrict
         }
-        this.props.onSearch(search);
+        this.props.onSearchClasses(search);
+        // this.props.onSearchHome(search);
     }
     render() {
         return (
@@ -115,12 +114,4 @@ class FormSearch extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onSearch : (search) => {
-            dispatch(actions.searchClass(search));
-        }
-    }
-}
-
-export default connect(null, mapDispatchToProps)(FormSearch);
+export default FormSearch;

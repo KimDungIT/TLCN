@@ -61,7 +61,7 @@ class App extends Component {
                 <Switch>
                   <Route path="/" exact component={HomePage}></Route>
                   <Route path="/class-list" component={ClassListPage}></Route>
-                  <Route path="/classes/:search" component={ClassListPage}></Route>
+                  <Route path="/classes/:value" component={ClassListPage}></Route>
                   <Route path="/tutor-fee" component={TutorFeePage}></Route>
                   <Route path="/signup" component={SignupPage}></Route>
                   <Route path="/login" component={LoginPage}></Route>
