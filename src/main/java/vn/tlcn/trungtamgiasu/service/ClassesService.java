@@ -18,10 +18,7 @@ import vn.tlcn.trungtamgiasu.dto.SearchDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.ClassesMapper;
 import vn.tlcn.trungtamgiasu.exception.ClassesNotFoundException;
 import vn.tlcn.trungtamgiasu.exception.NotChangeStatusClass;
-import vn.tlcn.trungtamgiasu.model.Classes;
-import vn.tlcn.trungtamgiasu.model.SearchCriteria;
-import vn.tlcn.trungtamgiasu.model.SearchOperation;
-import vn.tlcn.trungtamgiasu.model.Tutors;
+import vn.tlcn.trungtamgiasu.model.*;
 import vn.tlcn.trungtamgiasu.repository.ClassRegisterRepository;
 import vn.tlcn.trungtamgiasu.repository.ClassesRepository;
 import vn.tlcn.trungtamgiasu.specification.ClassesSpecification;
@@ -161,5 +158,35 @@ public class ClassesService {
         return results;
     }
 
+    // admin
+    public Classes createClass(ClassesDto classesDto, String parentPhoneNumber)
+    {
+        logger.info("Create class service");
 
+        Users parent = usersService.getByPhone(parentPhoneNumber);
+        Classes classes = saveClass(classesMapper.toClasses(classesDto));
+
+        //set user
+        classes.setUsers(usersService.getById(parent.getIdUser()));
+        classes = saveClass(classes);
+        return classes;
+    }
+
+    public List<Classes> getListClassesByStatus(String status){
+        logger.info("Get list classes by status");
+
+        return classesRepository.findAllByStatus(status);
+    }
+
+    public List<Classes> getAllClass(){
+        return classesRepository.findAll();
+    }
+
+    public void deleteClass(int id){
+        classesRepository.deleteById(id);
+    }
+
+    public Users getParent(Classes classes){
+        return classes.getUsers();
+    }
 }

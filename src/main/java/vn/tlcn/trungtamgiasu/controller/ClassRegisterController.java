@@ -64,4 +64,13 @@ public class ClassRegisterController {
                 "Change status class register successfully",
                 classRegisterService.changeStatusClassRegister("Đã huỷ", idClassRegister));
     }
+    @GetMapping()
+    public ApiResponse getAllListClassRegester(){
+        logger.info("Get all list class register");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get all list class register",
+                classRegisterService.getAllListClassRegister()
+        );
+    }
 }

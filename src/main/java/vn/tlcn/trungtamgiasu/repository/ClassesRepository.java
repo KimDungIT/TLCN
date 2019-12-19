@@ -19,7 +19,7 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer>, JpaS
 
     List<Classes> findTop6By();
 
-    //List<Classes> findAllByStatus(String status);
+    List<Classes> findAllByStatus(String status);
     Page<Classes> findAllByStatus(String status, Pageable pageable);
 
     Optional<Classes> findByIdClass(int idClass);

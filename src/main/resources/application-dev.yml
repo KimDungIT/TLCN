@@ -14,7 +14,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost/db_giasu
     username: root
-    password: dungkim
+    password: root
   jpa:
     properties:
       hibernate:
@@ -27,7 +27,7 @@ spring:
     url: jdbc:mysql://localhost:3306/mysql
     schemas: db_giasu
     user: root
-    password: dungkim
+    password: root
     baseline-on-migrate: true
     check-location: true
 

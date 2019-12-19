@@ -121,4 +121,8 @@ public class ClassRegisterService {
         }
         return classRegister;
     }
+
+    public List<ClassRegister> getAllListClassRegister(){
+        return classRegisterRepository.findAll();
+    }
 }

@@ -12,10 +12,10 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 import vn.tlcn.trungtamgiasu.dto.ApiResponse;
 import vn.tlcn.trungtamgiasu.dto.Classes.ClassesDto;
-import vn.tlcn.trungtamgiasu.dto.PageDto;
 import vn.tlcn.trungtamgiasu.dto.SearchDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.ClassesMapper;
 import vn.tlcn.trungtamgiasu.model.Classes;
+import vn.tlcn.trungtamgiasu.model.Users;
 import vn.tlcn.trungtamgiasu.service.ClassesService;
 
 @RestController
@@ -126,5 +126,81 @@ public class ClassesController {
         return new ApiResponse(HttpStatus.OK,
                 "Search class successfully",
                 classesService.searchClass(searchDto));
+    }
+
+    @GetMapping(value = "/all")
+    public ApiResponse getAllClasses(){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get all classes",
+                classesService.getAllClass()
+        );
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAnyAuthority('[ADMIN]')")
+    public ApiResponse deleteClass(@PathVariable(value = "id")int id){
+        classesService.deleteClass(id);
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Delete class"
+        );
+    }
+
+    @PostMapping("")
+    @PreAuthorize("hasAnyAuthority('[ADMIN]')")
+    public ApiResponse createClass(@RequestBody ClassesDto classesDto,String parentPhoneNumber)
+    {
+        logger.info("Create class controller");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Create class successfully",
+                classesService.createClass(classesDto, parentPhoneNumber)
+        );
+    }
+
+    @PatchMapping("")
+    @PreAuthorize("hasAnyAuthority('[ADMIN]')")
+    public ApiResponse updateClass(@RequestBody ClassesDto classesDto)
+    {
+        Classes classes = classesService.getClassById(classesDto.getIdClass());
+        Users parent = classesService.getParent(classes);
+
+        if(classes != null){
+            classes = classesMapper.toClasses(classesDto);
+            classes.setUsers(parent);
+            return new ApiResponse(
+                    HttpStatus.OK,
+                    "Update class successfully",
+                    classesService.saveClass(classes)
+            );
+        }
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Update class fail"
+        );
+    }
+    @GetMapping("{id}/parent")
+    public ApiResponse getParent(@PathVariable(value = "id")int id){
+        Classes classes = classesService.getClassById(id);
+        if(classes != null){
+            return  new ApiResponse(
+                    HttpStatus.OK,
+                    "Get parent",
+                    classesService.getParent(classes)
+            );
+        }
+        return new ApiResponse(
+                HttpStatus.OK,
+                "fail"
+        );
+    }
+    @GetMapping("/pending")
+    public ApiResponse getNewClassesPending(){
+        logger.info("Get new classes pending");
+        return  new ApiResponse(
+                HttpStatus.OK,
+                "Get new classes pending successfully",
+                classesService.getListClassesByStatus("Chờ duyệt"));
     }
 }
