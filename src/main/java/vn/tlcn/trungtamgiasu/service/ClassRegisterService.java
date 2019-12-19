@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import vn.tlcn.trungtamgiasu.dto.ClassRegister.ClassRegisterDto;
 import vn.tlcn.trungtamgiasu.dto.TutorRegisterDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.ClassRegisterMapper;
+import vn.tlcn.trungtamgiasu.exception.ClassRegisterNotFoundException;
+import vn.tlcn.trungtamgiasu.exception.NotChangeStatusClass;
 import vn.tlcn.trungtamgiasu.exception.TutorNotRegisterClassException;
 import vn.tlcn.trungtamgiasu.model.ClassRegister;
 import vn.tlcn.trungtamgiasu.model.Tutors;
@@ -47,6 +49,10 @@ public class ClassRegisterService {
         return classRegisterRepository.save(classRegister);
     }
 
+    public ClassRegister getById(int id) {
+        logger.info("Get by id: "+ id);
+        return classRegisterRepository.findById(id).orElseThrow(()-> new  ClassRegisterNotFoundException("Can not found class register"));
+    }
 
     public ClassRegister createClassRegister(ClassRegisterDto classRegisterDto, int idClass, OAuth2Authentication auth)
     {
@@ -99,10 +105,20 @@ public class ClassRegisterService {
         //return json;
     }
 
-    public List<ClassRegister> getListTutorRegisterClass(int idUser)
-    {
+    public List<ClassRegister> getListTutorRegisterClass(int idUser) {
         logger.info("Get list tutor register class");
         Tutors tutors = tutorsService.getTutorByIdUser(idUser);
-        return classRegisterRepository.findAllByTutors(tutors);
+        return classRegisterRepository.getAllByTutors(tutors.getIdTutor());
+    }
+
+    public ClassRegister changeStatusClassRegister(String status, int id) {
+        logger.info("Change status class register: " + id);
+        ClassRegister classRegister = getById(id);
+        if(classRegister.getStatus().equals("Xem xét")) {
+            classRegisterRepository.changeStatusClassRegister(status, id);
+        } else {
+            throw new NotChangeStatusClass("Can not change status class register");
+        }
+        return classRegister;
     }
 }

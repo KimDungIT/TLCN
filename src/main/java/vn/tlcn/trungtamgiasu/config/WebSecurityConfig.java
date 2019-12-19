@@ -78,6 +78,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/api/classes/listClassesOfUser")
                 .hasAuthority("[ADMIN],[PHUHUYNH]");
+        http.authorizeRequests()
+                .antMatchers("/api/classes/changeStatus")
+                .hasAuthority("[ADMIN],[PHUHUYNH]");
+        http.authorizeRequests()
+                .antMatchers("/api/classRegister/changeStatus")
+                .hasAuthority("[ADMIN],[GIASU]");
 
 //
 //        http.antMatcher("/**")

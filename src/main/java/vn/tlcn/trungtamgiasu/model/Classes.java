@@ -43,6 +43,9 @@ public class Classes implements Serializable {
     private String address;
 
     @Column(nullable = false)
+    private String district;
+
+    @Column(nullable = false)
     private double salary;
 
     @Column(nullable = false)
@@ -71,7 +74,6 @@ public class Classes implements Serializable {
     @JoinColumn(name = "id_parent")
     @JsonIgnore
     private Users users;
-
 
     @OneToMany(mappedBy = "classes")
     @JsonIgnore

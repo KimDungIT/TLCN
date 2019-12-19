@@ -54,4 +54,14 @@ public class ClassRegisterController {
                 "Get list class register successfully",
                 classRegisterService.getListTutorRegisterClass(idUser));
     }
+
+    @PatchMapping(value = "/changeStatus")
+    @PreAuthorize(("hasAnyAuthority('[ADMIN]', '[GIASU]')"))
+    public ApiResponse changeStatusClassRegister(@RequestParam("idClassRegister") int idClassRegister) {
+        logger.info("Change status class register");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Change status class register successfully",
+                classRegisterService.changeStatusClassRegister("Đã huỷ", idClassRegister));
+    }
 }
