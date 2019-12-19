@@ -28,7 +28,7 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer>, JpaS
     @Query(value = "select * from classes c where c.class_teach like ?1 or c.district like ?2", nativeQuery = true)
     List<Classes> getListClassesTutorCanTeach(String classTeach, String address);
 
-    @Query(value = "select * from classes where id_parent = ?1 and status !='Đã huỷ'", nativeQuery = true)
+    @Query(value = "select * from classes where id_parent = ?1", nativeQuery = true)
     List<Classes> getListClassByUser(int idUser);
 
     List<Classes> findAllByClassTeachEquals(String classTeach);
@@ -36,8 +36,6 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer>, JpaS
     List<Classes> findAllBySubjectEquals(String subject);
 
     List<Classes> findAllByDistrictEquals(String district);
-
-    List<Classes> findAllByIdClassAndClassTeachAndSubject(int id, String classTeach, String subject);
 
     @Modifying
     @Transactional

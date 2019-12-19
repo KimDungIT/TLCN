@@ -1,7 +1,6 @@
 package vn.tlcn.trungtamgiasu.specification;
 
 import org.springframework.data.jpa.domain.Specification;
-import vn.tlcn.trungtamgiasu.dto.SearchDto;
 import vn.tlcn.trungtamgiasu.model.Classes;
 import vn.tlcn.trungtamgiasu.model.SearchCriteria;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -16,23 +15,55 @@ public class ClassesSpecification implements Specification<Classes> {
         this.criteria = criteria;
     }
 
-    public static Specification<SearchDto> withId(int id) {
+    public static Specification withId(int id, String status) {
         if (id == 0) {
             return null;
         } else {
             // Specification using Java 8 lambdas
-            return (root, query, cb) -> cb.equal(root.get("idClass"), id);
+            return (root, query, cb) -> cb.and(
+                    cb.equal(root.get("status"), status),
+                    cb.equal(root.get("idClass"), id)
+            );
         }
     }
-    public static Specification<SearchDto> withClass(String classTeach) {
-        if (classTeach == null) {
+    public static Specification withClass(String classTeach, String status) {
+        if (classTeach == "") {
             return null;
         } else {
             // Specification using Java 8 lambdas
-            return (root, query, cb) -> cb.equal(root.get("classTeach"), classTeach);
+            //return (root, query, cb) ->(cb.like(root.get("classTeach"), classTeach));
+            return (root, query, cb) -> cb.and(
+                    cb.equal(root.get("status"), status),
+                    cb.like(root.get("classTeach"), classTeach)
+            );
         }
     }
 
+    public static Specification withSubject(String subject, String status) {
+        if (subject == "") {
+            return null;
+        } else {
+            // Specification using Java 8 lambdas
+           // return (root, query, cb) -> cb.equal(root.get("subject"), subject);
+            return (root, query, cb) -> cb.and(
+                        cb.equal(root.get("status"), status),
+                        cb.like(root.get("subject"), "%"+subject+"%")
+            );
+        }
+    }
+
+    public static Specification withDistrict(String district, String status) {
+        if (district == "") {
+            return null;
+        } else {
+            // Specification using Java 8 lambdas
+            //return (root, query, cb) -> cb.equal(root.get("district"), district);
+            return (root, query, cb) -> cb.and(
+                    cb.equal(root.get("status"), status),
+                    cb.equal(root.get("district"), district)
+            );
+        }
+    }
 
     @Override
     public Predicate toPredicate(Root<Classes> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {

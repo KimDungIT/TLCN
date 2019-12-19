@@ -1,12 +1,10 @@
 package vn.tlcn.trungtamgiasu.service;
 
-import com.google.common.base.Joiner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -19,20 +17,14 @@ import vn.tlcn.trungtamgiasu.dto.mapper.ClassesMapper;
 import vn.tlcn.trungtamgiasu.exception.ClassesNotFoundException;
 import vn.tlcn.trungtamgiasu.exception.NotChangeStatusClass;
 import vn.tlcn.trungtamgiasu.model.Classes;
-import vn.tlcn.trungtamgiasu.model.SearchCriteria;
-import vn.tlcn.trungtamgiasu.model.SearchOperation;
 import vn.tlcn.trungtamgiasu.model.Tutors;
 import vn.tlcn.trungtamgiasu.repository.ClassRegisterRepository;
 import vn.tlcn.trungtamgiasu.repository.ClassesRepository;
 import vn.tlcn.trungtamgiasu.specification.ClassesSpecification;
-import vn.tlcn.trungtamgiasu.specification.ClassesSpecificationBuilder;
-
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class ClassesService {
@@ -60,10 +52,10 @@ public class ClassesService {
     @Autowired
     TokenStore tokenStore;
 
-    public List<Classes> getTopSixClasses(){
-        logger.info("Get top six classes");
-        return classesRepository.findTop6By();
-    }
+//    public List<Classes> getTopSixClasses(){
+//        logger.info("Get top six classes");
+//        return classesRepository.findTop6By();
+//    }
 
     public Classes saveClass(Classes classes) {
         logger.info("Save class");
@@ -80,7 +72,6 @@ public class ClassesService {
         //set status
         classesDto.setStatus("Chờ duyệt");
         Classes classes = saveClass(classesMapper.toClasses(classesDto));
-
         //set user
         classes.setUsers(usersService.getById(idUser));
         classes = saveClass(classes);
@@ -140,24 +131,24 @@ public class ClassesService {
         logger.info("Cancel class register: " + idClass);
         Classes classes = getClassById(idClass);
         if(classes.getStatus().equals("Chờ duyệt")) {
-            classesRepository.changeStatus(status, idClass);
+            classesRepository.delete(classes);
+           // classesRepository.changeStatus(status, idClass);
         }
         else {
             throw new NotChangeStatusClass("Can not change status class");
         }
-        return getClassById(idClass);
+        return classes;
     }
 
-    public List<Classes> searchClass(SearchDto searchDto) {
+    public Page<Classes> searchClass(SearchDto searchDto, Pageable pageable) {
         logger.info("Search class");
+        int id = 0;
+       Page<Classes> results = classesRepository.findAll(Specification.
+                                where(ClassesSpecification.withId(searchDto.getIdClass(), "Lớp mới"))
+                                .and(ClassesSpecification.withClass(searchDto.getClassTeach(), "Lớp mới"))
+                                .and(ClassesSpecification.withSubject(searchDto.getSubject(), "Lớp mới"))
+                                .and(ClassesSpecification.withDistrict(searchDto.getDistrict(), "Lớp mới")), pageable);
 
-        ClassesSpecification  specIdClass = new ClassesSpecification(new SearchCriteria("idClass", SearchOperation.EQUALITY,searchDto.getIdClass() ));
-        ClassesSpecification specClassTeach = new ClassesSpecification(new SearchCriteria("classTeach", SearchOperation.EQUALITY, searchDto.getClassTeach()));
-        ClassesSpecification specSubject = new ClassesSpecification(new SearchCriteria("subject", SearchOperation.EQUALITY,searchDto.getSubject() ));
-        ClassesSpecification specDistrict = new ClassesSpecification(new SearchCriteria("district", SearchOperation.EQUALITY, searchDto.getDistrict()));
-
-        List<Classes> results = classesRepository.findAll(Specification.where(specIdClass).and(specClassTeach));
-       // List<Classes> results = classesRepository.findAll( Specification.where(ClassesSpecification.withId(searchDto.getIdClass())));
         return results;
     }
 

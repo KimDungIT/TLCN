@@ -9,7 +9,6 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 import vn.tlcn.trungtamgiasu.dto.ClassRegister.ClassRegisterDto;
-import vn.tlcn.trungtamgiasu.dto.TutorRegisterDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.ClassRegisterMapper;
 import vn.tlcn.trungtamgiasu.exception.ClassRegisterNotFoundException;
 import vn.tlcn.trungtamgiasu.exception.NotChangeStatusClass;
@@ -68,7 +67,7 @@ public class ClassRegisterService {
         if(classRegisters.size() > 0)
         {
             for (ClassRegister item: classRegisters) {
-                if (item.getTutors().getIdTutor() == tutors.getIdTutor())
+                if (item.getTutors().getIdTutor() == tutors.getIdTutor() && item.getStatus() !="Đã huỷ")
                 {
                     throw new TutorNotRegisterClassException("Tutor is already registered. Can not register class " + idClass);
                 }
@@ -92,17 +91,7 @@ public class ClassRegisterService {
     public List<ClassRegister> getListTutorRegister(int idClass)
     {
         logger.info("Get list tutor register");
-        //List<String> foo = new ArrayList<>();
-        //foo =  classRegisterRepository.getAllInfo(idClass);
-        //String json = new Gson().toJson(foo );
-       return classRegisterRepository.findAllByClasses(classesService.getClassById(idClass));
-//        List<String> result = classRegisterRepository.getAllInfo(idClass);
-//        JSONObject entity = new JSONObject();
-//        for (String item: result) {
-//            obj.addProperty("");
-//        }
-        //return classRegisterRepository.getAllInfo(idClass);
-        //return json;
+       return classRegisterRepository.getAllByClasses(idClass);
     }
 
     public List<ClassRegister> getListTutorRegisterClass(int idUser) {
@@ -111,11 +100,12 @@ public class ClassRegisterService {
         return classRegisterRepository.getAllByTutors(tutors.getIdTutor());
     }
 
-    public ClassRegister changeStatusClassRegister(String status, int id) {
+    public ClassRegister changeStatusClassRegister(int id) {
         logger.info("Change status class register: " + id);
         ClassRegister classRegister = getById(id);
         if(classRegister.getStatus().equals("Xem xét")) {
-            classRegisterRepository.changeStatusClassRegister(status, id);
+            classRegisterRepository.delete(classRegister);
+           // classRegisterRepository.changeStatusClassRegister(status, id);
         } else {
             throw new NotChangeStatusClass("Can not change status class register");
         }

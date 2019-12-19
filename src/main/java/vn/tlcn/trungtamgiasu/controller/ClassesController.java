@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 import vn.tlcn.trungtamgiasu.dto.ApiResponse;
 import vn.tlcn.trungtamgiasu.dto.Classes.ClassesDto;
-import vn.tlcn.trungtamgiasu.dto.PageDto;
 import vn.tlcn.trungtamgiasu.dto.SearchDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.ClassesMapper;
 import vn.tlcn.trungtamgiasu.model.Classes;
@@ -30,14 +29,14 @@ public class ClassesController {
     @Autowired
     private ClassesMapper classesMapper;
 
-    @GetMapping(value = "/topSix")
-    public ApiResponse getTopSixClasses() {
-        logger.info("Get top six classes");
-        return new ApiResponse(
-                HttpStatus.OK,
-                "Get top six classes successfully",
-                classesMapper.toClassesDtoList(classesService.getTopSixClasses()));
-    }
+//    @GetMapping(value = "/topSix")
+//    public ApiResponse getTopSixClasses() {
+//        logger.info("Get top six classes");
+//        return new ApiResponse(
+//                HttpStatus.OK,
+//                "Get top six classes successfully",
+//                classesMapper.toClassesDtoList(classesService.getTopSixClasses()));
+//    }
 
     @PostMapping(value = "/createClass")
     @PreAuthorize("hasAnyAuthority('[ADMIN]', '[PHUHUYNH]')")
@@ -111,7 +110,7 @@ public class ClassesController {
                 classesService.getListClassByDistrict(district));
     }
 
-    @PatchMapping(value = "/changeStatus")
+    @DeleteMapping(value = "/changeStatus")
     @PreAuthorize("hasAnyAuthority('[ADMIN]', '[PHUHUYNH]')")
     public ApiResponse changeStatusClass(@RequestParam("idClass") int idClass) {
         logger.info("Change status class");
@@ -120,11 +119,12 @@ public class ClassesController {
                 classesService.cancelClassRegister("Đã huỷ", idClass));
     }
 
-    @GetMapping(value = "/spec")
-    public ApiResponse searchClass(@RequestBody SearchDto searchDto) {
+    @PostMapping(value = "/spec")
+    public ApiResponse searchClass(@RequestBody SearchDto searchDto, @PageableDefault(size = 9) Pageable pageable) {
         logger.info("Search class");
+        Page<Classes> page = classesService.searchClass(searchDto, pageable);
         return new ApiResponse(HttpStatus.OK,
                 "Search class successfully",
-                classesService.searchClass(searchDto));
+                page);
     }
 }
