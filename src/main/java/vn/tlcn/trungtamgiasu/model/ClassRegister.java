@@ -12,6 +12,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 
@@ -22,7 +23,7 @@ import java.util.Date;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "class_register", schema = "db_giasu")
-public class ClassRegister{
+public class ClassRegister  implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idClassRegister;
@@ -61,8 +62,7 @@ public class ClassRegister{
     @LastModifiedBy
     private String updatedBy;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_invoice")
-    @JsonIgnore
+    @OneToOne(mappedBy = "classRegister")
     private Invoice invoice;
+
 }

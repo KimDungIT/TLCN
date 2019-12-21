@@ -1,10 +1,4 @@
-create table invoice
-(
-    id_invoice  int auto_increment
-        primary key,
-    service_fee double   not null,
-    time        datetime null
-);
+
 
 create table roles
 (
@@ -89,10 +83,7 @@ create table class_register
     status            varchar(255) not null,
     updated_by        varchar(255) null,
     id_class          int          null,
-    id_invoice        int          null,
     id_tutor          int          null,
-    constraint FKgn7jxkh1nc2xeypoejo1k3ndj
-        foreign key (id_invoice) references invoice (id_invoice),
     constraint FKgp8tsn0l67gwymuhy7ar1kuuo
         foreign key (id_tutor) references tutors (id_tutor),
     constraint FKh7drcvwirsy9err3nmth4116w
@@ -108,4 +99,12 @@ create table user_role
         foreign key (id_role) references roles (id_role),
     constraint FKr53t650tbjk5yipcm228wf1nc
         foreign key (id_user) references users (id_user)
+);
+
+create table invoice
+(
+    id_invoice  int auto_increment primary key,
+    service_fee double   not null,
+    time        datetime null,
+    id_class_register int
 );

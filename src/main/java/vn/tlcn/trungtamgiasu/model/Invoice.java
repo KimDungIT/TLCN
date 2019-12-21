@@ -1,14 +1,13 @@
 package vn.tlcn.trungtamgiasu.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -18,7 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "invoice", schema = "db_giasu")
-public class Invoice implements Serializable {
+public class Invoice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,18 +28,8 @@ public class Invoice implements Serializable {
     @CreatedDate
     private Date time;
 
-    @OneToOne(mappedBy = "invoice", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_class_register")
+    @JsonIgnore
     private ClassRegister classRegister;
-
-//    @ManyToOne
-//    @JoinColumn(name = "id_class", nullable = false)
-//    @JsonIgnore
-//    private Classes classes;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "id_tutor", nullable = false)
-//    @JsonIgnore
-//    private Tutors tutors;
-    
 }

@@ -189,5 +189,13 @@ public class UsersService implements UserDetailsService {
         return users;
     }
 
+    public Users createParent(UsersDto usersDto){
+        usersDto.setPassword(passwordEncoderUser().encode(usersDto.getPassword()));
+        Users users = usersMapper.toUsers(usersDto);
+        Roles roles = rolesService.getRoleByRoleName("PHUHUYNH");
+        users.getRoles().add(roles);
+
+        return usersRepository.save(users);
+    }
 
 }

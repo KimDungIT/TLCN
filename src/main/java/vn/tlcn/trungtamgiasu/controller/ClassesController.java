@@ -43,6 +43,7 @@ public class ClassesController {
     @PreAuthorize("hasAnyAuthority('[ADMIN]', '[PHUHUYNH]')")
     public ApiResponse createClass(@RequestBody ClassesDto classesDto, OAuth2Authentication auth) {
         logger.info("Create class controller");
+
         return new ApiResponse(
                 HttpStatus.OK,
                 "Create class successfully",

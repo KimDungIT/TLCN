@@ -13,4 +13,5 @@ public interface TutorsRepository extends JpaRepository<Tutors, Integer> {
    List<Tutors> findAll();
    Optional<Tutors> findByUsers(Users users);
    Optional<Tutors> findByIdTutor(int idTutor);
+
 }

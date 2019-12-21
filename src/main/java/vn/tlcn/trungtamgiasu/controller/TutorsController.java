@@ -89,4 +89,13 @@ public class TutorsController {
                 tutorsService.changeImage(file, auth));
     }
 
+    @GetMapping(value = "/getTutor/getUser")
+    public ApiResponse getUserByIdTutor(@RequestParam("idTutor")int idTutor){
+        logger.info("get User By IdTutor");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "get User By IdTutor",
+                tutorsService.getUserByTutor(idTutor)
+        );
+    }
 }

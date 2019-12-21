@@ -73,4 +73,13 @@ public class ClassRegisterController {
                 classRegisterService.getAllListClassRegister()
         );
     }
+
+    @GetMapping(value = "/{idClassRegister}")
+    public ApiResponse getClassRegisterById(@PathVariable(value = "idClassRegister") int idClassRegister){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get class register by ID",
+                classRegisterService.getClassRegisterById(idClassRegister)
+        );
+    }
 }
