@@ -61,8 +61,6 @@ public class ClassRegister{
     @LastModifiedBy
     private String updatedBy;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_invoice")
-    @JsonIgnore
+    @OneToOne(mappedBy = "classRegister")
     private Invoice invoice;
 }

@@ -26,8 +26,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
-//                .cors()
-//                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -83,6 +81,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasAuthority("[ADMIN],[PHUHUYNH]");
         http.authorizeRequests()
                 .antMatchers("/api/classRegister/changeStatus")
+                .hasAuthority("[ADMIN],[GIASU]");
+        http.authorizeRequests()
+                .antMatchers("/api/classes/relate")
                 .hasAuthority("[ADMIN],[GIASU]");
 
 //

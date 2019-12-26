@@ -17,7 +17,7 @@ import java.util.Optional;
 @Repository
 public interface ClassesRepository extends JpaRepository<Classes, Integer>, JpaSpecificationExecutor<Classes> {
 
-    List<Classes> findTop6By();
+    List<Classes> findTop6ByStatus(String status);
 
     //List<Classes> findAllByStatus(String status);
     Page<Classes> findAllByStatus(String status, Pageable pageable);
@@ -31,11 +31,18 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer>, JpaS
     @Query(value = "select * from classes where id_parent = ?1", nativeQuery = true)
     List<Classes> getListClassByUser(int idUser);
 
-    List<Classes> findAllByClassTeachEquals(String classTeach);
+    Page<Classes> findAllByClassTeach(String classTeach, Pageable pageable);
+    List<Classes> findAllByClassTeachAndDistrict(String classTeach, String district);
 
-    List<Classes> findAllBySubjectEquals(String subject);
+    List<Classes> findAllBySubject(String subject);
 
     List<Classes> findAllByDistrictEquals(String district);
+
+    @Query(value = "select * from classes where class_teach = ?1 limit 3", nativeQuery = true)
+    List<Classes> getListClassRelate(String classTeach);
+
+    @Query(value = "select * from classes order by salary desc limit 6", nativeQuery = true)
+    List<Classes> getListClassesTop();
 
     @Modifying
     @Transactional

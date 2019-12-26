@@ -3,6 +3,7 @@ package vn.tlcn.trungtamgiasu.specification;
 import org.springframework.data.jpa.domain.Specification;
 import vn.tlcn.trungtamgiasu.model.Classes;
 import vn.tlcn.trungtamgiasu.model.SearchCriteria;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -15,17 +16,17 @@ public class ClassesSpecification implements Specification<Classes> {
         this.criteria = criteria;
     }
 
-    public static Specification withId(int id, String status) {
-        if (id == 0) {
-            return null;
-        } else {
-            // Specification using Java 8 lambdas
-            return (root, query, cb) -> cb.and(
-                    cb.equal(root.get("status"), status),
-                    cb.equal(root.get("idClass"), id)
-            );
-        }
-    }
+//    public static Specification withId(int id, String status) {
+//        if (id == 0) {
+//            return null;
+//        } else {
+//            // Specification using Java 8 lambdas
+//            return (root, query, cb) -> cb.and(
+//                    cb.equal(root.get("status"), status),
+//                    cb.equal(root.get("idClass"), id)
+//            );
+//        }
+//    }
     public static Specification withClass(String classTeach, String status) {
         if (classTeach == "") {
             return null;

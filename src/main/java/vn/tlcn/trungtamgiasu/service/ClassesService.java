@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -52,10 +53,10 @@ public class ClassesService {
     @Autowired
     TokenStore tokenStore;
 
-//    public List<Classes> getTopSixClasses(){
-//        logger.info("Get top six classes");
-//        return classesRepository.findTop6By();
-//    }
+    public List<Classes> getTopSixClasses(String status){
+        logger.info("Get top six classes");
+        return classesRepository.findTop6ByStatus(status);
+    }
 
     public Classes saveClass(Classes classes) {
         logger.info("Save class");
@@ -80,15 +81,6 @@ public class ClassesService {
 
     public Page<Classes> getListClassesByStatus(String status, Pageable pageable){
         logger.info("Get list classes by status");
-//        List<Classes> classesList = classesRepository.findAllByStatus(status);
-//
-//        List<Classes> classesListOutput = new ArrayList<>();
-//        for (Classes item: classesList) {
-//            if (classRegisterRepository.findAllByClasses(item).size() < 4)
-//            {
-//                classesListOutput.add(item);
-//            }
-//        }
         return classesRepository.findAllByStatus(status, pageable);
     }
 
@@ -97,14 +89,22 @@ public class ClassesService {
         return classesRepository.findByIdClass(id).orElseThrow(()-> new  ClassesNotFoundException("Cant not found class"));
     }
 
-    public List<Classes> getListClassesTutorCanTeach(int idUser) {
+    public Page<Classes> getListClassesTutorCanTeach(int idUser, Pageable pageable) {
         logger.info("Get list class tutor can teach");
         Tutors tutors = tutorsService.getTutorByIdUser(idUser);
         String classTeach = tutors.getClasses();
-        List<String> classTeachArr = new ArrayList<>();
-        //classTeachArr.add(classTeach.split(","));
-        //return classesRepository.getListClassesTutorCanTeach(tutors.getClasses(), tutors.getDistrictCanTeach());
-        return classesRepository.findByClassTeachContainingOrDistrictContaining(tutors.getClasses(), tutors.getDistrictCanTeach());
+        String districtCanTeach = tutors.getDistrictCanTeach();
+        String[] classArr = classTeach.split(",");
+        String[] districtArr = districtCanTeach.split(",");
+        List<Classes> result = new ArrayList<>();
+        for (String item: classArr) {
+            for (String district: districtArr) {
+                result.addAll(classesRepository.findAllByClassTeachAndDistrict(item, district));
+            }
+        }
+        System.out.printf(result.toString());
+        Page<Classes> listClasses = new PageImpl<>(result, pageable, result.size());
+        return  listClasses;
     }
 
     public List<Classes> getListClassesOfUser(int idUser) {
@@ -112,14 +112,14 @@ public class ClassesService {
         return classesRepository.getListClassByUser(idUser);
     }
 
-    public List<Classes> getListClassesByClassTeach(String classTeach) {
+    public Page<Classes> getListClassesByClassTeach(String classTeach, Pageable pageable) {
         logger.info("Get list classes by class teach: "+ classTeach);
-        return classesRepository.findAllByClassTeachEquals(classTeach);
+        return classesRepository.findAllByClassTeach(classTeach, pageable);
     }
 
     public List<Classes> getListClassesBySubject(String subject) {
         logger.info("Get list classes by subject: "+ subject);
-        return classesRepository.findAllBySubjectEquals(subject);
+        return classesRepository.findAllBySubject(subject);
     }
 
     public List<Classes> getListClassByDistrict(String district) {
@@ -144,12 +144,19 @@ public class ClassesService {
         logger.info("Search class");
         int id = 0;
        Page<Classes> results = classesRepository.findAll(Specification.
-                                where(ClassesSpecification.withId(searchDto.getIdClass(), "Lớp mới"))
-                                .and(ClassesSpecification.withClass(searchDto.getClassTeach(), "Lớp mới"))
+                                where(ClassesSpecification.withClass(searchDto.getClassTeach(), "Lớp mới"))
                                 .and(ClassesSpecification.withSubject(searchDto.getSubject(), "Lớp mới"))
                                 .and(ClassesSpecification.withDistrict(searchDto.getDistrict(), "Lớp mới")), pageable);
+       return results;
+    }
 
-        return results;
+    public List<Classes> getListTop() {
+        logger.info("Get list class top");
+        return classesRepository.getListClassesTop();
+    }
+    public List<Classes> getListClassRelate(String classTeach) {
+        logger.info("Get list class relate");
+        return classesRepository.getListClassRelate(classTeach);
     }
 
 

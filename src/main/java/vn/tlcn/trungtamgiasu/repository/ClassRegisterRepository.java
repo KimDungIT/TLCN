@@ -16,18 +16,13 @@ public interface ClassRegisterRepository extends JpaRepository<ClassRegister, In
 
     List<ClassRegister> findAllByClasses(Classes classes);
 
-    @Query(value = "select * from class_register where id_class = ?1 and status !='Đã huỷ'", nativeQuery = true)
+    @Query(value = "select * from class_register where id_class = ?1", nativeQuery = true)
     List<ClassRegister> getAllByClasses(int id);
 
     Optional<ClassRegister> findByIdClassRegister(int id);
 
-    @Query(value = "select  * from class_register where id_tutor = ?1 and status !='Đã huỷ'", nativeQuery = true)
+    @Query(value = "select  * from class_register where id_tutor = ?1", nativeQuery = true)
     List<ClassRegister> getAllByTutors(int idTutor);
-
-    @Query(value = "select t.image, u.name, t.level, c.payments, c.status\n" +
-            "from class_register c join tutors t on c.id_tutor = t.id_tutor join users u on t.id_user = u.id_user\n" +
-            "where c.id_class=?1", nativeQuery = true)
-    List<String> getAllInfo(int idClass);
 
     @Modifying
     @Transactional

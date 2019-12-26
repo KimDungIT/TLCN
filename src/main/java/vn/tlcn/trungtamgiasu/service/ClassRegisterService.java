@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 import vn.tlcn.trungtamgiasu.dto.ClassRegister.ClassRegisterDto;
+import vn.tlcn.trungtamgiasu.dto.TutorRegisterDto;
 import vn.tlcn.trungtamgiasu.dto.mapper.ClassRegisterMapper;
 import vn.tlcn.trungtamgiasu.exception.ClassRegisterNotFoundException;
 import vn.tlcn.trungtamgiasu.exception.NotChangeStatusClass;
@@ -17,6 +18,7 @@ import vn.tlcn.trungtamgiasu.model.ClassRegister;
 import vn.tlcn.trungtamgiasu.model.Tutors;
 import vn.tlcn.trungtamgiasu.repository.ClassRegisterRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +37,6 @@ public class ClassRegisterService {
 
     @Autowired ClassesService classesService;
 
-    @Autowired
-    private UsersService usersService;
 
 
     @Autowired
@@ -67,7 +67,7 @@ public class ClassRegisterService {
         if(classRegisters.size() > 0)
         {
             for (ClassRegister item: classRegisters) {
-                if (item.getTutors().getIdTutor() == tutors.getIdTutor() && item.getStatus() !="Đã huỷ")
+                if (item.getTutors().getIdTutor() == tutors.getIdTutor())
                 {
                     throw new TutorNotRegisterClassException("Tutor is already registered. Can not register class " + idClass);
                 }
@@ -88,11 +88,11 @@ public class ClassRegisterService {
         return saveClassRegister(classRegister);
     }
 
-    public List<ClassRegister> getListTutorRegister(int idClass)
-    {
-        logger.info("Get list tutor register");
-       return classRegisterRepository.getAllByClasses(idClass);
-    }
+//    public List<ClassRegister> getListTutorRegister(int idClass)
+//    {
+//        logger.info("Get list tutor register");
+//       return classRegisterRepository.getAllByClasses(idClass);
+//    }
 
     public List<ClassRegister> getListTutorRegisterClass(int idUser) {
         logger.info("Get list tutor register class");
@@ -110,5 +110,21 @@ public class ClassRegisterService {
             throw new NotChangeStatusClass("Can not change status class register");
         }
         return classRegister;
+    }
+    public List<ClassRegister> getListInfoTutorRegister(int idClass) {
+        logger.info("Get list tutor register class: " + idClass);
+//        List<ClassRegister> listClassesRegister = classRegisterRepository.getAllByClasses(idClass);
+//        List<TutorRegisterDto> tutorRegisterDto = new ArrayList<>();
+//        for (ClassRegister item: listClassesRegister) {
+//            TutorRegisterDto tutorRegister = new TutorRegisterDto();
+//            tutorRegister.setIdUser(item.getTutors().getUsers().getIdUser());
+//            tutorRegister.setLevel(item.getTutors().getLevel());
+//            tutorRegister.setName(item.getTutors().getUsers().getName());
+//            tutorRegister.setPayments(item.getPayments());
+//            tutorRegister.setStatus(item.getStatus());
+//            tutorRegisterDto.add(tutorRegister);
+//        }
+//        return tutorRegisterDto;
+        return classRegisterRepository.findAllByClasses(classesService.getClassById(idClass));
     }
 }

@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TutorRegisterDto {
 
-    private String image;
+    private int idUser;
     private String name;
     private String level;
     private String payments;

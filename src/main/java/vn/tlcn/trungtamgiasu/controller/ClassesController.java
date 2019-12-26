@@ -29,14 +29,14 @@ public class ClassesController {
     @Autowired
     private ClassesMapper classesMapper;
 
-//    @GetMapping(value = "/topSix")
-//    public ApiResponse getTopSixClasses() {
-//        logger.info("Get top six classes");
-//        return new ApiResponse(
-//                HttpStatus.OK,
-//                "Get top six classes successfully",
-//                classesMapper.toClassesDtoList(classesService.getTopSixClasses()));
-//    }
+    @GetMapping(value = "/topSix")
+    public ApiResponse getTopSixClasses() {
+        logger.info("Get top six classes");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get top six classes successfully",
+                classesMapper.toClassesDtoList(classesService.getTopSixClasses("Lớp mới")));
+    }
 
     @PostMapping(value = "/createClass")
     @PreAuthorize("hasAnyAuthority('[ADMIN]', '[PHUHUYNH]')")
@@ -69,12 +69,15 @@ public class ClassesController {
 
     @GetMapping(value = "/classesSuggest")
     @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
-    public ApiResponse getListClassTutorCanTeach(@RequestParam(value = "idUser")int idUser){
+    public ApiResponse getListClassTutorCanTeach(@RequestParam(value = "idUser")int idUser,
+                                                 @PageableDefault(size = 9) Pageable pageable) {
+        logger.info("Search class");
         logger.info("Get list classes tutor can teach");
+
         return new ApiResponse(
                 HttpStatus.OK,
                 "Get list classes tutor can teach successfully",
-                classesService.getListClassesTutorCanTeach(idUser));
+                classesService.getListClassesTutorCanTeach(idUser, pageable));
     }
 
     @GetMapping(value = "/listClassesOfUser")
@@ -87,11 +90,13 @@ public class ClassesController {
     }
 
     @GetMapping(value = "/class")
-    public ApiResponse getListClassesByClassTeach(@RequestParam("classTeach") String classTeach){
+    public ApiResponse getListClassesByClassTeach(@RequestParam("classTeach") String classTeach,
+                                                  @PageableDefault(size = 9) Pageable pageable){
         logger.info("Get list classes by class teach");
+        Page<Classes> page = classesService.getListClassesByClassTeach(classTeach, pageable);
         return new ApiResponse(HttpStatus.OK,
                 "Get list classes by class teach successfully",
-                classesService.getListClassesByClassTeach(classTeach));
+                page);
     }
 
     @GetMapping(value = "/subject")
@@ -126,5 +131,21 @@ public class ClassesController {
         return new ApiResponse(HttpStatus.OK,
                 "Search class successfully",
                 page);
+    }
+
+    @GetMapping(value = "/top")
+    public ApiResponse listClassTop() {
+        logger.info("list class top");
+        return new ApiResponse(HttpStatus.OK,
+                "Get list class top successfully",
+                classesService.getListTop());
+    }
+    @GetMapping(value = "/relate")
+    @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
+    public ApiResponse listClassRelate(@RequestParam("classTeach") String classTeach) {
+        logger.info("list class relate");
+        return new ApiResponse(HttpStatus.OK,
+                "Get list class relate successfully",
+                classesService.getListClassRelate(classTeach));
     }
 }

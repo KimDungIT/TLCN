@@ -41,7 +41,7 @@ public class ClassRegisterController {
         return new ApiResponse(
                 HttpStatus.OK,
                 "Get list register successfully",
-                classRegisterService.getListTutorRegister(idClass));
+                classRegisterService.getListInfoTutorRegister(idClass));
     }
 
     @GetMapping(value = "/getListClassTutorRegister")

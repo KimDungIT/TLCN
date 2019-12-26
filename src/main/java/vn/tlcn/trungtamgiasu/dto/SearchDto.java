@@ -10,7 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SearchDto {
-    int idClass;
     String classTeach;
     String subject;
     String district;
