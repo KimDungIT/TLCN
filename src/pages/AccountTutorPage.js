@@ -4,7 +4,6 @@ import { actFetchUserRequest, actFetchTutorRequest, } from "../actions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import callApi from './../utils/apiCaller';
-import { notification } from "antd";
 
 class AccountTutorPage extends Component {
   constructor(props) {
@@ -24,16 +23,9 @@ class AccountTutorPage extends Component {
           this.setState({
             imageInfo: res.data.result
           })
-          notification.success({
-            message: "Success",
-            description: "Get image successfully!"
-          });
         }
       }).catch(error => {
-        notification.error({
-          message: "Error get image",
-          description: error.message
-        });
+        console.log(error);
       });
   }
   render() {

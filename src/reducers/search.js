@@ -1,14 +1,15 @@
-import * as Types from "./../constants/ActionTypes";
+import * as Types from './../constants/ActionTypes';
+var initialState = {
 
-var initialState = {};
+};
 
 const search = (state = initialState, action) => {
-  switch (action.type) {
-    case Types.SEARCH:
-      state = action.classes.result;
-      return { ...state };
-    default:
-      return state;
-  }
+    switch(action.type){
+        case Types.SEARCH_INPUT:
+           state = action.searchInput;
+            return {...state};
+        default: return state;
+    }
 };
+
 export default search;

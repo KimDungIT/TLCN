@@ -27,6 +27,7 @@ import PannelLeftParent from './components/PannelLeftParent';
 import StatusClassParentRegisterPage from './pages/StatusClassParentRegisterPage';
 import HomeParentPage from './pages/HomeParentPage';
 import ClassListSearchPage from './pages/ClassListSearchPage';
+import RegisterClassProcess from './pages/RegisterClassProcess';
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => {
   return <Route {...rest}
@@ -42,14 +43,18 @@ const PrivateRoute = ({ component, isAuthenticated, ...rest }) => {
 }
 
 class App extends Component {
-  
+
+  state = {idLabel: "all"};
+  getIdLabel = () => {
+   
+  }
   render(){
     notification.config({
-      duration: 3,
+      duration: 5,
     });
     const {isAuthenticated} = this.props.auth;
     const { role } = this.props.auth.user;
-    console.log(isAuthenticated);
+    
     return (
       <Router>
         <div className="container">
@@ -57,7 +62,8 @@ class App extends Component {
           <MenuMain />
           <Banner />
           <div className="row" id="main">
-              {isAuthenticated && role === '[PHUHUYNH]'? <PannelLeftParent /> : <PanelLeft />}
+              {isAuthenticated && role === '[PHUHUYNH]'? <PannelLeftParent /> : <PanelLeft onClick={this.getIdLabel} />}
+             
                 <Switch>
                   <Route path="/" exact component={HomePage}></Route>
                   <Route path="/class-list" component={ClassListPage}></Route>
@@ -66,6 +72,11 @@ class App extends Component {
                   <Route path="/signup" component={SignupPage}></Route>
                   <Route path="/login" component={LoginPage}></Route>
                   <Route path="/make-tutor" component={RegisterToMakeTutorPage}></Route>
+                  <Route path="/register-process" component={RegisterClassProcess}></Route>
+                  <PrivateRoute 
+                    path="/classes-suggest"
+                    component={ClassListSearchPage}
+                    isAuthenticated = {isAuthenticated}/>
                   <PrivateRoute 
                     path="/parent"
                     component={HomeParentPage}

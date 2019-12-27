@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import QuickMenu from "../components/QuickMenu";
-import FormSearch from "../components/FormSearch";
 import ClassList from "../components/ClassList";
 import { Link } from "react-router-dom";
 import ClassItem from "../components/ClassItem";
 
-import { actFetchClassesRequest } from "./../actions/index";
-import { actSearchRequest } from "./../actions/index";
+import { actFetchTopSixRequest } from "./../actions/index";
+import callApi from "../utils/apiCaller";
 import { connect } from "react-redux";
 
 class HomePage extends Component {
@@ -14,55 +13,46 @@ class HomePage extends Component {
     super(props);
     this.state = {
         input: null,
-        classList: [],
+        listClassTop: [],
     }
 }
   componentDidMount() {
-    this.props.fetchAllClasses();
-  }
-  onSave = search => {
-    let id = 0;
-    if (
-        search.keywordIdClass !== "" ||
-        search.keywordClass !== "" ||
-        search.keywordSubject !== "" ||
-        search.keywordDistrict !== ""
-    ) {
-      if (search.keywordIdClass !== "") {
-        id = parseInt(search.keywordIdClass);
+    this.props.fetchTopSixClass();
+   //get list class top
+    callApi('api/classes/top',
+    "GET",
+    null).then(res => {
+        if(res.status === 200) {
+          this.setState({
+            listClassTop: res.data.result
+          })
+        }
       }
-      let searchInfo = {
-        idClass: id,
-        classTeach: search.keywordClass,
-        subject: search.keywordSubject,
-        district: search.keywordDistrict
-      };
-      this.props.onSearch(searchInfo);
-    }
-  };
+    ).catch(error => {
+      console.log(error);
+    });
+  }
 
   render() {
-    let { search } = this.props;
-    let content = this.props.classes.content;
+    let content = this.props.classes;
     var { isAuthenticated } = this.props.auth;
-    if(search.content) {
-      if( search.content.length > 0) {
-        content = search.content;
-      }
-      else {
-        content = [];
-      }
-  }
+
     return (
       <div className="col-lg-9 col-md-9 col-sm-9">
         {!isAuthenticated ? <QuickMenu /> : ""}
+        <div className="row">
+          <div className="panel-heading">
+            <i className="fa fa-book" style={{ marginLeft: "5px" }} />
+            Lớp dạy kèm nổi bật
+          </div>
+        </div>
+        <ClassList>{this.showClasses(this.state.listClassTop)}</ClassList>
         <div className="row">
           <div className="panel-heading">
             <i className="fa fa-graduation-cap" style={{ marginLeft: "5px" }} />
             Lớp dạy kèm mới
           </div>
         </div>
-        <FormSearch onSearchClasses={this.onSave}/>
         <ClassList>{this.showClasses(content)}</ClassList>
         <div className="xemthem">
           <Link to="/class-list">
@@ -89,19 +79,22 @@ class HomePage extends Component {
 
 const mapStateToProps = state => {
   return {
-    classes: state.classes,
+    classes: state.childClass,
     auth: state.auth,
-    search: state.search
+    // search: state.search
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAllClasses: () => {
-      dispatch(actFetchClassesRequest());
-    },
-    onSearch: searchInfo => {
-      dispatch(actSearchRequest(searchInfo));
+    // fetchAllClasses: () => {
+    //   dispatch(actFetchClassesRequest());
+    // },
+    // onSearch: searchInfo => {
+    //   dispatch(actSearchRequest(searchInfo));
+    // },
+    fetchTopSixClass: () => {
+      dispatch(actFetchTopSixRequest());
     }
   };
 };

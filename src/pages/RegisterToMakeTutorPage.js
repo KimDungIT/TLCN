@@ -116,7 +116,7 @@ class RegisterToMakeTutorPage extends Component {
   compareToFirstPassword = (rule, value, callback) => {
     const { form } = this.props;
     if (value && value !== form.getFieldValue("password")) {
-      callback("Two passwords that you enter is inconsistent!");
+      callback("Hai mật khẩu không khớp!");
     } else {
       callback();
     }
@@ -157,7 +157,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your name"
+                      message: "Vui lòng nhập họ tên!"
                     }
                   ]
                 })(<Input placeholder="Nhập họ tên..." />)}
@@ -167,12 +167,12 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your phone number!"
+                      message: "Vui lòng nhập số điện thoại!"
                     },
                     {
                       pattern: /^\d{10,11}$/,
                       message:
-                        "Phone is allowed only numbers. Min lenght is 10 numbers and Max lenght is 11 numbers!"
+                        "Số điện thoại chỉ cho phép kiểu số. Yêu cầu 10 số hoặc 11 số!"
                     }
                   ]
                 })(<Input placeholder="Nhập số điện thoại..." />)}
@@ -182,7 +182,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your password"
+                      message: "Vui lòng nhập mật khẩu!"
                     },
                     {
                       validator: this.validateToNextPassword
@@ -191,7 +191,7 @@ class RegisterToMakeTutorPage extends Component {
                       pattern:
                         "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()]{6,}$",
                       message:
-                        "Password must have at least 6 character, require: uppercase, lowercase and number!"
+                        "Mật khẩu ít nhất phải có 6 ký tự, bao gồm: chữ hoa, chữ thường và số!"
                     }
                   ]
                 })(
@@ -206,7 +206,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please confirm your password!"
+                      message: "Vui lòng nhập lại mật khẩu!"
                     },
                     {
                       validator: this.compareToFirstPassword
@@ -225,7 +225,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       type: "email",
-                      message: "The input is not valid E-mail!"
+                      message: "Không đúng định dạng email!"
                     }
                   ]
                 })(<Input placeholder="Vd: abc@gmail.com" />)}
@@ -235,7 +235,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your address"
+                      message: "Vui lòng nhập địa chỉ"
                     }
                   ]
                 })(<Input placeholder="Nhập địa chỉ..." />)}
@@ -245,7 +245,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please choose your gender"
+                      message: "Vui lòng nhập giới tính"
                     }
                   ]
                 })(
@@ -260,7 +260,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please select your year of birth!"
+                      message: "Vui lòng chọn năm sinh!"
                     }
                   ]
                 })(
@@ -298,7 +298,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your image"
+                      message: "Vui lòng chọn ảnh thẻ!"
                     }
                   ]
                 })(
@@ -314,7 +314,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your college"
+                      message: "Vui lòng nhập trường đào tạo!"
                     }
                   ]
                 })(<Input placeholder="Nhập tên trường..." />)}
@@ -324,7 +324,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your major"
+                      message: "Vui lòng nhập ngành học!"
                     }
                   ]
                 })(<Input placeholder="Nhập ngành học..." />)}
@@ -334,7 +334,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your graduation year"
+                      message: "Vui lòng nhập năm tốt nghiệp!"
                     }
                   ]
                 })(<Input placeholder="Nhập năm tốt nghiệp..." />)}
@@ -344,7 +344,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please select your level!"
+                      message: "Vui lòng nhập cấp bậc!"
                     }
                   ]
                 })(
@@ -362,7 +362,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your subjects"
+                      message: "Vui lòng chọn môn dạy!"
                     }
                   ]
                 })(
@@ -413,7 +413,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your classes"
+                      message: "Vui lòng chọn lớp dạy!"
                     }
                   ]
                 })(
@@ -464,7 +464,7 @@ class RegisterToMakeTutorPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your districts"
+                      message: "Vui lòng chọn khu vực dạy!"
                     }
                   ]
                 })(

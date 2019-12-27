@@ -22,7 +22,7 @@ class ClassDetail extends Component {
                         <strong>
                             <i className="ha-red fa fa-map-marker fa-2x" />
                         </strong>
-                        {classRegister.address}
+                        {classRegister.address}, {classRegister.district}, TP. Hồ Chí Minh
                     </a>
                 </p>
                 <p>

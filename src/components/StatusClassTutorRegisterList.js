@@ -8,7 +8,6 @@ class StatusClassTutorRegisterList extends Component {
       <div className="row">
         <div className="row status">
           <label className="statusGray"></label> Xem xét
-          <label className="statusGreen"></label> Đủ điều kiện
           <label className="statusBlue"></label> Đã nhận lớp
           <label className="statusRed"></label> Không đạt
         </div>

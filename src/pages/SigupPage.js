@@ -51,7 +51,7 @@ class SigupPage extends Component {
     compareToFirstPassword = (rule, value, callback) => {
       const { form } = this.props;
       if (value && value !== form.getFieldValue("password")) {
-          callback("Two passwords that you enter is inconsistent!");
+          callback("Hai mật khẩu không khớp!");
       } else {
           callback();
       }
@@ -74,7 +74,7 @@ class SigupPage extends Component {
         <div className="row">
           <div className="panel-heading">
             <i className="fa fa-user-plus" style={{ marginLeft: "5px" }} />
-            Đăng ký tài khoản
+            Đăng ký tài khoản phụ huynh
           </div>
         </div>
         <div className="row">
@@ -84,27 +84,12 @@ class SigupPage extends Component {
               className="formal-form"
               onSubmit={this.handleSubmit}
             >
-              {/* <Form.Item label="Chọn loại tài khoản đăng ký: ">
-                {getFieldDecorator("radiogroup", {
-                  rules: [
-                    {
-                      required: true,
-                      message: "Please choose your type account"
-                    }
-                  ]
-                })(
-                  <Radio.Group>
-                    <Radio value="GIASU">Gia sư</Radio>
-                    <Radio value="PHUHUYNH">Phụ huynh</Radio>
-                  </Radio.Group>
-                )}
-              </Form.Item> */}
               <Form.Item label="Họ tên: ">
                 {getFieldDecorator("name", {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your name"
+                      message: "Vui lòng nhập họ tên!"
                     }
                   ]
                 })(<Input placeholder="Nhập họ tên..." />)}
@@ -114,11 +99,11 @@ class SigupPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your phone number!"
+                      message: "Vui lòng nhập số điện thoại!"
                     },
                     {
                       pattern: /^\d{10,11}$/,
-                      message: "Phone is allowed only numbers. Min lenght is 10 numbers and Max lenght is 11 numbers!"
+                      message: "Số điện thoại chỉ cho phép kiểu số. Yêu cầu 10 số hoặc 11 số!"
                     }
                     
                   ]
@@ -129,14 +114,14 @@ class SigupPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your password"
+                      message: "Vui lòng nhập mật khẩu!"
                     },
                     {
                       validator: this.validateToNextPassword,
                     },
                     {
                       pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()]{6,}$",
-                      message: "Password must have at least 6 character, require: uppercase, lowercase and number!"
+                      message: "Mật khẩu ít nhất phải có 6 ký tự, bao gồm: chữ hoa, chữ thường và số!"
                     },
                   ]
                 })(<Input.Password placeholder="Nhập mật khẩu..." autoComplete="off"/>)}
@@ -146,7 +131,7 @@ class SigupPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please confirm your password!"
+                      message: "Vui lòng nhập lại mật khẩu!"
                     },
                     {
                       validator: this.compareToFirstPassword
@@ -165,7 +150,7 @@ class SigupPage extends Component {
                   rules: [
                     {
                       type: "email",
-                      message: "The input is not valid E-mail!"
+                      message: "Không đúng định dạng email!"
                     }
                   ]
                 })(<Input  placeholder="Vd: abc@gmail.com" />)}
@@ -175,7 +160,7 @@ class SigupPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your address"
+                      message: "Vui lòng nhập địa chỉ"
                     }
                   ]
                 })(<Input placeholder="Nhập địa chỉ..." />)}

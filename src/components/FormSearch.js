@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+import {actSearchInputRequest} from './../actions/index';
 
 class FormSearch extends Component {
     constructor(props){
         super(props);
         this.state = {
-            txtId: '',
             selectClass: '',
             selectSubject: '',
-            selectDistrict: ''
+            selectDistrict: '',
         }
     }
     onChange = (e) => {
@@ -20,28 +21,20 @@ class FormSearch extends Component {
     }
     onSave = (e) => {
         e.preventDefault();
-        var {txtId, selectClass, selectSubject, selectDistrict} = this.state;
+        var {selectClass, selectSubject, selectDistrict} = this.state;
         let search = {
-            keywordIdClass: txtId, 
-            keywordClass: selectClass,
-            keywordSubject: selectSubject,
-            keywordDistrict: selectDistrict
+            classTeach: selectClass,
+            subject: selectSubject,
+            district: selectDistrict
         }
-        this.props.onSearchClasses(search);
-        // this.props.onSearchHome(search);
+        let check = true
+        this.props.onSearchClasses(search, check);
+        this.props.onSearchInput(search);
     }
     render() {
         return (
             <div className="row">
                 <form className="form-search" onSubmit = {this.onSave}>
-                    <div className="form-group">
-                        <input type="text" 
-                            className="form-control form-control-sm" 
-                            id="exampleInputEmail1" 
-                            name = 'txtId'
-                            onChange = {this.onChange}
-                            placeholder="Nhập mã lớp và tìm kiếm..." />
-                    </div>
                     <div className="form-row">
                         <div className="form-group col-md-3">
                             <select id="lop" name = 'selectClass' onChange = {this.onChange} className="form-control">
@@ -113,5 +106,16 @@ class FormSearch extends Component {
         );
     }
 }
-
-export default FormSearch;
+const mapStateToProps = state => {
+    return {
+        search: state.search
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+      onSearchInput: (search) => {
+        dispatch(actSearchInputRequest(search));
+      }
+    };
+  };
+export default connect(mapStateToProps, mapDispatchToProps)(FormSearch);

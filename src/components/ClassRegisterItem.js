@@ -1,19 +1,42 @@
 import React, { Component } from "react";
+import callApi from "../utils/apiCaller";
 
 class ClassRegisterItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      imageInfo: ''
+    };
+  }
+
+  // componentDidMount(){
+  //   callApi(
+  //     `api/tutors/readImage?idUser=${this.props.tutorRegisterClassItem.idUser}`,
+  //     "GET",
+  //     null
+  //   ).then(res => {
+  //       if (res.status === 200) {
+  //         this.setState({
+  //           imageInfo: res.data.result
+  //         });
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }
   
   render() {
     let { tutorRegisterClassItem } = this.props;
+    console.log("tutor: ", tutorRegisterClassItem);
     let colorStatus = 
       tutorRegisterClassItem.status === "Xem xét"
         ? '#d6d6d6'
-        : tutorRegisterClassItem.status === "Đủ điều kiện"
-        ? '#84B919'
         : '#9B0000';
     return (
       <tr>
         <td>{tutorRegisterClassItem.tutors.idTutor}</td>
-        <td>{tutorRegisterClassItem.tutors.gender}</td>
+        <td>{tutorRegisterClassItem.tutors.level}</td>
         <td>{tutorRegisterClassItem.payments}</td>
         <td style={{ backgroundColor: `${colorStatus}`}}></td>
       </tr>

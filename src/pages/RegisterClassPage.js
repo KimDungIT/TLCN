@@ -10,11 +10,16 @@ import { DatePicker } from "antd";
 import { Form, Input, Button, Select } from "antd";
 import ClassRegisterList from "./../components/ClassRegisterList";
 import ClassRegisterItem from "./../components/ClassRegisterItem";
-
 const { Option } = Select;
 const { TextArea } = Input;
 
 class RegisterClassPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      content: []
+    };
+  }
   componentDidMount() {
     var { match } = this.props;
     if (match) {
@@ -22,6 +27,7 @@ class RegisterClassPage extends Component {
       this.props.onRegisterClass(id);
       this.props.onFetchTutorRegisterClass(id);
     }
+    
   }
 
   handleSubmit = e => {
@@ -42,11 +48,8 @@ class RegisterClassPage extends Component {
 
   render() {
     let { classRegister } = this.props;
-    let { tutorRegisterClass } = this.props;
-    console.log("class register: ", classRegister);
-    console.log("tutor register class: ", tutorRegisterClass);
+    let  {tutorRegisterClass}  = this.props;
     const { getFieldDecorator } = this.props.form;
-
     return (
       <div className="col-lg-9 col-md-9 col-sm-9">
         <div className="row">
@@ -132,11 +135,16 @@ class RegisterClassPage extends Component {
             để kiểm tra trạng thái lớp chính xác.
           </p>
         </div>
+
       </div>
     );
   }
+ 
   showClassRegisterList(tutorRegisterClass) {
     var result = null;
+    if (tutorRegisterClass === undefined) {
+      return;
+    }
     if (tutorRegisterClass.length > 0) {
       result = tutorRegisterClass.map((tutorRegisterClassItem, index) => {
         return (
@@ -154,7 +162,8 @@ class RegisterClassPage extends Component {
 const mapStateToProps = state => {
   return {
     classRegister: state.classRegister,
-    tutorRegisterClass: state.tutorRegisterClass
+    tutorRegisterClass: state.tutorRegisterClass,
+    auth: state.auth
   };
 };
 

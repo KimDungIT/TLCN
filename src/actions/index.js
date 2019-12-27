@@ -4,6 +4,84 @@ import { notification } from "antd";
 import setAuthorization from "./../utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
 
+//get input search
+export const actSearchInputRequest = (searchInput) => {
+  return {
+    type: Types.SEARCH_INPUT,
+    searchInput
+  }
+}
+//get classes by class
+export const actFetchClassesByClassRequest = (classTeach, page) => {
+  return dispatch => {
+    return callApi(`api/classes/class?classTeach=${classTeach}&page=${page}`,
+    "GET",
+    null).then(res => {
+      if(res.status === 200) {
+        dispatch(actFetchClassesByClass(res.data));
+      }
+    }).catch(error => {
+      notification.error({
+        message: "Error ",
+        description: error.message
+      });
+    });
+  }
+}
+export const actFetchClassesByClass = classes => {
+  return {
+    type: Types.FETCH_CLASSES_BY_CLASS_TEACH,
+    classes
+  }
+}
+//get classes suggest
+export const actFetchClassesSuggestRequest = (id, page) => {
+  return dispatch => {
+    return callApi(`api/classes/classesSuggest?idUser=${id}&page=${page}`,
+    "GET",
+    null).then(res => {
+      if(res.status === 200) {
+        dispatch(actFetchClassesSuggest(res.data));
+      }
+    }).catch(error => {
+      notification.error({
+        message: "Error ",
+        description: error.message
+      });
+    });
+  }
+}
+
+export const actFetchClassesSuggest = classesSuggest => {
+  return {
+    type: Types.FETCH_CLASS_SUGGEST,
+    classesSuggest
+  }
+}
+
+//get top six classes
+export const actFetchTopSixRequest = () => {
+  return dispatch => {
+    return callApi('api/classes/topSix', 
+    "GET", 
+    null).then(res => {
+      if(res.status === 200) {
+        dispatch(actFetchTopSix(res.data));
+      }
+    }).catch(error => {
+      notification.error({
+        message: "Error ",
+        description: error.message
+      });
+    });
+  }
+}
+export const actFetchTopSix = info => {
+  return {
+    type: Types.TOP_SIX_CLASSES,
+    info
+  }
+}
 //delete class register
 export const actDeleteClassRegisterRequest = idClassRegister => {
   return dispatch => {
@@ -16,7 +94,7 @@ export const actDeleteClassRegisterRequest = idClassRegister => {
         dispatch(actDeleteClassRegister(idClassRegister));
         notification.success({
           message: "Success",
-          description: "Delete class register successfully!"
+          description: "Huỷ lớp thành công!"
         });
       }
     }).catch(error => {
@@ -46,7 +124,7 @@ export const actDeleteClassRequest = idClass => {
         dispatch(actDeleteClass(idClass));
         notification.success({
           message: "Success",
-          description: "Delete class successfully!"
+          description: "Huỷ lớp thành công!"
         });
       }
     }).catch(error => {
@@ -129,12 +207,13 @@ export const actFetchListClassTutorRegisterRequest = idUser => {
       null
     )
       .then(res => {
-        dispatch(actFetchListClassTutorRegister(res.data));
+        
         if (res.status === 200) {
-          notification.success({
-            message: "Success",
-            description: "Get list tutor register class successfully!"
-          });
+          dispatch(actFetchListClassTutorRegister(res.data));
+          // notification.success({
+          //   message: "Success",
+          //   description: "Get list tutor register class successfully!"
+          // });
         }
       })
       .catch(error => {
@@ -182,10 +261,10 @@ export const actChangeInforTutorRequest = (tutorInfo, idTutor, history) => {
         if(res.status === 200){
           dispatch(actChangeInforTutor(res.data));
           history.goBack();
-          notification.success({
-            message: "Success",
-            description: "change info tutor successfully!"
-          });
+          // notification.success({
+          //   message: "Success",
+          //   description: "change info tutor successfully!"
+          // });
         }
       }).catch(error => {
         notification.error({
@@ -216,13 +295,13 @@ export const actTutorRegisterClassRequest = (classRegisterInfo, idClass) => {
           dispatch(actTutorRegisterClass(res.data));
           notification.success({
             message: "Success",
-            description: "Tutor register class successfully!"
+            description: "Đăng ký nhận lớp thành công. Vui lòng chờ trung tâm duyệt đăng ký. Trung tâm sẽ liên hệ với bạn sau!"
           });
         }
       })
       .catch(error => {
         notification.error({
-          message: "Error tutor register class",
+          message: "Tutor has already register this class",
           description: error.message
         });
       });
@@ -246,12 +325,8 @@ export const actFetchTutorRegisterClassRequest = idClass => {
       null
     )
       .then(res => {
-        dispatch(actFetchTutorRegisterClass(res.data));
         if (res.status === 200) {
-          notification.success({
-            message: "Success",
-            description: "Get list tutor register class successfully!"
-          });
+          dispatch(actFetchTutorRegisterClass(res.data));
         }
       })
       .catch(error => {
@@ -275,19 +350,13 @@ export const actGetClassRequest = id => {
   return dispatch => {
     return callApi(`api/classes/${id}/register`, "GET", null)
       .then(res => {
-        dispatch(actGetClass(res.data));
+        
         if (res.status === 200) {
-          notification.success({
-            message: "Success",
-            description: "Get class successfully!"
-          });
+          dispatch(actGetClass(res.data));
         }
       })
       .catch(error => {
-        notification.error({
-          message: "Error get class",
-          description: error.message
-        });
+        console.log(error);
       });
   };
 };
@@ -309,13 +378,13 @@ export const actChangeInfoUserRequest = infoUser => {
         if (res.status === 200) {
           notification.success({
             message: "Success",
-            description: "Change information user successfully!"
+            description: "Thay đổi thông tin thành công!"
           });
         }
       })
       .catch(error => {
         notification.error({
-          message: "Error change information",
+          message: "Thay đổi thông tin không thành công!",
           description: error.message
         });
       });
@@ -472,27 +541,26 @@ export const actLoginRequest = (user, history) => {
           localStorage.setItem("token", token);
           setAuthorization(token);
           dispatch(setCurrentUser(jwtDecode(token)));
-
           if (typeAccount === "PHUHUYNH") {
-            history.push("/find-tutor");
+            history.push("/parent");
           } else {
-            history.push("/class-list");
+            history.push("/");
           }
           notification.success({
             message: "Success",
-            description: "Login successfully!"
+            description: "Đăng nhập thành công!"
           });
         } else {
           notification.error({
-            message: "Error login",
+            message: "Số điện thoại hoặc mật khẩu không đúng. Vui lòng thử lại!",
             description:
-              "Your Username or Password is incorrect. Please try again!"
+              "Số điện thoại hoặc mật khẩu không đúng. Vui lòng thử lại!"
           });
         }
       })
       .catch(error => {
         notification.error({
-          message: "Error login",
+          message: "Số điện thoại hoặc mật khẩu không đúng. Vui lòng thử lại!",
           description: error.message
         });
       });

@@ -8,13 +8,12 @@ class ClassRegisterList extends Component {
       <div className="row luu-y">
         <h4 className="nhanlop">Danh sách gia sư đã đăng ký</h4>
         <label className="statusGray"></label> Xem xét
-        <label className="statusGreen"></label> Đủ điều kiện
         <label className="statusRed"></label> Không đạt
         <table className="table table-bordered">
           <thead>
             <tr>
               <th>Mã gia sư</th>
-              <th>Giới tính</th>
+              <th>Hiện là</th>
               <th>Hình thức thanh toán</th>
               <th>Trạng thái</th>
             </tr>

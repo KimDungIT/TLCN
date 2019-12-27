@@ -14,8 +14,8 @@ class StatusClassTutorRegisterItem extends Component {
     let colorStatus = 
     tutorRegisterClassItem.status === "Xem xét"
         ? '#d6d6d6'
-        : tutorRegisterClassItem.status === "Đủ điều kiện"
-        ? '#84b919'
+        // : tutorRegisterClassItem.status === "Đủ điều kiện"
+        // ? '#84b919'
         : tutorRegisterClassItem.status === "Đã nhận lớp"
         ? '#20adbd'
         : '#9b0000';

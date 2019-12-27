@@ -1,5 +1,5 @@
 import React, { Component, useCallback } from "react";
-import { Form, Button, Upload, Icon, notification } from "antd";
+import { Form, Button, Upload, Icon } from "antd";
 import callApi from "../utils/apiCaller";
 import { actChangeImageRequest } from "../actions";
 import { connect } from "react-redux";
@@ -52,18 +52,11 @@ class InfoAccountTutor extends Component {
               this.setState({
                 imageInfo: res.data.result
               });
-              notification.success({
-                message: "Success",
-                description: "Get image successfully!"
-              });
             }
             
           })
           .catch(error => {
-            notification.error({
-              message: "Error get image",
-              description: error.message
-            });
+            console.log(error);
           });
       }
     });

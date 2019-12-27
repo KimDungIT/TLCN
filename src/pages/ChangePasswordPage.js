@@ -5,15 +5,17 @@ import { Form, Input, Button, notification } from "antd";
 import callApi from "../utils/apiCaller";
 
 class ChangePasswordPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      confirmDirty: false
+    };
+  }
   handleSubmit = e => {
     e.preventDefault();
     var { history } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
-
-        console.log("old pass: ", values.oldPassword);
-        console.log("new pass: ", values.newPassword);
         //send request change password
         callApi(`api/users/changePassword`, "PATCH", {
           oldPassword: values.oldPassword,
@@ -25,23 +27,37 @@ class ChangePasswordPage extends Component {
               history.push("/login");
               notification.success({
                 message: "Success",
-                description: "Change password successfully!"
+                description: "Đổi mật khẩu thành công!"
               });
             }
           })
           .catch(error => {
-            notification.error({
-              message: "Error change password",
-              description: error.message
-            });
+            console.log(error);
           });
-      } else {
-        notification.error({
-          message: "Error",
-          description: "Error change password"
-        });
       }
     });
+  };
+
+  handleConfirmBlur = e => {
+    const { value } = e.target;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  };
+
+  compareToFirstPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && value !== form.getFieldValue("password")) {
+      callback("Hai mật khẩu không khớp!");
+    } else {
+      callback();
+    }
+  };
+
+  validateToNextPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(["confirm"], { force: true });
+    }
+    callback();
   };
 
   render() {

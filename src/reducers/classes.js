@@ -6,9 +6,12 @@ const classes = (state = initialState, action) => {
         case Types.FETCH_CLASSES:
             state = action.classes.result;
             return {...state};
-        //case Types.ADD_CLASSES:
-           // state.push(action.classes.result);
-           // return {...state};
+        case Types.SEARCH:
+                state = action.classes.result;
+                return { ...state };
+        case Types.FETCH_CLASSES_BY_CLASS_TEACH:
+            state = action.classes.result;
+            return {...state};
         default: return state;
     }
 };

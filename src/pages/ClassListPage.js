@@ -4,6 +4,7 @@ import ClassList from "../components/ClassList";
 import ClassItem from "../components/ClassItem";
 
 import { actFetchClassesRequest } from "./../actions/index";
+import {actFetchClassesByClassRequest}from "./../actions/index";
 import { actSearchRequest } from "./../actions/index";
 import { connect } from "react-redux";
 import { Pagination } from "antd";
@@ -14,39 +15,25 @@ class ClassListPage extends Component {
     this.state = {
       activePage: 1,
       idClass: 0,
-      classTeach: '',
-      subject: '',
-      district: ''
+      value: "all"
     };
   }
   componentDidMount() {
     let number = this.state.activePage - 1;
     this.props.fetchAllClasses(number);
-    var { match } = this.props;
-    console.log("ma: ", match);
-    if (match) {
-      var { value } = match.params;
-      console.log("info: ", value);
-      
-    }
   }
-  onSave = search => {
-    let id = 0;
+  onSave = (search, check) => {
+    console.log("check: ", check);
     let number = this.state.activePage - 1;
     if (
-      search.keywordIdClass !== "" ||
-      search.keywordClass !== "" ||
-      search.keywordSubject !== "" ||
-      search.keywordDistrict !== ""
+      search.classTeach !== "" ||
+      search.subject !== "" ||
+      search.district !== ""
     ) {
-      if (search.keywordIdClass !== "") {
-        id = parseInt(search.keywordIdClass);
-      }
       let searchInfo = {
-        idClass: id,
-        classTeach: search.keywordClass,
-        subject: search.keywordSubject,
-        district: search.keywordDistrict
+        classTeach: search.classTeach,
+        subject: search.subject,
+        district: search.district
       };
       this.props.onSearch(searchInfo, number);
     }
@@ -54,47 +41,26 @@ class ClassListPage extends Component {
   onChange = page => {
     console.log(page);
     this.setState({
-      activePage: page
+      activePage: page,
     });
     let number = page - 1;
-    this.props.fetchAllClasses(number);
-    let id = 0;
-    let {search} = this.props;
     if (
-      search.keywordIdClass !== "" ||
-      search.keywordClass !== "" ||
-      search.keywordSubject !== "" ||
-      search.keywordDistrict !== ""
+      this.props.search.classTeach !== "" ||
+      this.props.search.subject !== "" ||
+      this.props.search.district !== ""
     ) {
-      if (search.keywordIdClass !== "") {
-        id = parseInt(search.keywordIdClass);
-      }
-      let searchInfo = {
-        idClass: id,
-        classTeach: search.keywordClass,
-        subject: search.keywordSubject,
-        district: search.keywordDistrict
-      };
-      this.props.onSearch(searchInfo, number);
+      this.props.onSearch(this.props.search, number);
     }
-
+    else {
+      this.props.fetchAllClasses(number);
+    }
   };
 
   render() {
-    let { search } = this.props;
     let { classes } = this.props;
     let size = classes.size;
     let totalElements = classes.totalElements;
     let content = this.props.classes.content;
-    if (search.content) {
-      size = search.size;
-      totalElements = search.totalElements;
-      if (search.content.length > 0) {
-        content = search.content;
-      } else {
-        content = [];
-      }
-    }
     return (
       <div className="col-lg-9 col-md-9 col-sm-9">
         <div className="row">
@@ -146,6 +112,9 @@ const mapDispatchToProps = dispatch => {
     },
     onSearch: (searchInfo, pageSearch) => {
       dispatch(actSearchRequest(searchInfo, pageSearch));
+    },
+    onFetchClassesByClassTeach: (classTeach, page) => {
+      dispatch(actFetchClassesByClassRequest(classTeach, page))
     }
   };
 };

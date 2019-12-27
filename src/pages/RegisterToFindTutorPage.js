@@ -48,7 +48,7 @@ class RegisterToFindTutorPage extends Component {
                               rules: [
                                   {
                                   required: true,
-                                  message: "Please input your address"
+                                  message: "Vui lòng nhập địa chỉ"
                                   }
                               ]
                               })(<Input placeholder="Nhập số nhà, đường..." />)}
@@ -58,7 +58,7 @@ class RegisterToFindTutorPage extends Component {
                               rules: [
                                   {
                                   required: true,
-                                  message: "Please select your district!"
+                                  message: "Vui lòng chọn quận!"
                                   }
                               ]
                               })(
@@ -87,7 +87,7 @@ class RegisterToFindTutorPage extends Component {
                               rules: [
                                   {
                                   required: true,
-                                  message: "Please select your grade!"
+                                  message: "Vui lòng chọn lớp!"
                                   }
                               ]
                               })(
@@ -112,7 +112,7 @@ class RegisterToFindTutorPage extends Component {
                               rules: [
                                   {
                                   required: true,
-                                  message: "Please input your subjects"
+                                  message: "Vui lòng nhập môn học!"
                                   }
                               ]
                               })(<Input placeholder="Nhập môn học cần đăng ký, VD: toán, lý,..." />)}
@@ -127,7 +127,7 @@ class RegisterToFindTutorPage extends Component {
                               ]
                               })(<Input placeholder="VD: T2-T4-T6, 17h-19h" />)}
                           </Form.Item>
-                          <Form.Item label="Yêu cầu cấp bậc" hasFeedback>
+                          <Form.Item label="Yêu cầu cấp bậc:" hasFeedback>
                               {getFieldDecorator("requireLevel", {
                               rules: [
                                   {
@@ -145,7 +145,7 @@ class RegisterToFindTutorPage extends Component {
                               </Select>
                               )}
                           </Form.Item>
-                          <Form.Item label="Yêu cầu giới tính" hasFeedback>
+                          <Form.Item label="Yêu cầu giới tính:" hasFeedback>
                               {getFieldDecorator("requireGender", {
                               rules: [
                                   {

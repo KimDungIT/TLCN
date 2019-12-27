@@ -2,6 +2,7 @@
 /* CSS Document */
 
 body {
+  
   font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
   background-image: url(../images/bg.jpg);
@@ -32,13 +33,13 @@ i.fa {
   margin-right: 5px;
 }
 a.nav-link {
-  font-size: 16px;
+  font-size: 17px;
   display: block;
   padding: 7px 4px 4px;
   text-decoration: none;
   color: #fff;
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 p.text {
@@ -106,7 +107,7 @@ h4.widget-title {
   height: auto;
 }
 #menu a {
-  font-size: 13px;
+  font-size: 16px;
   color: black;
 }
 #menu a:hover {
@@ -141,7 +142,7 @@ h4.widget-title {
   margin-bottom: 15px;
 }
 .list-group-item {
-  font-size: 14px;
+  font-size: 15px;
   color: #303c44;
   border-style: dashed;
   padding: 10px 7px 8px 9px;
@@ -150,7 +151,17 @@ h4.widget-title {
 #right {
   margin-right: -25px;
 }
-.panel-heading {
+.panel-heading.parent {
+  height: 37px;
+  background-color: #2e81cd;
+  color: white;
+  font-size: 20px;
+  margin-bottom: 10px;
+  width: 100%;
+  padding-top: 3px;
+  margin-left: 15px;
+}
+.panel-heading{
   height: 37px;
   background-color: #2e81cd;
   color: white;
@@ -218,40 +229,6 @@ h4.widget-title {
   background-color: black;
 }
 
-/* form .row {
-	display: block;
-	padding: 1px 10px;
-	margin-bottom: 4px;
-} */
-/* .ant-col-6 {
-    display: block;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 25%;
-} */
-/* form label {
-	display: block;
-	font-size: 14px;
-	font-weight: bold;
-	width: 220px;
-	color: #464646;
-	
-}
-input.ant-radio-input {
-	margin-right: 10px;
-} */
-
-/* form .obligate { color: red; }
-input[type=submit] {
-	background-color: orange;
-	color: white;
-	width: 110px;
-	height: 40px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	float: right;
-} */
 .luuy {
   font-weight: bold;
 }
@@ -261,6 +238,13 @@ input[type=submit] {
   width: 100%;
   padding: 15px;
   margin-bottom: 15px;
+}
+.panel-body.parent {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
+  margin-left: 15px;
 }
 .custom-control-label {
   margin-bottom: 10px;
@@ -363,6 +347,7 @@ h3.tieude {
   font-weight: bold;
 }
 p.noidung {
+  font-size: 16px;
   text-align: center;
 }
 .statusGray {
@@ -413,4 +398,10 @@ ul.ant-pagination {
   margin: auto;
   text-align: center;
   margin: 15px;
+}
+.ant-btn {
+  font-size: 16px;
+}
+.ant-form {
+  font-size: 15px;
 }
