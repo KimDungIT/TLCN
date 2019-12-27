@@ -49,14 +49,53 @@ function Step1(props) {
                     value={props.timeTeach} 
                     onChange={props.handleChange} />
             </div>
-            <div className="form-group">
-                <label>Địa chỉ dạy</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    name="address"
-                    value={props.address} 
-                    onChange={props.handleChange} />
+            <div className="row">
+                <div className="col-8">
+                    <div className="form-group">
+                        <label>Địa chỉ dạy</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="address"
+                            value={props.address} 
+                            onChange={props.handleChange} />
+                    </div>
+                </div>
+                <div className="col-4">
+                    <div className="form-group">
+                        <label>Quận / Huyện</label>
+                        <select
+                            className="form-control"
+                            name="district"
+                            value={props.district} 
+                            onChange={props.handleChange}>
+                            <option>Quận Thủ Đức</option>
+                            <option>Quận Gò Vấp</option>
+                            <option>Quận Tân Phú</option>
+                            <option>Quận Bình Tân</option>
+                            <option>Quận Phú Nhuận</option>
+                            <option>Quận Bình Thạnh</option>
+                            <option>Quận Tân Bình</option>
+                            <option>Quận 1</option>
+                            <option>Quận 2</option>
+                            <option>Quận 3</option>
+                            <option>Quận 4</option>
+                            <option>Quận 5</option>
+                            <option>Quận 6</option>
+                            <option>Quận 7</option>
+                            <option>Quận 8</option>
+                            <option>Quận 9</option>
+                            <option>Quận 10</option>
+                            <option>Quận 11</option>
+                            <option>Quận 12</option>
+                            <option>Huyện Cần Giờ</option>
+                            <option>Huyện Nhà Bè</option>
+                            <option>Huyện Củ Chi</option>
+                            <option>Huyện Bình Chánh</option>
+                            <option>Huyện Hóc Môn</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div className="row">
                 <div className="col-6">

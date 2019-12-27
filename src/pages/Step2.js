@@ -15,7 +15,7 @@ class Step2 extends Component {
         }
         return (
             <div className="form-group ">
-                <h3>Thêm thông phụ huynh</h3>
+                <h3>Thêm thông tin phụ huynh</h3>
                 <div className="form-check-inline">
                     <div className="form-check ">
                         <label className="form-check-label">

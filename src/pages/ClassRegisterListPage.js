@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import ClassRegisterList from '../components/ClassRegisterList';
 import {connect} from 'react-redux';
-import {actFetchClassRegisterRequest} from '../actions/index';
+import {actFetchClassRegisterPendingRequest} from '../actions/index';
 import ClassRegisterItem from '../components/ClassRegisterItem';
 
 
 class ClassRegisterListPage extends Component {
     componentDidMount(){
-        this.props.fetchAllClassRegister();        
+        this.props.fetchAllClassRegisterPending();        
     }
     render() {
         var {classRegister} = this.props;
@@ -44,10 +44,9 @@ class ClassRegisterListPage extends Component {
     }
     showClassRegister(classRegister) {
         var result = null;    
-        if(classRegister === undefined) {
-            return;
-        }
-        
+        // if(classRegister === undefined) {
+        //     return;
+        // }       
         if(classRegister.length > 0){
             
             result = classRegister.map((classitem, index) => {
@@ -76,8 +75,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        fetchAllClassRegister : () => {     
-            dispatch(actFetchClassRegisterRequest());
+        fetchAllClassRegisterPending : () => {     
+            dispatch(actFetchClassRegisterPendingRequest());
         }
     }
 

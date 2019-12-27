@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { actGetClassRequest, actGetParentClassRequest, actUpdateClassRequest } from './../actions/index';
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class ClassDetail extends Component {
     constructor(props) {
@@ -13,6 +13,7 @@ class ClassDetail extends Component {
             subject: '',
             timeTeach: '',
             address: '',
+            district: '',
             salary: null,
             serviceFee: 0.25,
             genderRequirement: 'Không yêu cầu',
@@ -34,6 +35,7 @@ class ClassDetail extends Component {
                 subject: classEditing.subject,
                 timeTeach: classEditing.timeTeach,
                 address: classEditing.address,
+                district: classEditing.district,
                 salary: classEditing.salary,
                 serviceFee: classEditing.serviceFee,
                 genderRequirement: classEditing.genderRequirement,
@@ -55,7 +57,7 @@ class ClassDetail extends Component {
             this.props.onGetParentClass(id);
         }
     }
-    
+
     handleChange = event => {
         const { name, value } = event.target
         this.setState({
@@ -71,6 +73,7 @@ class ClassDetail extends Component {
             subject: this.state.subject,
             timeTeach: this.state.timeTeach,
             address: this.state.address,
+            district: this.state.district,
             salary: this.state.salary,
             serviceFee: this.state.serviceFee,
             genderRequirement: this.state.genderRequirement,
@@ -78,13 +81,13 @@ class ClassDetail extends Component {
             status: this.state.status
         }
         if (dataClass.idClass) {
-            this.props.onUpdateClass(dataClass);
-            history.goBack();
+            this.props.onUpdateClass(dataClass, history);
+            // history.goBack();
         }
     }
     render() {
-        var { classTeach, subject, timeTeach, address, salary, serviceFee, genderRequirement, levelRequirement, status } = this.state;
-        var { name, phone, addressParent, email} = this.state;
+        var { classTeach, subject, timeTeach, address, district, salary, serviceFee, genderRequirement, levelRequirement, status } = this.state;
+        var { name, phone, addressParent, email } = this.state;
         return (
             <div id="content-wrapper">
                 <div className="container-fluid">
@@ -143,15 +146,55 @@ class ClassDetail extends Component {
                                                 value={timeTeach}
                                                 onChange={this.handleChange} />
                                         </div>
-                                        <div className="form-group">
-                                            <label>Địa chỉ dạy</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                name="address"
-                                                value={address}
-                                                onChange={this.handleChange} />
+                                        <div className="row">
+                                            <div className="col-8">
+                                                <div className="form-group">
+                                                    <label>Địa chỉ dạy</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        name="address"
+                                                        value={address}
+                                                        onChange={this.handleChange} />
+                                                </div>
+                                            </div>
+                                            <div className="col-4">
+                                                <div className="form-group">
+                                                    <label>Quận / Huyện</label>
+                                                    <select
+                                                        className="form-control"
+                                                        name="district"
+                                                        value={district}
+                                                        onChange={this.handleChange}>
+                                                        <option>Quận Thủ Đức</option>
+                                                        <option>Quận Gò Vấp</option>
+                                                        <option>Quận Tân Phú</option>
+                                                        <option>Quận Bình Tân</option>
+                                                        <option>Quận Phú Nhuận</option>
+                                                        <option>Quận Bình Thạnh</option>
+                                                        <option>Quận Tân Bình</option>
+                                                        <option>Quận 1</option>
+                                                        <option>Quận 2</option>
+                                                        <option>Quận 3</option>
+                                                        <option>Quận 4</option>
+                                                        <option>Quận 5</option>
+                                                        <option>Quận 6</option>
+                                                        <option>Quận 7</option>
+                                                        <option>Quận 8</option>
+                                                        <option>Quận 9</option>
+                                                        <option>Quận 10</option>
+                                                        <option>Quận 11</option>
+                                                        <option>Quận 12</option>
+                                                        <option>Huyện Cần Giờ</option>
+                                                        <option>Huyện Nhà Bè</option>
+                                                        <option>Huyện Củ Chi</option>
+                                                        <option>Huyện Bình Chánh</option>
+                                                        <option>Huyện Hóc Môn</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
+
                                         <div className="row">
                                             <div className="col-6">
                                                 <div className="form-group">
@@ -206,6 +249,7 @@ class ClassDetail extends Component {
                                                         onChange={this.handleChange}>
                                                         <option>Lớp mới</option>
                                                         <option>Chờ duyệt</option>
+                                                        <option>Không đạt</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -214,7 +258,7 @@ class ClassDetail extends Component {
                                     <Link to="/class-list" className="btn btn-secondary">
                                         HỦY
                                     </Link>
-                                    <button type="submit" className="btn btn-primary" style={{float: 'right'}}>LƯU</button>
+                                    <button type="submit" className="btn btn-primary" style={{ float: 'right' }}>LƯU</button>
                                 </form>
                             </div>
                         </div>
@@ -260,8 +304,8 @@ const mapDispatchToProps = (dispatch, props) => {
             dispatch(actGetParentClassRequest(id));
 
         },
-        onUpdateClass: (classs) => {
-            dispatch(actUpdateClassRequest(classs));
+        onUpdateClass: (classs, history) => {
+            dispatch(actUpdateClassRequest(classs, history));
         }
     }
 }

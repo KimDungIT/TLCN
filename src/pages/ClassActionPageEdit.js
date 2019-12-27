@@ -13,6 +13,7 @@ class ClassActionPageEdit extends Component {
             subject: '',
             timeTeach: '',
             address: '',
+            district: '',
             salary: null,
             serviceFee: 0.25,
             genderRequirement: 'Không yêu cầu',
@@ -30,6 +31,7 @@ class ClassActionPageEdit extends Component {
                 subject: classEditing.subject,
                 timeTeach: classEditing.timeTeach,
                 address: classEditing.address,
+                district: classEditing.district,
                 salary: classEditing.salary,
                 serviceFee: classEditing.serviceFee,
                 genderRequirement: classEditing.genderRequirement,
@@ -62,6 +64,7 @@ class ClassActionPageEdit extends Component {
             subject: this.state.subject,
             timeTeach: this.state.timeTeach,
             address: this.state.address,
+            district: this.state.district,
             salary: this.state.salary,
             serviceFee: this.state.serviceFee,
             genderRequirement: this.state.genderRequirement,
@@ -69,13 +72,14 @@ class ClassActionPageEdit extends Component {
             status: this.state.status
         }
         if (dataClass.idClass) {
-            this.props.onUpdateClass(dataClass);
-            history.goBack();
+            this.props.onUpdateClass(dataClass, history);
+            //history.goBack();
         }
     }
 
     render() {
-        var { classTeach, subject, timeTeach, address, salary, serviceFee, genderRequirement, levelRequirement, status } = this.state;
+        var { classTeach, subject, timeTeach, address, district, salary, 
+            serviceFee, genderRequirement, levelRequirement, status } = this.state;
         return (
             <div id="content-wrapper">
                 <div className="container-fluid">
@@ -132,15 +136,55 @@ class ClassActionPageEdit extends Component {
                                             value={timeTeach}
                                             onChange={this.handleChange} />
                                     </div>
-                                    <div className="form-group">
-                                        <label>Địa chỉ dạy</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            name="address"
-                                            value={address}
-                                            onChange={this.handleChange} />
-                                    </div>
+                                    <div className="row">
+                <div className="col-8">
+                    <div className="form-group">
+                        <label>Địa chỉ dạy</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="address"
+                            value={address} 
+                            onChange={this.handleChange} />
+                    </div>
+                </div>
+                <div className="col-4">
+                    <div className="form-group">
+                        <label>Quận / Huyện</label>
+                        <select
+                            className="form-control"
+                            name="district"
+                            value={district} 
+                            onChange={this.handleChange}>
+                            <option>Quận Thủ Đức</option>
+                            <option>Quận Gò Vấp</option>
+                            <option>Quận Tân Phú</option>
+                            <option>Quận Bình Tân</option>
+                            <option>Quận Phú Nhuận</option>
+                            <option>Quận Bình Thạnh</option>
+                            <option>Quận Tân Bình</option>
+                            <option>Quận 1</option>
+                            <option>Quận 2</option>
+                            <option>Quận 3</option>
+                            <option>Quận 4</option>
+                            <option>Quận 5</option>
+                            <option>Quận 6</option>
+                            <option>Quận 7</option>
+                            <option>Quận 8</option>
+                            <option>Quận 9</option>
+                            <option>Quận 10</option>
+                            <option>Quận 11</option>
+                            <option>Quận 12</option>
+                            <option>Huyện Cần Giờ</option>
+                            <option>Huyện Nhà Bè</option>
+                            <option>Huyện Củ Chi</option>
+                            <option>Huyện Bình Chánh</option>
+                            <option>Huyện Hóc Môn</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
                                     <div className="row">
                                         <div className="col-6">
                                             <div className="form-group">
@@ -225,8 +269,8 @@ const mapDispatchToProps = (dispatch, props) => {
         onEditClass: (id) => {
             dispatch(actGetClassRequest(id));
         },
-        onUpdateClass: (classs) => {
-            dispatch(actUpdateClassRequest(classs));
+        onUpdateClass: (classs, history) => {
+            dispatch(actUpdateClassRequest(classs, history));
         }
     }
 }

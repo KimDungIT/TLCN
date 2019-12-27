@@ -35,7 +35,7 @@ class LoginPage extends Component {
                                         name="username"
                                         value={this.username}
                                         onChange={this.onChange} />
-                                    <label htmlFor="inputPhone">Phone address</label>
+                                    <label htmlFor="inputPhone">Số điện thoại</label>
                                 </div>
                             </div>
                             <div className="form-group">
@@ -54,9 +54,9 @@ class LoginPage extends Component {
 
                             <button className="btn btn-primary btn-block">Login</button>
                         </form>
-                        <div className="text-center">
+                        {/* <div className="text-center">
                             <a className="d-block small" href="forgot-password.html">Forgot Password?</a>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

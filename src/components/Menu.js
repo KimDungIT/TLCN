@@ -23,7 +23,7 @@ const menus = [
     {
         name: 'Thống kê nhận lớp',
         icon: 'fas fa-fw fa-chart-area',
-        to: '/user-list',
+        to: '/report',
         exact: false
     }
 ];

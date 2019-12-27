@@ -15,6 +15,7 @@ class ClassActionPage extends Component {
             subject: '',
             timeTeach: '',
             address: '',
+            district: '',
             salary: null,
             serviceFee: 0.25,
             genderRequirement: 'Không yêu cầu',
@@ -52,8 +53,6 @@ class ClassActionPage extends Component {
                             </form>                           
                         </div>
                     </div>
-
-
                 </div>
             </div>
         );
@@ -71,6 +70,7 @@ class ClassActionPage extends Component {
             subject: this.state.subject,
             timeTeach: this.state.timeTeach,
             address: this.state.address,
+            district: this.state.district,
             salary: this.state.salary,
             serviceFee: this.state.serviceFee,
             genderRequirement: this.state.genderRequirement,
@@ -79,8 +79,7 @@ class ClassActionPage extends Component {
         }
         var phoneParent = this.state.phoneParent;
         if(statusParent === 'old'){
-            this.props.onAddClass(dataClass, phoneParent);
-            history.goBack();
+            this.props.onAddClass(dataClass, phoneParent, history);
         }else if(statusParent === 'new'){
             
             var dataParent = {
@@ -90,10 +89,10 @@ class ClassActionPage extends Component {
                 email: this.state.emailParent,
                 password: this.state.phoneParent
             }
-            callApi('users?type=PHUHUYNH',
+            callApi('users/createParent',
                 'POST', dataParent
             ).then(res => {
-                this.props.onAddClass(dataClass, phoneParent);
+                this.props.onAddClass(dataClass, phoneParent, history);
                 history.goBack();
             });
         }
@@ -154,8 +153,8 @@ class ClassActionPage extends Component {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onAddClass: (classs, phoneParent) => {
-            dispatch(actAddClassRequest(classs, phoneParent));
+        onAddClass: (classs, phoneParent, history) => {
+            dispatch(actAddClassRequest(classs, phoneParent, history));
         }
     }
 }

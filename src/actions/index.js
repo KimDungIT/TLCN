@@ -49,12 +49,12 @@ export const actDeleteClass = (id) => {
 }
 
 // add class
-export const actAddClassRequest = (classs, phoneParent) => {
+export const actAddClassRequest = (classs, phoneParent, history) => {
     return dispatch => {
         return callApi(`classes?parentPhoneNumber=${phoneParent}`,
         'POST', classs).then(res => {
-            console.log(res);
             dispatch(actAddClass(res.data.result));
+            history.goBack();
         })
     }
 }
@@ -82,11 +82,12 @@ export const actGetClass = (classs) => {
 }
 
 // update class
-export const actUpdateClassRequest = (classs) => {
+export const actUpdateClassRequest = (classs, history) => {
     return dispatch => {
         callApi('classes', 'PATCH', classs)
         .then(res => {
             dispatch(actUpdateClass(res.data.result));
+            history.goBack();
         })
     }
 }
@@ -103,7 +104,6 @@ export const actGetParentClassRequest = (id) => {
         return callApi(`classes/${id}/parent`, 'GET', null)
             .then(res => {
                 dispatch(actGetParentClass(res.data.result));
-                console.log(res);
             });
     }
 }
@@ -114,11 +114,140 @@ export const actGetParentClass = (parent) => {
     }
 }
 
-// get all class register
+// get all class register pending
+export const actFetchClassRegisterPendingRequest = () => {
+    return (dispatch) => {
+        return callApi('classRegister/pending', 'GET', null).then(res => {
+            dispatch(actFetchClassRegisterPending(res.data.result));
+        });
+    }
+}
+
+export const actFetchClassRegisterPending = (classRegister) => {
+    return {
+        type: Types.FETCH_CLASSES_REGISTER_PENDING,
+        classRegister
+    }
+}
+
+// get class register detail
+export const actGetClassRegisterRequest = (id) => {
+    return dispatch => {
+        return callApi(`classRegister/${id}`, 'GET', null)
+            .then(res => {
+                dispatch(actGetClassRegister(res.data.result));
+            });
+    }
+}
+export const actGetClassRegister = (classRegisterItem) => {
+    return {
+        type: Types.GET_CLASS_REGISTER_DETAIL,
+        classRegisterItem
+    }
+}
+
+// update status class register -- pass
+export const actUpdateClassRegisterRequest = (idClassRegister) => {
+    return dispatch => {
+        callApi(`invoices?idClassRegister=${idClassRegister}`, 'PUT', idClassRegister)
+        .then(res => {
+            dispatch(actUpdateClassRegister(res.data.result));
+        })
+    }
+}
+export const actUpdateClassRegister = (invoice) => {
+    return {
+        type: Types.UPDATE_CLASS_REGISTER,
+        invoice
+    }
+}
+
+// get all users
+export const actFetchUsersRequest = () => {
+    return (dispatch) => {
+        return callApi('users', 'GET', null).then(res => {
+            dispatch(actFetchUsers(res.data.result));
+        });
+    }
+}
+
+export const actFetchUsers = (users) => {
+    return {
+        type: Types.FETCH_USERS,
+        users
+    }
+}
+
+// add User
+export const actAddUserRequest = (user, role, history) => {
+    return dispatch => {
+        return callApi(`users/signUp?type=${role}`,
+        'POST', user).then(res => {
+            dispatch(actAddUser(res.data.result));
+            history.goBack();
+        })
+    }
+}
+export const actAddUser = (user) =>{
+    return {
+        type: Types.ADD_USER,
+        user
+    }
+}
+
+
+// get user to edit
+export const actGetUserRequest = (id) => {
+    return dispatch => {
+        return callApi(`users/getUserById?idUser=${id}`, 'GET', null)
+            .then(res => {
+                dispatch(actGetUser(res.data.result));
+            });
+    }
+}
+export const actGetUser = (user) => {
+    return {
+        type: Types.EDIT_USER,
+        user
+    }
+}
+
+
+// update user
+export const actUpdateUserRequest = (user, history) => {
+    return dispatch => {
+        callApi('users', 'PATCH', user)
+        .then(res => {
+            dispatch(actUpdateUser(res.data.result));
+            history.goBack();
+        })
+    }
+}
+export const actUpdateUser = (user) => {
+    return {
+        type: Types.UPDATE_USER,
+        user
+    }
+}
+
+// add tutor
+export const actAddTutorRequest = (idUser, dataTutor, history) => {
+    return dispatch => {
+        return callApi(`tutors/create/?idUser=${idUser}`,
+        'POST', dataTutor).then(res => {
+            //dispatch(actAddTutor(res.data.result));
+            history.goBack();
+        })
+    }
+}
+
+// get all invoices
 export const actFetchClassRegisterRequest = () => {
     return (dispatch) => {
         return callApi('classRegister', 'GET', null).then(res => {
             dispatch(actFetchClassRegister(res.data.result));
+            console.log("classRegister: "+res.data.result);
+            
         });
     }
 }

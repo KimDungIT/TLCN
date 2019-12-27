@@ -17,7 +17,7 @@ class ClassItemPending extends Component {
                     <Link 
                         to={`/class/${classitem.idClass}`} 
                         className="btn btn-success btn-sm">
-                        Xem
+                        Duyệt
                     </Link>
                 </td>
             </tr>

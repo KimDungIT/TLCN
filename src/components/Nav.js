@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import cookie from 'js-cookie';
+import * as Types from './../constants/ActionTypes';
+import { connect } from 'react-redux';
 
 class Nav extends Component {
+
     render() {
+        var idUser = cookie.get('idUser');
         return (
             <div>
                 <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -10,40 +16,17 @@ class Nav extends Component {
                         <i className="fas fa-bars" />
                     </button>
                     <ul className="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                        
-                        <li className="nav-item dropdown no-arrow mx-1">
-                            <a className="nav-link dropdown-toggle" href="/" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i className="fas fa-bell fa-fw" />
-                                <span className="badge badge-danger">9+</span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                                <a className="dropdown-item" href="/">Action</a>
-                                <a className="dropdown-item" href="/">Another action</a>
-                                <div className="dropdown-divider" />
-                                <a className="dropdown-item" href="/">Something else here</a>
-                            </div>
-                        </li>
-                        <li className="nav-item dropdown no-arrow mx-1">
-                            <a className="nav-link dropdown-toggle" href="aa" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i className="fas fa-envelope fa-fw" />
-                                <span className="badge badge-danger">7</span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                                <a className="dropdown-item" href="/">Action</a>
-                                <a className="dropdown-item" href="/">Another action</a>
-                                <div className="dropdown-divider" />
-                                <a className="dropdown-item" href="/">Something else here</a>
-                            </div>
-                        </li>
                         <li className="nav-item dropdown no-arrow">
                             <a className="nav-link dropdown-toggle" href="/" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i className="fas fa-user-circle fa-fw"/>
                             </a>
                             <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                <a className="dropdown-item" href="userprofile">User profile</a>
-                                <a className="dropdown-item" href="edituser">Edit profile</a>
+                                <Link to={`/user-edit/${idUser}`} className="dropdown-item" >
+                                    User profile
+                                </Link>
+                                
                                 <div className="dropdown-divider" />
-                                <a className="dropdown-item" href="logout" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                                <Link to="/" className="dropdown-item" onClick={this.handleLogout} data-toggle="modal" data-target="#logoutModal">Logout</Link>
                             </div>
                         </li>
                     </ul>
@@ -51,6 +34,20 @@ class Nav extends Component {
             </div>
         );
     }
+
+    handleLogout = (e) => {
+        e.preventDefault()
+        console.log("Logout");
+        cookie.remove('token');
+        cookie.remove('idUser');
+        this.props.logout();
+    }
+    
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        logout: () => dispatch({type: Types.SET_LOGOUT})
+    };
 }
 
-export default Nav;
+export default connect(null, mapDispatchToProps)(Nav);

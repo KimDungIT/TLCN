@@ -16,6 +16,10 @@ import ClassDetail from './pages/ClassDetail';
 import ClassListPendingPage from './pages/ClassListPendingPage';
 import ClassRegisterListPage from './pages/ClassRegisterListPage';
 import ClassRegisterPage from './pages/ClassRegisterPage';
+import UserListPage from './pages/UserListPage';
+import UserActionPage from './pages/UserActionPage';
+import UserEditPage from './pages/UserEditPage';
+import ReportPage from './pages/ReportPage';
 
 class App extends Component {
   render() {
@@ -25,7 +29,7 @@ class App extends Component {
     return (
       <Router>
         <div >
-          {loggedIn ? <Nav /> : ''}
+          {loggedIn ? <Nav/> : ''}
           <div id="wrapper">
             {loggedIn ? <Menu /> : ''}
 
@@ -39,6 +43,10 @@ class App extends Component {
               <PrivateRoute path='/class-list-pending' component={ClassListPendingPage} token={token} match history/>
               <PrivateRoute path='/class-register-list' component={ClassRegisterListPage} token={token} match history/>
               <PrivateRoute path='/classRegister/:id' component={ClassRegisterPage} token={token} match history/>
+              <PrivateRoute path='/user-list' component={UserListPage} token={token} />
+              <PrivateRoute path='/user-add' component={UserActionPage} token={token} history/>
+              <PrivateRoute path='/user-edit/:id' component={UserEditPage} token={token} history/>
+              <PrivateRoute path='/report' component={ReportPage} token={token} history/>
             </Switch>
 
             {loggedIn ? <Footer /> : ''}

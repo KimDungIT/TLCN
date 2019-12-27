@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
+import { actGetClassRegisterRequest, actUpdateClassRegisterRequest } from './../actions/index';
+import { connect } from 'react-redux';
+import callApi from './../utils/apiCaller';
+import { Link } from 'react-router-dom';
 
 class ClassRegisterPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             currentStep: 1,
+            idClassRegister: null,
+            // class
             idClass: null,
             classTeach: '',
             subject: '',
@@ -15,15 +21,92 @@ class ClassRegisterPage extends Component {
             genderRequirement: 'Không yêu cầu',
             levelRequirement: 'Không yêu cầu',
             status: '',
-            // parent
+
+            // tutor
+            idTutor: null,
+            gender: '',
+            yearOfBirth: '',
+            major: '',
+            college: '',
+            graduationYear: '',
+            level: '',
+            subjectsCanTeach: '',
+            classesCanTeach: '',
+            districtCanTeach: '',
+            moreInfo: '',
+
             name: '',
             phone: '',
-            addressParent: '',
-            email: ''
+            addressTutor: ''
         }
     }
+    componentDidMount() {
+        var { match } = this.props;
+        if (match) {
+            var id = match.params.id;
+            this.props.onClassRegisterDetail(id);
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps && nextProps.classRegisterItem) {
+            var { classRegisterItem } = nextProps;
+
+            callApi(`tutors/getTutor/getUser?idTutor=${classRegisterItem.tutors.idTutor}`,
+                'GET', null
+            ).then(res => {
+                this.setState({
+                    name: res.data.result.name,
+                    phone: res.data.result.phone,
+                    addressTutor: res.data.result.address
+                });
+            });
+
+            this.setState({
+                idClassRegister: classRegisterItem.idClassRegister,
+                idClass: classRegisterItem.classes.idClass,
+                classTeach: classRegisterItem.classes.classTeach,
+                subject: classRegisterItem.classes.subject,
+                timeTeach: classRegisterItem.classes.timeTeach,
+                address: classRegisterItem.classes.address,
+                district: classRegisterItem.classes.district,
+                salary: classRegisterItem.classes.salary,
+                serviceFee: classRegisterItem.classes.serviceFee,
+                genderRequirement: classRegisterItem.classes.genderRequirement,
+                levelRequirement: classRegisterItem.classes.levelRequirement,
+                status: classRegisterItem.classes.status,
+
+                // tutor
+                idTutor: classRegisterItem.tutors.idTutor,
+                gender: classRegisterItem.tutors.gender,
+                yearOfBirth: classRegisterItem.tutors.yearOfBirth,
+                major: classRegisterItem.tutors.major,
+                college: classRegisterItem.tutors.college,
+                graduationYear: classRegisterItem.tutors.graduationYear,
+                level: classRegisterItem.tutors.level,
+                subjectsCanTeach: classRegisterItem.tutors.subjects,
+                classesCanTeach: classRegisterItem.tutors.classes,
+                districtCanTeach: classRegisterItem.tutors.districtCanTeach,
+                moreInfo: classRegisterItem.tutors.moreInfo
+            });
+        }
+    }
+
+    onSave = (e) => {
+        e.preventDefault();
+        var { history } = this.props;
+        //console.log("props: "+ this.props.classRegisterItem);
+        
+        var idClassRegister = this.props.classRegisterItem.idClassRegister;
+        console.log("idClassRegister:" + idClassRegister);
+        
+        this.props.onUpdateClassRegister(idClassRegister);
+        history.goBack();
+    }
     render() {
-        var { classTeach, subject, timeTeach, address, salary, serviceFee, genderRequirement, levelRequirement, status } = this.state;
+        let { classTeach, subject, timeTeach, address, salary, serviceFee, genderRequirement, levelRequirement, status } = this.state;
+        let { idTutor, gender, yearOfBirth, major, college, graduationYear,
+            level, subjectsCanTeach, classesCanTeach, districtCanTeach, moreInfo } = this.state;
+        let { name, phone, addressTutor } = this.state;
         return (
             <div id="content-wrapper">
                 <div className="container-fluid">
@@ -38,6 +121,7 @@ class ClassRegisterPage extends Component {
 
                     <div className="mb-3">
                         <div className="row">
+                            {/* CLASS */}
                             <div className="col-6">
                                 <div className="card">
                                     <div className="card-header">
@@ -160,8 +244,12 @@ class ClassRegisterPage extends Component {
                                         </form>
                                     </div>
                                 </div>
+                                <button type="button" onClick={this.onSave}  className="btn btn-primary btn-block" >DUYỆT</button>
+                                <Link to="/class-register-list" className="btn btn-secondary btn-block">
+                                    HỦY
+                                </Link>
                             </div>
-
+                            {/* TUTOR */}
                             <div className="col-6">
                                 <div className="card">
                                     <div className="card-header">
@@ -174,13 +262,13 @@ class ClassRegisterPage extends Component {
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label htmlFor="name">Mã gia sư</label>
-                                                        <input type="text" className="form-control" id="name" />
+                                                        <input type="text" className="form-control" value={idTutor} />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-8">
                                                     <div className="form-group">
                                                         <label htmlFor="phonenumber">Họ tên</label>
-                                                        <input type="text" className="form-control" id="phonenumber" />
+                                                        <input type="text" className="form-control" value={name} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -189,13 +277,13 @@ class ClassRegisterPage extends Component {
                                                     <div className="col-md-4">
                                                         <div className="form-group">
                                                             <label htmlFor="name">Số điện thoại</label>
-                                                            <input type="text" className="form-control" id="name" />
+                                                            <input type="text" className="form-control" value={phone} />
                                                         </div>
                                                     </div>
                                                     <div className="col-md-8">
                                                         <div className="form-group">
                                                             <label htmlFor="phonenumber">Địa chỉ</label>
-                                                            <input type="text" className="form-control" id="phonenumber" />
+                                                            <input type="text" className="form-control" value={addressTutor} />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -204,38 +292,38 @@ class ClassRegisterPage extends Component {
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label htmlFor="phonenumber">Giới tính</label>
-                                                        <input type="number" className="form-control" id="phonenumber" />
+                                                        <input type="text" className="form-control" value={gender} />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label htmlFor="password">Năm sinh</label>
-                                                        <input type="text" className="form-control" id="password" />
+                                                        <input type="text" className="form-control" value={yearOfBirth} />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label htmlFor="password">Hiện là</label>
-                                                        <input type="password" className="form-control" id="password" />
+                                                        <input type="text" className="form-control" value={level} />
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div className="form-group">
                                                 <label htmlFor="address">Trường</label>
-                                                <input type="email" className="form-control" id="address" />
+                                                <input type="text" className="form-control" value={college} />
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-8">
                                                     <div className="form-group">
                                                         <label htmlFor="phonenumber">Chuyên ngành</label>
-                                                        <input type="number" className="form-control" id="phonenumber" />
+                                                        <input type="text" className="form-control" value={major} />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <div className="form-group">
                                                         <label htmlFor="password">Năm tốt nghiệp</label>
-                                                        <input type="text" className="form-control" id="password" />
+                                                        <input type="text" className="form-control" value={graduationYear} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -243,31 +331,31 @@ class ClassRegisterPage extends Component {
                                                 <div className="col-md-6">
                                                     <div className="form-group">
                                                         <label htmlFor="address">Lớp có thể dạy</label>
-                                                        <input type="text" className="form-control" id="address" />
+                                                        <input type="text" className="form-control" value={classesCanTeach} />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
                                                         <label htmlFor="address">Môn có thể dạy</label>
-                                                        <input type="text" className="form-control" id="address" />
+                                                        <input type="text" className="form-control" value={subjectsCanTeach} />
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <div className="form-group">
                                                 <label htmlFor="address">Quận có thể dạy</label>
-                                                <input type="text" className="form-control" id="address" />
+                                                <input type="text" className="form-control" value={districtCanTeach} />
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="description">Thông tin thêm</label>
-                                                <textarea className="form-control" id="description" rows={5} defaultValue={""} />
+                                                <textarea className="form-control" id="description" rows={3} value={moreInfo} />
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        
                     </div>
                 </div>
             </div>
@@ -275,4 +363,21 @@ class ClassRegisterPage extends Component {
     }
 }
 
-export default ClassRegisterPage;
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onClassRegisterDetail: (id) => {
+            dispatch(actGetClassRegisterRequest(id));
+        },
+        onUpdateClassRegister: (id) => {
+            dispatch(actUpdateClassRegisterRequest(id));
+        }
+    }
+}
+const mapStateToProps = state => {
+    return {
+        classRegisterItem: state.classRegisterItem
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClassRegisterPage);
