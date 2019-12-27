@@ -25,7 +25,9 @@ import vn.tlcn.trungtamgiasu.specification.ClassesSpecification;
 import vn.tlcn.trungtamgiasu.specification.ClassesSpecificationBuilder;
 
 
+import java.time.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -189,4 +191,76 @@ public class ClassesService {
     public Users getParent(Classes classes){
         return classes.getUsers();
     }
+
+    public int[] countNumberOfClass(){
+        int[] A = new int[12];
+        List<Classes> classes = getAllClass();
+        for (Classes classs: classes) {
+            Instant dateCreated = classs.getDateCreated();
+            ZoneId z = ZoneId.of("Asia/Ho_Chi_Minh");
+            ZonedDateTime zdt = dateCreated.atZone(z);
+            switch (zdt.getMonth()) {
+                case JANUARY:
+                    A[0] += 1;
+                    break;
+                case FEBRUARY:
+                    A[1] += 1;
+                    break;
+                case MARCH:
+                    A[2] += 1;
+                    break;
+                case APRIL:
+                    A[3] += 1;
+                    break;
+                case MAY:
+                    A[4] += 1;
+                    break;
+                case JUNE:
+                    A[5] += 1;
+                    break;
+                case JULY:
+                    A[6] += 1;
+                    break;
+                case AUGUST:
+                    A[7] += 1;
+                    break;
+                case SEPTEMBER:
+                    A[8] +=1;
+                    break;
+                case OCTOBER:
+                    A[9] += 1;
+                    break;
+                case NOVEMBER:
+                    A[10] += 1;
+                    break;
+                case DECEMBER:
+                    A[11] += 1;
+                    break;
+            }
+        }
+        return A;
+    }
+
+    public int[] calPercentOfNumber(){
+        int A[] = new int[4];
+        List<Classes> classes = getAllClass();
+        for (Classes classs: classes) {
+            switch (classs.getStatus()){
+                case "Lớp mới":
+                    A[0] += 1;
+                    break;
+                case "Đã giao":
+                    A[1] += 1;
+                    break;
+                case "Chờ duyệt":
+                    A[2] += 1;
+                    break;
+                case "Không đạt":
+                    A[3] += 1;
+                    break;
+            }
+        }
+        return A;
+    }
+
 }

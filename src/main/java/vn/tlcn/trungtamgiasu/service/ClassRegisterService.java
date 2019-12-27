@@ -137,5 +137,7 @@ public class ClassRegisterService {
         return classRegisterRepository.getAllByClassesAndStatus(classes, "Xem xét");
     }
 
-
+    public List<ClassRegister> getListClassRegisterPending(){
+        return classRegisterRepository.findAllByStatus("Xem xét");
+    }
 }

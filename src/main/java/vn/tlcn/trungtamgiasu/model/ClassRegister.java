@@ -1,6 +1,7 @@
 package vn.tlcn.trungtamgiasu.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ import java.util.Date;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "class_register", schema = "db_giasu")
+//@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class ClassRegister  implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,6 +65,7 @@ public class ClassRegister  implements Serializable{
     private String updatedBy;
 
     @OneToOne(mappedBy = "classRegister")
+    //@JsonIgnore
     private Invoice invoice;
 
 }

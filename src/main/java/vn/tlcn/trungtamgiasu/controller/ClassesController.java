@@ -17,6 +17,7 @@ import vn.tlcn.trungtamgiasu.dto.mapper.ClassesMapper;
 import vn.tlcn.trungtamgiasu.model.Classes;
 import vn.tlcn.trungtamgiasu.model.Users;
 import vn.tlcn.trungtamgiasu.service.ClassesService;
+import vn.tlcn.trungtamgiasu.service.CountTotalService;
 
 @RestController
 @RequestMapping(value = "/api/classes")
@@ -29,6 +30,9 @@ public class ClassesController {
 
     @Autowired
     private ClassesMapper classesMapper;
+
+    @Autowired
+    private CountTotalService countTotalService;
 
     @GetMapping(value = "/topSix")
     public ApiResponse getTopSixClasses() {
@@ -164,6 +168,7 @@ public class ClassesController {
     @PreAuthorize("hasAnyAuthority('[ADMIN]')")
     public ApiResponse updateClass(@RequestBody ClassesDto classesDto)
     {
+        logger.info("update class status");
         Classes classes = classesService.getClassById(classesDto.getIdClass());
         Users parent = classesService.getParent(classes);
 
@@ -203,5 +208,31 @@ public class ClassesController {
                 HttpStatus.OK,
                 "Get new classes pending successfully",
                 classesService.getListClassesByStatus("Chờ duyệt"));
+    }
+
+    @GetMapping("/countDataChart")
+    public ApiResponse countNumberOfClass(){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Count number of Class",
+                classesService.countNumberOfClass()
+        );
+    }
+    @GetMapping("/calPercentDataChart")
+    public ApiResponse calPercentOfClass(){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "cal percent of class",
+                classesService.calPercentOfNumber()
+        );
+    }
+
+    @GetMapping("/countTotal")
+    public ApiResponse countTotal(){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Count total",
+                countTotalService.countTotal()
+        );
     }
 }

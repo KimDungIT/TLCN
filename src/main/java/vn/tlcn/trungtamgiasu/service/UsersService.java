@@ -28,6 +28,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -180,6 +181,18 @@ public class UsersService implements UserDetailsService {
         return saveUser(users);
     }
 
+    public Users changeInfoUser(ChangeInfoUserDto changeInfoUserDto)
+    {
+        logger.info("Change information user");
+        Users users = getById(changeInfoUserDto.getIdUser());
+        users.setPhone(changeInfoUserDto.getPhone());
+        users.setAddress(changeInfoUserDto.getAddress());
+        users.setEmail(changeInfoUserDto.getEmail());
+        users.setName(changeInfoUserDto.getName());
+
+        return saveUser(users);
+    }
+
     //?
     public Users getUserByIdTutor(String idTutor)
     {
@@ -198,4 +211,17 @@ public class UsersService implements UserDetailsService {
         return usersRepository.save(users);
     }
 
+    public List<Users> getAllUser(){
+        return usersRepository.findAll();
+    }
+
+    public void deleteUser(int idUser){
+        usersRepository.deleteById(idUser);
+    }
+
+    public List<Users> findUserByRole(String roleName){
+        Roles roles = rolesService.getRoleByRoleName(roleName);
+        List<Users> users = usersRepository.findAllByRoles(roles);
+        return users;
+    }
 }

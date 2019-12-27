@@ -116,5 +116,29 @@ public class UsersController {
                 usersService.createParent(usersDto));
     }
 
+    @GetMapping()
+    public ApiResponse getAllUser(){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get all user",
+                usersService.getAllUser()
+        );
+    }
 
+    @DeleteMapping()
+    public ApiResponse deleteUser(@RequestParam("idUser")int idUser){
+        usersService.deleteUser(idUser);
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Delete user"
+        );
+    }
+    @PatchMapping()
+    public ApiResponse updateUser(@RequestBody ChangeInfoUserDto changeInfoUserDto){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Update user",
+                usersService.changeInfoUser(changeInfoUserDto)
+        );
+    }
 }

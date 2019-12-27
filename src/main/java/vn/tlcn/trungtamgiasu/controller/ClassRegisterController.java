@@ -82,4 +82,13 @@ public class ClassRegisterController {
                 classRegisterService.getClassRegisterById(idClassRegister)
         );
     }
+
+    @GetMapping(value = "/pending")
+    public ApiResponse getListClassRegisterPending(){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get all class register pending",
+                classRegisterService.getListClassRegisterPending()
+        );
+    }
 }

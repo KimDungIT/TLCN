@@ -13,13 +13,30 @@ public class InvoiceController {
     private InvoiceService invoiceService;
 
 
-    @PostMapping()
+    @PutMapping()
     public ApiResponse saveInvoice(@RequestParam(value = "idClassRegister")int idClassRegister){
-
         return new ApiResponse(
                 HttpStatus.OK,
                 "Save Invoice",
                 invoiceService.saveInvoice(idClassRegister)
+        );
+    }
+
+    @GetMapping()
+    public ApiResponse getAll(){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get all invoice",
+                invoiceService.getAll()
+        );
+    }
+
+    @GetMapping("/serviceFee")
+    public ApiResponse getServiceFee(){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "get service fee",
+                invoiceService.calServiceFee()
         );
     }
 }

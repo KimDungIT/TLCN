@@ -33,4 +33,6 @@ public interface ClassRegisterRepository extends JpaRepository<ClassRegister, In
 
     List<ClassRegister> getAllByClassesAndStatus(Classes classes,String status);
 
+    List<ClassRegister> findAllByStatus(String status);
+
 }

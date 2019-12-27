@@ -1,5 +1,6 @@
 package vn.tlcn.trungtamgiasu.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,7 @@ public class Users implements Serializable {
     private String email;
 
     @Column(length = 100, nullable = false)
+    @JsonIgnore
     private String password;
 
     @CreatedDate
