@@ -15,6 +15,7 @@ import vn.tlcn.trungtamgiasu.exception.ClassRegisterNotFoundException;
 import vn.tlcn.trungtamgiasu.exception.NotChangeStatusClass;
 import vn.tlcn.trungtamgiasu.exception.TutorNotRegisterClassException;
 import vn.tlcn.trungtamgiasu.model.ClassRegister;
+import vn.tlcn.trungtamgiasu.model.Classes;
 import vn.tlcn.trungtamgiasu.model.Tutors;
 import vn.tlcn.trungtamgiasu.repository.ClassRegisterRepository;
 
@@ -88,12 +89,6 @@ public class ClassRegisterService {
         return saveClassRegister(classRegister);
     }
 
-//    public List<ClassRegister> getListTutorRegister(int idClass)
-//    {
-//        logger.info("Get list tutor register");
-//       return classRegisterRepository.getAllByClasses(idClass);
-//    }
-
     public List<ClassRegister> getListTutorRegisterClass(int idUser) {
         logger.info("Get list tutor register class");
         Tutors tutors = tutorsService.getTutorByIdUser(idUser);
@@ -126,5 +121,21 @@ public class ClassRegisterService {
 //        }
 //        return tutorRegisterDto;
         return classRegisterRepository.findAllByClasses(classesService.getClassById(idClass));
+    }
+    public List<ClassRegister> getAllListClassRegister(){
+        return classRegisterRepository.findAll();
+    }
+    public ClassRegister getClassRegisterById(int idClassRegister){
+        return classRegisterRepository.findByIdClassRegister(idClassRegister).orElse(null);
+    }
+
+    // ko đạt yêu cầu
+    public List<ClassRegister> getListClassRegisterFail(int idClass){
+        Classes classes = classesService.getClassById(idClass);
+        return classRegisterRepository.getAllByClassesAndStatus(classes, "Xem xét");
+    }
+
+    public List<ClassRegister> getListClassRegisterPending(){
+        return classRegisterRepository.findAllByStatus("Xem xét");
     }
 }

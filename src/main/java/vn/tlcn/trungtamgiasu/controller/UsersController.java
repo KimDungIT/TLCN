@@ -97,4 +97,49 @@ public class UsersController {
                 usersService.getUserByIdTutor(phone));
     }
 
+    @GetMapping(value = "/getUserById")
+    public ApiResponse getUserById(@RequestParam("idUser")int idUser){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get user by ID",
+                usersService.getById(idUser)
+        );
+    }
+
+    @PostMapping(value = "/createParent")
+    public ApiResponse createParent(@RequestBody UsersDto usersDto)
+    {
+        logger.info("createParent");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Sign up successfully",
+                usersService.createParent(usersDto));
+    }
+
+    @GetMapping()
+    public ApiResponse getAllUser(){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get all user",
+                usersService.getAllUser()
+        );
+    }
+
+    @DeleteMapping()
+    public ApiResponse deleteUser(@RequestParam("idUser")int idUser){
+        usersService.deleteUser(idUser);
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Delete user"
+        );
+    }
+    @PatchMapping()
+    public ApiResponse updateUser(@RequestBody ChangeInfoUserDto changeInfoUserDto, OAuth2Authentication auth){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Update user",
+                usersService.changeInfoUser(changeInfoUserDto, auth)
+        );
+    }
+
 }

@@ -28,6 +28,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -184,10 +185,31 @@ public class UsersService implements UserDetailsService {
     public Users getUserByIdTutor(String idTutor)
     {
         logger.info("Get user by idTutor: "+ idTutor);
-//        int idUser = tutorsService.getTutorByIdTutor(idTutor).getUsers().getIdUser();
         Users users = getByPhone(idTutor);
         return users;
     }
 
+    public Users createParent(UsersDto usersDto){
+        usersDto.setPassword(passwordEncoderUser().encode(usersDto.getPassword()));
+        Users users = usersMapper.toUsers(usersDto);
+        Roles roles = rolesService.getRoleByRoleName("PHUHUYNH");
+        users.getRoles().add(roles);
+
+        return usersRepository.save(users);
+    }
+
+    public List<Users> getAllUser(){
+        return usersRepository.findAll();
+    }
+
+    public void deleteUser(int idUser){
+        usersRepository.deleteById(idUser);
+    }
+
+    public List<Users> findUserByRole(String roleName){
+        Roles roles = rolesService.getRoleByRoleName(roleName);
+        List<Users> users = usersRepository.findAllByRoles(roles);
+        return users;
+    }
 
 }

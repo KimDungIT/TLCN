@@ -64,4 +64,32 @@ public class ClassRegisterController {
                 "Change status class register successfully",
                 classRegisterService.changeStatusClassRegister(idClassRegister));
     }
+
+    @GetMapping()
+    public ApiResponse getAllListClassRegester(){
+        logger.info("Get all list class register");
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get all list class register",
+                classRegisterService.getAllListClassRegister()
+        );
+    }
+
+    @GetMapping(value = "/{idClassRegister}")
+    public ApiResponse getClassRegisterById(@PathVariable(value = "idClassRegister") int idClassRegister){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get class register by ID",
+                classRegisterService.getClassRegisterById(idClassRegister)
+        );
+    }
+
+    @GetMapping(value = "/pending")
+    public ApiResponse getListClassRegisterPending(){
+        return new ApiResponse(
+                HttpStatus.OK,
+                "Get all class register pending",
+                classRegisterService.getListClassRegisterPending()
+        );
+    }
 }

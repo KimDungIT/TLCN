@@ -287,7 +287,15 @@ public class TutorsService {
         }
         saveTutor(tutors);
         return newFileName;
+    }
 
+    public Users getUserByTutor(int idTutor){
+        Tutors tutors = tutorsRepository.findByIdTutor(idTutor).orElse(null);
+        Users users = new Users();
+        if(tutors != null){
+            users = tutors.getUsers();
+        }
+        return users;
     }
 
 }

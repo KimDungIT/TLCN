@@ -16,17 +16,6 @@ public class ClassesSpecification implements Specification<Classes> {
         this.criteria = criteria;
     }
 
-//    public static Specification withId(int id, String status) {
-//        if (id == 0) {
-//            return null;
-//        } else {
-//            // Specification using Java 8 lambdas
-//            return (root, query, cb) -> cb.and(
-//                    cb.equal(root.get("status"), status),
-//                    cb.equal(root.get("idClass"), id)
-//            );
-//        }
-//    }
     public static Specification withClass(String classTeach, String status) {
         if (classTeach == "") {
             return null;

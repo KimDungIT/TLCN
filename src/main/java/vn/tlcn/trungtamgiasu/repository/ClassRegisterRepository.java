@@ -29,4 +29,7 @@ public interface ClassRegisterRepository extends JpaRepository<ClassRegister, In
     @Query(value = "update class_register set status = ?1 where id_class_register = ?2", nativeQuery = true)
     void changeStatusClassRegister(String status, int id);
 
+    List<ClassRegister> getAllByClassesAndStatus(Classes classes,String status);
+
+    List<ClassRegister> findAllByStatus(String status);
 }
