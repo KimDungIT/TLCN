@@ -43,12 +43,8 @@ class ClassRegisterListPage extends Component {
         );
     }
     showClassRegister(classRegister) {
-        var result = null;    
-        // if(classRegister === undefined) {
-        //     return;
-        // }       
-        if(classRegister.length > 0){
-            
+        var result = null;              
+        if(classRegister.length > 0){           
             result = classRegister.map((classitem, index) => {
                 return (
                     <ClassRegisterItem 

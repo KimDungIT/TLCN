@@ -43,12 +43,7 @@ class UserListPage extends Component {
         );
     }
     showUser(users) {
-        console.log(users);
-        
         var result = null;
-        if(users.length === 0){
-            return;
-        }
         if(users.length > 0){
             result = users.map((useritem, index) => {
                 return (

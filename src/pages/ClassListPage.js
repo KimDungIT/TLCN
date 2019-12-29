@@ -11,8 +11,10 @@ class ClassListPage extends Component {
         this.props.fetchAllClasses();
     }
 
-    onDelete = (id) => {     
-        this.props.onDeleteClass(id);
+    onDelete = (id) => {   
+        var {history} = this.props;  
+        this.props.onDeleteClass(id, history);
+        
     }
    
     render() {
@@ -78,8 +80,8 @@ const mapDispatchToProps = (dispatch, props) => {
         fetchAllClasses : () => {
             dispatch(actFetchClassesRequest());
         },
-        onDeleteClass : (id) => {
-            dispatch(actDeleteClassRequest(id));
+        onDeleteClass : (id, history) => {
+            dispatch(actDeleteClassRequest(id, history));
         }
     }
 

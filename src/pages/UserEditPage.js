@@ -12,7 +12,11 @@ class UserEditPage extends Component {
             phone: '',
             address: '',
             email: '',
-            role: ''
+            role: '',
+            errPhone: '',
+            errAddress: '',
+            errEmail: '',
+            errPassword: ''
         }
     }
 
@@ -62,7 +66,69 @@ class UserEditPage extends Component {
         }
     }
 
-   
+    validatePassword = () =>{
+        let isErr = false;
+        let errors = {};
+        // password
+        const regexPass = /^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()]{6,}$/;
+        if (regexPass.exec(this.state.password) !== null) {
+            isErr = false;
+            errors.errPassword = ''
+        }
+        else {
+            isErr = false;
+            errors.errPassword = 'Mật khẩu phải bao gồm chữ hoa, chữ thường, số và có ít nhất 6 ký tự'
+        }
+
+        this.setState({
+            ...this.state,
+            ...errors
+        })
+        return isErr;
+    }
+    validatePhone = () =>{
+        let isErr = false;
+        let errors = {};
+        const regexPhone = /^\d{10,11}$/;
+        if (regexPhone.exec(this.state.phone) !== null) {
+            isErr = false;
+            errors.errPhone = ''
+        }
+        else {
+            isErr = false;
+            errors.errPhone = 'Số điện thoại phải 10 - 11 ký tự'
+        }
+        this.setState({
+            ...this.state,
+            ...errors
+        })
+        return isErr;
+
+    }
+    validateEmail = () => {
+        let isErr = false;
+        let errors = {};
+        const regexpEmail = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+        if (regexpEmail.exec(this.state.email) !== null) {
+            isErr = false;
+            errors.errEmail = ''
+        }
+        else {
+            isErr = false;
+            errors.errEmail = 'Email không hợp lệ'
+        }
+        this.setState({
+            ...this.state,
+            ...errors
+        })
+        return isErr;
+    }
+    handleChange = event => {
+        const { name, value } = event.target
+        this.setState({
+            [name]: value
+        })
+    }
     render() {
         return (
             <div id="content-wrapper">
@@ -85,6 +151,7 @@ class UserEditPage extends Component {
                                         name="name"
                                         value={this.state.name}
                                         onChange={this.handleChange}
+                                        required
                                     />
                                 </div>
                                 <div className="form-group">
@@ -95,7 +162,9 @@ class UserEditPage extends Component {
                                         name="phone"
                                         value={this.state.phone}
                                         onChange={this.handleChange}
+                                        onBlur={this.validatePhone}
                                     />
+                                    {(this.state.errPhone.length > 0) ? <p className="form-warning">{this.state.errPhone}</p> : ''}
                                 </div>
                                 <div className="form-group">
                                     <label>Địa chỉ</label>
@@ -105,6 +174,7 @@ class UserEditPage extends Component {
                                         name="address"
                                         value={this.state.address}
                                         onChange={this.handleChange}
+                                        required
                                     />
                                 </div>
                                 <div className="form-group">
@@ -115,7 +185,9 @@ class UserEditPage extends Component {
                                         name="email"
                                         value={this.state.email}
                                         onChange={this.handleChange}
+                                        onBlur={this.validateEmail}
                                     />
+                                    {(this.state.errEmail.length > 0) ? <p className="form-warning">{this.state.errEmail}</p> : ''}
                                 </div>
                                 <div className="form-group">
                                     <label>Phân quyền: {this.state.role}</label>

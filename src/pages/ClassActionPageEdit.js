@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {actGetClassRequest, actUpdateClassRequest} from './../actions/index';
-import {connect} from 'react-redux';
+import { actGetClassRequest, actUpdateClassRequest } from './../actions/index';
+import { connect } from 'react-redux';
 
 class ClassActionPageEdit extends Component {
     constructor(props) {
@@ -22,9 +22,9 @@ class ClassActionPageEdit extends Component {
             statusParent: 'old'
         }
     }
-    componentWillReceiveProps(nextProps){
-        if(nextProps && nextProps.classEditing){
-            var {classEditing} = nextProps;
+    componentWillReceiveProps(nextProps) {
+        if (nextProps && nextProps.classEditing) {
+            var { classEditing } = nextProps;
             this.setState({
                 idClass: classEditing.idClass,
                 classTeach: classEditing.classTeach,
@@ -78,7 +78,7 @@ class ClassActionPageEdit extends Component {
     }
 
     render() {
-        var { classTeach, subject, timeTeach, address, district, salary, 
+        var { classTeach, subject, timeTeach, address, district, salary,
             serviceFee, genderRequirement, levelRequirement, status } = this.state;
         return (
             <div id="content-wrapper">
@@ -103,7 +103,7 @@ class ClassActionPageEdit extends Component {
                                                     className="form-control"
                                                     name="classTeach"
                                                     value={classTeach}
-                                                    onChange={this.handleChange} />
+                                                    onChange={this.handleChange} required />
                                             </div>
                                         </div>
                                         <div className="col-6">
@@ -114,7 +114,7 @@ class ClassActionPageEdit extends Component {
                                                     className="form-control"
                                                     name="salary"
                                                     value={salary}
-                                                    onChange={this.handleChange} />
+                                                    onChange={this.handleChange} required />
                                             </div>
                                         </div>
                                     </div>
@@ -125,7 +125,7 @@ class ClassActionPageEdit extends Component {
                                             className="form-control"
                                             name="subject"
                                             value={subject}
-                                            onChange={this.handleChange} />
+                                            onChange={this.handleChange} required />
                                     </div>
                                     <div className="form-group">
                                         <label>Thời gian dạy</label>
@@ -134,56 +134,56 @@ class ClassActionPageEdit extends Component {
                                             className="form-control"
                                             name="timeTeach"
                                             value={timeTeach}
-                                            onChange={this.handleChange} />
+                                            onChange={this.handleChange} required />
                                     </div>
                                     <div className="row">
-                <div className="col-8">
-                    <div className="form-group">
-                        <label>Địa chỉ dạy</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            name="address"
-                            value={address} 
-                            onChange={this.handleChange} />
-                    </div>
-                </div>
-                <div className="col-4">
-                    <div className="form-group">
-                        <label>Quận / Huyện</label>
-                        <select
-                            className="form-control"
-                            name="district"
-                            value={district} 
-                            onChange={this.handleChange}>
-                            <option>Quận Thủ Đức</option>
-                            <option>Quận Gò Vấp</option>
-                            <option>Quận Tân Phú</option>
-                            <option>Quận Bình Tân</option>
-                            <option>Quận Phú Nhuận</option>
-                            <option>Quận Bình Thạnh</option>
-                            <option>Quận Tân Bình</option>
-                            <option>Quận 1</option>
-                            <option>Quận 2</option>
-                            <option>Quận 3</option>
-                            <option>Quận 4</option>
-                            <option>Quận 5</option>
-                            <option>Quận 6</option>
-                            <option>Quận 7</option>
-                            <option>Quận 8</option>
-                            <option>Quận 9</option>
-                            <option>Quận 10</option>
-                            <option>Quận 11</option>
-                            <option>Quận 12</option>
-                            <option>Huyện Cần Giờ</option>
-                            <option>Huyện Nhà Bè</option>
-                            <option>Huyện Củ Chi</option>
-                            <option>Huyện Bình Chánh</option>
-                            <option>Huyện Hóc Môn</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+                                        <div className="col-8">
+                                            <div className="form-group">
+                                                <label>Địa chỉ dạy</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    name="address"
+                                                    value={address}
+                                                    onChange={this.handleChange} required />
+                                            </div>
+                                        </div>
+                                        <div className="col-4">
+                                            <div className="form-group">
+                                                <label>Quận / Huyện</label>
+                                                <select
+                                                    className="form-control"
+                                                    name="district"
+                                                    value={district}
+                                                    onChange={this.handleChange}>
+                                                    <option>Quận Thủ Đức</option>
+                                                    <option>Quận Gò Vấp</option>
+                                                    <option>Quận Tân Phú</option>
+                                                    <option>Quận Bình Tân</option>
+                                                    <option>Quận Phú Nhuận</option>
+                                                    <option>Quận Bình Thạnh</option>
+                                                    <option>Quận Tân Bình</option>
+                                                    <option>Quận 1</option>
+                                                    <option>Quận 2</option>
+                                                    <option>Quận 3</option>
+                                                    <option>Quận 4</option>
+                                                    <option>Quận 5</option>
+                                                    <option>Quận 6</option>
+                                                    <option>Quận 7</option>
+                                                    <option>Quận 8</option>
+                                                    <option>Quận 9</option>
+                                                    <option>Quận 10</option>
+                                                    <option>Quận 11</option>
+                                                    <option>Quận 12</option>
+                                                    <option>Huyện Cần Giờ</option>
+                                                    <option>Huyện Nhà Bè</option>
+                                                    <option>Huyện Củ Chi</option>
+                                                    <option>Huyện Bình Chánh</option>
+                                                    <option>Huyện Hóc Môn</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <div className="row">
                                         <div className="col-6">
@@ -239,6 +239,8 @@ class ClassActionPageEdit extends Component {
                                                     onChange={this.handleChange}>
                                                     <option>Lớp mới</option>
                                                     <option>Chờ duyệt</option>
+                                                    <option>Đã giao</option>
+                                                    <option>Không đạt</option>
                                                 </select>
                                             </div>
                                         </div>

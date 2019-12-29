@@ -250,6 +250,7 @@ class ClassDetail extends Component {
                                                         <option>Lớp mới</option>
                                                         <option>Chờ duyệt</option>
                                                         <option>Không đạt</option>
+                                                        <option>Đã giao</option>
                                                     </select>
                                                 </div>
                                             </div>

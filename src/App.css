@@ -21,3 +21,9 @@
   .mt-60{
     margin-top: -60px;
   }
+  .form-warning {
+    color: red;
+  }
+  .number{
+    color: #ecedee;
+  }

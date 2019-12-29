@@ -1,5 +1,7 @@
 import * as Types from './../constants/ActionTypes';
 import callApi from './../utils/apiCaller';
+import { notification } from 'antd';
+import 'antd/dist/antd.css';
 
 // get all classes
 export const actFetchClassesRequest = () => {
@@ -34,10 +36,21 @@ export const actFetchClassesPending = (classes) => {
 }
 
 // delete class
-export const actDeleteClassRequest = (id) => {
+export const actDeleteClassRequest = (id, history) => {
     return dispatch => {
         return callApi(`classes/${id}`, 'DELETE', null).then(res => {
-            dispatch(actDeleteClass(id));
+            if (res.data.status === 200) {               
+                notification.success({
+                    message: "Success",
+                    description: "Xóa lớp thành công!"
+                });
+            }
+            else{
+                notification.error({
+                    message: "Error",
+                    description: "Lớp này không thể xóa!"
+                });
+            }
         });
     }
 }
@@ -55,6 +68,18 @@ export const actAddClassRequest = (classs, phoneParent, history) => {
         'POST', classs).then(res => {
             dispatch(actAddClass(res.data.result));
             history.goBack();
+            if (res.data.status === 200) {               
+                notification.success({
+                    message: "Success",
+                    description: "Thêm lớp thành công!"
+                });
+            }
+            else{
+                notification.error({
+                    message: "Error",
+                    description: "Thêm lớp thất bại!"
+                });
+            }
         })
     }
 }
@@ -88,6 +113,18 @@ export const actUpdateClassRequest = (classs, history) => {
         .then(res => {
             dispatch(actUpdateClass(res.data.result));
             history.goBack();
+            if (res.data.status === 200) {               
+                notification.success({
+                    message: "Success",
+                    description: "Chỉnh sửa lớp thành công!"
+                });
+            }
+            else{
+                notification.error({
+                    message: "Error",
+                    description: "Sửa lớp thất bại!"
+                });
+            }
         })
     }
 }
@@ -152,6 +189,18 @@ export const actUpdateClassRegisterRequest = (idClassRegister) => {
         callApi(`invoices?idClassRegister=${idClassRegister}`, 'PUT', idClassRegister)
         .then(res => {
             dispatch(actUpdateClassRegister(res.data.result));
+            if (res.data.status === 200) {               
+                notification.success({
+                    message: "Success",
+                    description: "Duyệt lớp thành công!"
+                });
+            }
+            else{
+                notification.error({
+                    message: "Error",
+                    description: "Thất bại!"
+                });
+            }
         })
     }
 }
@@ -185,6 +234,18 @@ export const actAddUserRequest = (user, role, history) => {
         'POST', user).then(res => {
             dispatch(actAddUser(res.data.result));
             history.goBack();
+            if (res.data.status === 200) {               
+                notification.success({
+                    message: "Success",
+                    description: "Thêm user thành công!"
+                });
+            }
+            else{
+                notification.error({
+                    message: "Error",
+                    description: "Thất bại!"
+                });
+            }
         })
     }
 }
@@ -220,6 +281,18 @@ export const actUpdateUserRequest = (user, history) => {
         .then(res => {
             dispatch(actUpdateUser(res.data.result));
             history.goBack();
+            if (res.data.status === 200) {               
+                notification.success({
+                    message: "Success",
+                    description: "Sửa user thành công!"
+                });
+            }
+            else{
+                notification.error({
+                    message: "Error",
+                    description: "Thất bại"
+                });
+            }
         })
     }
 }
@@ -237,6 +310,7 @@ export const actAddTutorRequest = (idUser, dataTutor, history) => {
         'POST', dataTutor).then(res => {
             //dispatch(actAddTutor(res.data.result));
             history.goBack();
+            
         })
     }
 }

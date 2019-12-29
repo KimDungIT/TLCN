@@ -6,7 +6,6 @@ import HomePage from './pages/HomePage';
 import cookie from 'js-cookie';
 import Nav from './components/Nav';
 import Menu from './components/Menu';
-import Footer from './components/Footer';
 import ClassListPage from './pages/ClassListPage';
 import PrivateRoute from './route/PrivateRoute';
 import ClassActionPage from './pages/ClassActionPage';
@@ -33,7 +32,7 @@ class App extends Component {
           <div id="wrapper">
             {loggedIn ? <Menu /> : ''}
 
-            <Switch>             
+            <Switch>                        
               <Route path="/login" component={LoginPage} />
               <PrivateRoute path='/' exact={true} component={HomePage} token={token} />
               <PrivateRoute path='/class-list' component={ClassListPage} token={token} />
@@ -48,8 +47,7 @@ class App extends Component {
               <PrivateRoute path='/user-edit/:id' component={UserEditPage} token={token} history/>
               <PrivateRoute path='/report' component={ReportPage} token={token} history/>
             </Switch>
-
-            {loggedIn ? <Footer /> : ''}
+            {/* {loggedIn ? <Footer /> : ''} */}
           </div>
         </div>
       </Router>

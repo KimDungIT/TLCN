@@ -32,7 +32,7 @@ class Overview extends Component {
                                 <i className="fas fa-user-circle fa-fw" />
                             </div>
                             <div className="mr-5">
-                                <h4>{this.state.totalClass} Lớp</h4>
+                                <h4 className="number">{this.state.totalClass} Lớp</h4>
                             </div>
                         </div>
                         <a className="card-footer text-white clearfix small z-1" href="">
@@ -50,7 +50,7 @@ class Overview extends Component {
                                 <i className="fas fa-fw fa-list" />
                             </div>
                             <div className="mr-5"> 
-                                <h4>{this.state.totalTutor} Gia sư</h4>
+                                <h4 className="number">{this.state.totalTutor} Gia sư</h4>
                             </div>
                         </div>
                         <a className="card-footer text-white clearfix small z-1" href="">
@@ -68,7 +68,7 @@ class Overview extends Component {
                                 <i className="fas fa-fw fa-comments" />
                             </div>
                             <div className="mr-5"> 
-                                <h4>{this.state.totalParent} Phụ huynh</h4>
+                                <h4 className="number">{this.state.totalParent} Phụ huynh</h4>
                             </div>
                         </div>
                         <a className="card-footer text-white clearfix small z-1" href="">
@@ -86,7 +86,7 @@ class Overview extends Component {
                                 <i className="fas fa-fw fa-life-ring" />
                             </div>
                             <div className="mr-5"> 
-                                <h4>{this.state.totalAdmin} Admin</h4>
+                                <h4 className="number">{this.state.totalAdmin} Admin</h4>
                             </div>
                         </div>
                         <a className="card-footer text-white clearfix small z-1" href="">

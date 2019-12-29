@@ -16,6 +16,10 @@ class UserActionPage extends Component {
             email: '',
             password: '',
             role: 'ADMIN',
+            errPhone: '',
+            errAddress: '',
+            errEmail: '',
+            errPassword: '',
 
             // tutor
             gender: 'Nam',
@@ -74,20 +78,75 @@ class UserActionPage extends Component {
                 { value: "Quận Bình Thạnh", isChecked: false },
                 { value: "Quận Gò Vấp", isChecked: false },
                 { value: "Quận Tân Bình", isChecked: false }
-              
             ]
 
         }
     }
 
+    validatePassword = () =>{
+        let isErr = false;
+        let errors = {};
+        // password
+        const regexPass = /^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()]{6,}$/;
+        if (regexPass.exec(this.state.password) !== null) {
+            isErr = false;
+            errors.errPassword = ''
+        }
+        else {
+            isErr = false;
+            errors.errPassword = 'Mật khẩu phải bao gồm chữ hoa, chữ thường, số và có ít nhất 6 ký tự'
+        }
 
+        this.setState({
+            ...this.state,
+            ...errors
+        })
+        return isErr;
+    }
+    validatePhone = () =>{
+        let isErr = false;
+        let errors = {};
+        const regexPhone = /^\d{10,11}$/;
+        if (regexPhone.exec(this.state.phone) !== null) {
+            isErr = false;
+            errors.errPhone = ''
+        }
+        else {
+            isErr = false;
+            errors.errPhone = 'Số điện thoại phải 10 - 11 ký tự'
+        }
+        this.setState({
+            ...this.state,
+            ...errors
+        })
+        return isErr;
 
+    }
+    validateEmail = () => {
+        let isErr = false;
+        let errors = {};
+        const regexpEmail = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+        if (regexpEmail.exec(this.state.email) !== null) {
+            isErr = false;
+            errors.errEmail = ''
+        }
+        else {
+            isErr = false;
+            errors.errEmail = 'Email không hợp lệ'
+        }
+        this.setState({
+            ...this.state,
+            ...errors
+        })
+        return isErr;
+    }
     handleChange = event => {
         const { name, value } = event.target
         this.setState({
             [name]: value
         })
     }
+
     onSave = (e) => {
         e.preventDefault();
         var { history } = this.props;
@@ -149,26 +208,30 @@ class UserActionPage extends Component {
                                         name="name"
                                         value={this.state.name}
                                         onChange={this.handleChange}
+                                        required
                                     />
+                                                                      
                                 </div>
                                 <div className="form-group">
                                     <label>Số điện thoại</label>
                                     <input
-                                        type="text"
+                                        type="number"
                                         className="form-control"
                                         name="phone"
                                         value={this.state.phone}
                                         onChange={this.handleChange}
+                                        onBlur={this.validatePhone}
                                     />
+                                    {(this.state.errPhone.length > 0) ? <p className="form-warning">{this.state.errPhone}</p> : ''}
                                 </div>
                                 <div className="form-group">
                                     <label>Địa chỉ</label>
                                     <input
-                                        type="text"
                                         className="form-control"
                                         name="address"
                                         value={this.state.address}
                                         onChange={this.handleChange}
+                                        required
                                     />
                                 </div>
                                 <div className="form-group">
@@ -178,8 +241,10 @@ class UserActionPage extends Component {
                                         className="form-control"
                                         name="email"
                                         value={this.state.email}
+                                        onBlur={this.validateEmail}
                                         onChange={this.handleChange}
                                     />
+                                    {(this.state.errEmail.length > 0) ? <p className="form-warning">{this.state.errEmail}</p> : ''}
                                 </div>
                                 <div className="form-group">
                                     <label>Password</label>
@@ -189,7 +254,9 @@ class UserActionPage extends Component {
                                         name="password"
                                         value={this.state.password}
                                         onChange={this.handleChange}
+                                        onBlur={this.validatePassword}
                                     />
+                                    {/* {(this.state.errPassword.length > 0) ? <p className="form-warning">{this.state.errPassword}</p> : ''} */}
                                 </div>
 
                                 {/* phân quyền */}
@@ -262,7 +329,7 @@ class UserActionPage extends Component {
                             <label className="form-check-label">
                                 <input type="radio"
                                     className="form-check-input"
-                                    name="gender"
+                                    name="gender" defaultChecked
                                     onChange={this.handleChange}
                                     value="Nam"
                                 />Nam
@@ -283,7 +350,7 @@ class UserActionPage extends Component {
                     <div className="col-4">
                         <div className="form-group-inline">
                             <label>Năm sinh</label>
-                            <select class="form-control" onChange={this.handleChange} value={this.state.yearOfBirth}>
+                            <select className="form-control" onChange={this.handleChange} value={this.state.yearOfBirth} required>
                                 <option value="2005">2005</option>
                                 <option value="2004">2004</option>
                                 <option value="2003">2003</option>
@@ -313,7 +380,7 @@ class UserActionPage extends Component {
                     <div className="col-md-4">
                         <div className="form-group">
                             <label>Hiện là</label>
-                            <select class="form-control" onChange={this.handleChange} value={this.state.level}>
+                            <select class="form-control" onChange={this.handleChange} value={this.state.level} required>
                                 <option value="Sinh viên">Sinh viên</option>
                                 <option value="Giáo viên">Giáo viên</option>
                                 <option value="Cử nhân">Cử nhân</option>
@@ -329,7 +396,10 @@ class UserActionPage extends Component {
                         className="form-control"
                         onChange={this.handleChange}
                         name="college"
-                        value={this.state.college} />
+                        value={this.state.college}
+                        required
+                    />
+
                 </div>
                 <div className="row">
                     <div className="col-md-8">
@@ -339,7 +409,9 @@ class UserActionPage extends Component {
                                 className="form-control"
                                 name="major"
                                 onChange={this.handleChange}
-                                value={this.state.major} />
+                                value={this.state.major}
+                                required
+                            />
                         </div>
                     </div>
                     <div className="col-md-4">
@@ -349,7 +421,9 @@ class UserActionPage extends Component {
                                 className="form-control"
                                 name="graduationYear"
                                 onChange={this.handleChange}
-                                value={this.state.graduationYear} />
+                                value={this.state.graduationYear}
+                                required
+                            />
                         </div>
                     </div>
                 </div>
@@ -379,10 +453,11 @@ class UserActionPage extends Component {
                         }
                     </div>
                 </div>
-                
+
             </div>
         );
     }
+
     handleCheckSubject = (event) => {
         let subjects = [];
         let subjectCanTeach = this.state.subjectCanTeach;
@@ -435,7 +510,7 @@ const mapDispatchToProps = (dispatch, props) => {
         onAddTutor: (idUser, dataTutor, history) => {
             dispatch(actAddTutorRequest(idUser, dataTutor, history));
         }
-        
+
     }
 }
 

@@ -47,6 +47,7 @@ class ClassActionPage extends Component {
                                     currentStep={this.state.currentStep}
                                     handleChange={this.handleChange}
                                     statusParent={this.state.statusParent}
+                                    phoneParent={this.state.phoneParent}
                                 />                            
                                 {this.previousButton()}
                                 {this.nextButton()}

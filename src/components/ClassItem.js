@@ -38,8 +38,6 @@ class ClassItem extends Component {
         if (confirm(`Bạn có chắc chắn muốn xóa lớp có id ${id} không?`)) { //eslint-disable-line
             this.props.onDelete(id);
         }
-
-
     }
 }
 

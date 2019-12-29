@@ -16,7 +16,7 @@ function Step1(props) {
                             className="form-control"
                             name="classTeach"
                             value={props.classTeach} 
-                            onChange={props.handleChange} />
+                            onChange={props.handleChange} required/>
                     </div>
                 </div>
                 <div className="col-6">
@@ -27,7 +27,7 @@ function Step1(props) {
                             className="form-control"
                             name="salary"
                             value={props.salary} 
-                            onChange={props.handleChange} />
+                            onChange={props.handleChange} required/>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@ function Step1(props) {
                     className="form-control"
                     name="subject"
                     value={props.subject} 
-                    onChange={props.handleChange} />
+                    onChange={props.handleChange} required/>
             </div>
             <div className="form-group">
                 <label>Thời gian dạy</label>
@@ -47,7 +47,7 @@ function Step1(props) {
                     className="form-control"
                     name="timeTeach"
                     value={props.timeTeach} 
-                    onChange={props.handleChange} />
+                    onChange={props.handleChange} required/>
             </div>
             <div className="row">
                 <div className="col-8">
@@ -58,13 +58,13 @@ function Step1(props) {
                             className="form-control"
                             name="address"
                             value={props.address} 
-                            onChange={props.handleChange} />
+                            onChange={props.handleChange} required/>
                     </div>
                 </div>
                 <div className="col-4">
                     <div className="form-group">
                         <label>Quận / Huyện</label>
-                        <select
+                        <select required
                             className="form-control"
                             name="district"
                             value={props.district} 
@@ -101,7 +101,7 @@ function Step1(props) {
                 <div className="col-6">
                     <div className="form-group">
                         <label>Yêu cầu trình độ</label>
-                        <select
+                        <select required
                             className="form-control"
                             name="levelRequirement"
                             value={props.levelRequirement} 
@@ -117,7 +117,7 @@ function Step1(props) {
                 <div className="col-6">
                     <div className="form-group">
                         <label>Yêu cầu giới tính</label>
-                        <select
+                        <select required
                             className="form-control"
                             name="genderRequirement"
                             value={props.genderRequirement} 
@@ -138,13 +138,13 @@ function Step1(props) {
                             className="form-control"
                             name="serviceFee"
                             value={props.serviceFee} 
-                            onChange={props.handleChange} />
+                            onChange={props.handleChange} required/>
                     </div>
                 </div>
                 <div className="col-6">
                     <div className="form-group">
                         <label>Trạng thái</label>
-                        <select
+                        <select required
                             className="form-control"
                             name="status"
                             value={props.status}

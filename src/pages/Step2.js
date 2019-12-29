@@ -5,7 +5,9 @@ class Step2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            statusParent: 'old'
+            statusParent: 'old',
+            errPhoneOld: '',
+            errPhoneNew: ''
         }
     }
 
@@ -55,6 +57,45 @@ class Step2 extends Component {
         );
     }
 
+    validatePhoneOld = () =>{
+        let isErr = false;
+        let errors = {};
+        const regexPhone = /^\d{10,11}$/;
+        if (regexPhone.exec(this.props.phoneParent) !== null) {
+            isErr = false;
+            errors.errPhoneOld = ''
+        }
+        else {
+            isErr = false;
+            errors.errPhoneOld = 'Số điện thoại phải 10 - 11 ký tự'
+        }
+        this.setState({
+            ...this.state,
+            ...errors
+        })
+        return isErr;
+    }
+
+    validatePhoneNew = () =>{
+        let isErr = false;
+        let errors = {};
+        const regexPhone = /^\d{10,11}$/;
+        if (regexPhone.exec(this.props.phoneParent) !== null) {
+            isErr = false;
+            errors.errPhoneNew = ''
+        }
+        else {
+            isErr = false;
+            errors.errPhoneNew = 'Số điện thoại phải 10 - 11 ký tự'
+        }
+        this.setState({
+            ...this.state,
+            ...errors
+        })
+        return isErr;
+    }
+
+
     renderPHcu() {
         return (
             <div className="form-group">
@@ -65,7 +106,9 @@ class Step2 extends Component {
                     name="phoneParent"
                     value={this.props.phoneParent}
                     onChange={this.props.handleChange}
+                    onBlur={this.validatePhoneOld}
                 />
+                {(this.state.errPhoneOld.length > 0) ? <p className="form-warning">{this.state.errPhoneOld}</p> : ''}
             </div>
         );
     }
@@ -80,7 +123,7 @@ class Step2 extends Component {
                         className="form-control"
                         name="nameParent"
                         value={this.props.nameParent}
-                        onChange={this.props.handleChange}
+                        onChange={this.props.handleChange} required
                     />
                 </div>
                 <div className="form-group">
@@ -91,7 +134,9 @@ class Step2 extends Component {
                         name="phoneParent"
                         value={this.props.phoneParent}
                         onChange={this.props.handleChange}
+                        onBlur={this.validatePhoneNew}
                     />
+                    {(this.state.errPhoneNew.length > 0) ? <p className="form-warning">{this.state.errPhoneNew}</p> : ''}
                 </div>
                 <div className="form-group">
                     <label>Địa chỉ</label>
@@ -100,7 +145,7 @@ class Step2 extends Component {
                         className="form-control"
                         name="addressParent"
                         value={this.props.addressParent}
-                        onChange={this.props.handleChange}
+                        onChange={this.props.handleChange} required
                     />
                 </div>
                 <div className="form-group">
