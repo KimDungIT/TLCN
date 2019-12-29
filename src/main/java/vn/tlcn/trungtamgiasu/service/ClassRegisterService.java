@@ -140,4 +140,6 @@ public class ClassRegisterService {
     public List<ClassRegister> getListClassRegisterPending(){
         return classRegisterRepository.findAllByStatus("Xem xét");
     }
+
+
 }

@@ -145,11 +145,18 @@ public class ClassesController {
     @DeleteMapping(value = "/{id}")
     @PreAuthorize("hasAnyAuthority('[ADMIN]')")
     public ApiResponse deleteClass(@PathVariable(value = "id")int id){
-        classesService.deleteClass(id);
-        return new ApiResponse(
-                HttpStatus.OK,
-                "Delete class"
-        );
+        if(classesService.deleteClass(id)){
+            return new ApiResponse(
+                    HttpStatus.OK,
+                    "Delete class"
+            );
+        }
+        else {
+            return new ApiResponse(
+                    HttpStatus.BAD_REQUEST,
+                    "Delete fail"
+            );
+        }
     }
 
     @PostMapping("")

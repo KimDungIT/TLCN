@@ -184,8 +184,18 @@ public class ClassesService {
         return classesRepository.findAll();
     }
 
-    public void deleteClass(int id){
-        classesRepository.deleteById(id);
+    public boolean deleteClass(int id){
+        boolean flag = true;
+        List<ClassRegister> classRegisters = classRegisterRepository.findAll();
+        for (ClassRegister classRegister: classRegisters) {
+            if(classRegister.getClasses().getIdClass() == id){
+                flag = false;
+            }
+        }
+        if(flag == true){
+            classesRepository.deleteById(id);
+        }
+        return flag;
     }
 
     public Users getParent(Classes classes){
