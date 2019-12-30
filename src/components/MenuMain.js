@@ -8,7 +8,7 @@ import { logout } from "./../actions/index";
 const menuPH = (
   <Menu>
     <Menu.Item>
-      <Link className="nav-link" to="/find-tutor">
+      <Link className="nav-link" to="/signup">
         Đăng ký tìm gia sư
       </Link>
     </Menu.Item>

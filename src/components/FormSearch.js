@@ -26,9 +26,9 @@ class FormSearch extends Component {
             classTeach: selectClass,
             subject: selectSubject,
             district: selectDistrict
+           
         }
-        let check = true
-        this.props.onSearchClasses(search, check);
+        this.props.onSearchClasses(search);
         this.props.onSearchInput(search);
     }
     render() {

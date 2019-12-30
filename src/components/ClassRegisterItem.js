@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import callApi from "../utils/apiCaller";
 
 class ClassRegisterItem extends Component {
   constructor(props) {
@@ -8,23 +7,6 @@ class ClassRegisterItem extends Component {
       imageInfo: ''
     };
   }
-
-  // componentDidMount(){
-  //   callApi(
-  //     `api/tutors/readImage?idUser=${this.props.tutorRegisterClassItem.idUser}`,
-  //     "GET",
-  //     null
-  //   ).then(res => {
-  //       if (res.status === 200) {
-  //         this.setState({
-  //           imageInfo: res.data.result
-  //         });
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }
   
   render() {
     let { tutorRegisterClassItem } = this.props;

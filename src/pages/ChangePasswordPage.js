@@ -45,7 +45,7 @@ class ChangePasswordPage extends Component {
 
   compareToFirstPassword = (rule, value, callback) => {
     const { form } = this.props;
-    if (value && value !== form.getFieldValue("password")) {
+    if (value && value !== form.getFieldValue("newPassword")) {
       callback("Hai mật khẩu không khớp!");
     } else {
       callback();
@@ -98,7 +98,7 @@ class ChangePasswordPage extends Component {
                   rules: [
                     {
                       required: true,
-                      message: "Please input your new password"
+                      message: "Vui lòng nhập mật khẩu!"
                     },
                     {
                       validator: this.validateToNextPassword
@@ -107,17 +107,22 @@ class ChangePasswordPage extends Component {
                       pattern:
                         "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()]{6,}$",
                       message:
-                        "Password must have at least 6 character, require: uppercase, lowercase and number!"
+                        "Mật khẩu ít nhất phải có 6 ký tự, bao gồm: chữ hoa, chữ thường và số!"
                     }
                   ]
-                })(<Input.Password placeholder="Nhập mật khẩu mới..." />)}
+                })(
+                  <Input.Password
+                    placeholder="Nhập mật khẩu..."
+                    autoComplete="off"
+                  />
+                )}
               </Form.Item>
               <Form.Item hasFeedback>
                 {getFieldDecorator("confirm", {
                   rules: [
                     {
                       required: true,
-                      message: "Please confirm your password!"
+                      message: "Vui lòng nhập lại mật khẩu!"
                     },
                     {
                       validator: this.compareToFirstPassword
@@ -127,6 +132,7 @@ class ChangePasswordPage extends Component {
                   <Input.Password
                     placeholder="Nhập lại mật khẩu..."
                     onBlur={this.handleConfirmBlur}
+                    autoComplete="off"
                   />
                 )}
               </Form.Item>

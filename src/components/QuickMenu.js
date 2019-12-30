@@ -16,7 +16,7 @@ class QuickMenu extends Component {
                         </li>
                         <li>
                             <Link 
-                                to='/find-tutor'>
+                                to='/signup'>
                                 Đăng ký tìm gia sư
                             </Link>
                         </li>

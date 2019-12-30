@@ -175,12 +175,6 @@ export const actFetchListClassParentRegisterRequest = (idUser)  => {
     )
       .then(res => {
         dispatch(actFetchListClassParentRegister(res.data));
-        // if (res.status === 200) {
-        //   notification.success({
-        //     message: "Success",
-        //     description: "Get list tutor register class successfully!"
-        //   });
-        // }
       })
       .catch(error => {
         notification.error({
@@ -207,13 +201,8 @@ export const actFetchListClassTutorRegisterRequest = idUser => {
       null
     )
       .then(res => {
-        
         if (res.status === 200) {
           dispatch(actFetchListClassTutorRegister(res.data));
-          // notification.success({
-          //   message: "Success",
-          //   description: "Get list tutor register class successfully!"
-          // });
         }
       })
       .catch(error => {
@@ -236,7 +225,13 @@ export const actFetchListClassTutorRegister = classRegister => {
 export const actChangeImageRequest = (formData) => {
   return dispatch => {
     return  callApi("api/tutors/changeImage", "POST", formData).then(res => {
-      dispatch(actChangeImage(res.data));
+      if (res.status === 200) {
+        dispatch(actChangeImage(res.data));
+        notification.success({
+          message: "Success",
+          description: "Cập nhật ảnh thành công!"
+        });
+      }
     }).catch(error => {
       notification.error({
         message: "Error get image",
@@ -261,10 +256,6 @@ export const actChangeInforTutorRequest = (tutorInfo, idTutor, history) => {
         if(res.status === 200){
           dispatch(actChangeInforTutor(res.data));
           history.goBack();
-          // notification.success({
-          //   message: "Success",
-          //   description: "change info tutor successfully!"
-          // });
         }
       }).catch(error => {
         notification.error({

@@ -28,8 +28,6 @@ class InfoAccountTutor extends Component {
   }
   handleSubmit = e => {
     e.preventDefault();
-    
-    console.log('xong rồi đấy!')
     this.props.form.validateFields(async(err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
@@ -38,7 +36,6 @@ class InfoAccountTutor extends Component {
         formData.append("file", imageData.originFileObj);
         try{
           await this.props.onChangeImage(formData);
-          console.log('xong rồi đấy!')
         } catch(e) {
           console.log(`có vấn đề tại ${ e }`)
         }
@@ -69,7 +66,6 @@ class InfoAccountTutor extends Component {
     
     const { getFieldDecorator } = this.props.form;
     let { check } = this.state;
-    //let {imageInfo} = this.state;
     return (
       <div className="row giasu-tieubieu">
         <div className="col-lg-4 col-md-4 col-sm-4">

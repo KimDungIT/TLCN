@@ -14,44 +14,70 @@ class ClassListPage extends Component {
     super(props);
     this.state = {
       activePage: 1,
+      type:false,
       idClass: 0,
       value: "all"
     };
   }
   componentDidMount() {
     let number = this.state.activePage - 1;
-    this.props.fetchAllClasses(number);
-  }
-  onSave = (search, check) => {
-    console.log("check: ", check);
-    let number = this.state.activePage - 1;
     if (
-      search.classTeach !== "" ||
-      search.subject !== "" ||
-      search.district !== ""
+      (this.props.search.classTeach === "" &&
+      this.props.search.subject === "" &&
+      this.props.search.district === "")
+    ) {
+      this.props.fetchAllClasses(number);
+    }
+
+  }
+  onSave = (search) => {
+    this.setState({
+      activePage: 1,
+    }, () => {    
+      let number = 0;
+    if (
+      !(this.props.search.classTeach === undefined &&
+        this.props.search.subject === undefined &&
+        this.props.search.district === undefined) || 
+        (this.props.search.classTeach === "" &&
+        this.props.search.subject === "" &&
+        this.props.search.district === "")
     ) {
       let searchInfo = {
         classTeach: search.classTeach,
         subject: search.subject,
-        district: search.district
+        district: search.district 
       };
       this.props.onSearch(searchInfo, number);
     }
-  };
+  });};
   onChange = page => {
-    console.log(page);
+    // if(this.state.type){
+    //   this.setState({
+    //     ...this.state,
+    //     activePage: 1,
+    //     type:false,
+    //   });
+    // }
+    // else{
+    // this.setState({
+    //   ...this.state,
+    //   activePage: page,
+    // });
     this.setState({
-      activePage: page,
-    });
+        activePage: page,
+      });
+  
     let number = page - 1;
-    if (
-      this.props.search.classTeach !== "" ||
-      this.props.search.subject !== "" ||
-      this.props.search.district !== ""
-    ) {
+    if(
+      !(this.props.search.classTeach === undefined &&
+      this.props.search.subject === undefined &&
+      this.props.search.district === undefined) || 
+      (this.props.search.classTeach === "" &&
+      this.props.search.subject === "" &&
+      this.props.search.district === "")){
       this.props.onSearch(this.props.search, number);
-    }
-    else {
+    } else {
       this.props.fetchAllClasses(number);
     }
   };

@@ -48,14 +48,6 @@ class AccountTutorEditPage extends Component {
     });
   };
 
-  // normFile = e => {
-  //   console.log("Upload event:", e);
-  //   if (Array.isArray(e)) {
-  //     return e;
-  //   }
-  //   return e && e.fileList;
-  // };
-
   render() {
     let { user } = this.props;
     let { tutor } = this.props;
@@ -198,24 +190,6 @@ class AccountTutorEditPage extends Component {
                   </Select>
                 )}
               </Form.Item>
-              {/* <Form.Item label="Ảnh thẻ">
-                {getFieldDecorator("file", {
-                  valuePropName: "fileList",
-                  getValueFromEvent: this.normFile,
-                  rules: [
-                    {
-                      required: true,
-                      message: "Please input your image"
-                    }
-                  ]
-                })(
-                  <Upload name="file" listType="picture">
-                    <Button>
-                      <Icon type="upload" /> Click to upload
-                    </Button>
-                  </Upload>
-                )}
-              </Form.Item> */}
               <Form.Item label="Trường đào tạo: ">
                 {getFieldDecorator("college", {
                   initialValue: `${tutor.college}`,

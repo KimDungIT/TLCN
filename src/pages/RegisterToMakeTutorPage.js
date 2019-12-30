@@ -70,11 +70,7 @@ class RegisterToMakeTutorPage extends Component {
                   if (res.status === 200) {
                     //create tutor
                     actAddTutorRequest(tutorInfo, idUser, history);
-                    //upload success
-                    notification.success({
-                      message: "Success",
-                      description: "Upload successfully!"
-                    });
+                    
                   }
                 })
                 .catch(error => {
