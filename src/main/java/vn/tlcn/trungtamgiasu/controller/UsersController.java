@@ -133,13 +133,22 @@ public class UsersController {
                 "Delete user"
         );
     }
+//    @PatchMapping()
+//    public ApiResponse updateUser(@RequestBody ChangeInfoUserDto changeInfoUserDto, OAuth2Authentication auth){
+//        return new ApiResponse(
+//                HttpStatus.OK,
+//                "Update user",
+//                usersService.changeInfoUser(changeInfoUserDto, auth)
+//        );
+//    }
+
+
     @PatchMapping()
-    public ApiResponse updateUser(@RequestBody ChangeInfoUserDto changeInfoUserDto, OAuth2Authentication auth){
+    public ApiResponse updateUser(@RequestBody ChangeInfoUserDto changeInfoUserDto){
         return new ApiResponse(
                 HttpStatus.OK,
                 "Update user",
-                usersService.changeInfoUser(changeInfoUserDto, auth)
+                usersService.changeInfoUser(changeInfoUserDto)
         );
     }
-
 }

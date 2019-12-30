@@ -78,14 +78,11 @@ public class ClassRegisterService {
                 throw new TutorNotRegisterClassException("Five tutors were registered. Can not register class " + idClass);
             }
         }
-
         logger.info("Tutor " + tutors.getIdTutor() + " register " + "class" + idClass );
-
         classRegisterDto.setStatus("Xem xét");
         ClassRegister classRegister = saveClassRegister(classRegisterMapper.toClassRegister(classRegisterDto));
         classRegister.setTutors(tutors);
         classRegister.setClasses(classesService.getClassById(idClass));
-
         return saveClassRegister(classRegister);
     }
 

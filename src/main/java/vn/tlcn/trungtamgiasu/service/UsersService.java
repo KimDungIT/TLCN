@@ -212,4 +212,16 @@ public class UsersService implements UserDetailsService {
         return users;
     }
 
+    public Users changeInfoUser(ChangeInfoUserDto changeInfoUserDto)
+    {
+        logger.info("Change information user");
+        Users users = getById(changeInfoUserDto.getIdUser());
+        users.setPhone(changeInfoUserDto.getPhone());
+        users.setAddress(changeInfoUserDto.getAddress());
+        users.setEmail(changeInfoUserDto.getEmail());
+        users.setName(changeInfoUserDto.getName());
+
+        return saveUser(users);
+    }
+
 }
