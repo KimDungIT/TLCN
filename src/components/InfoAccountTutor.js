@@ -1,6 +1,5 @@
-import React, { Component, useCallback } from "react";
+import React, { Component } from "react";
 import { Form, Button, Upload, Icon } from "antd";
-import callApi from "../utils/apiCaller";
 import { actChangeImageRequest } from "../actions";
 import { connect } from "react-redux";
 
@@ -9,12 +8,17 @@ class InfoAccountTutor extends Component {
     super(props);
     this.state = {
       check: true,
-      imageInfo: ''
+      imageInfo: '',
+      fileList: []
     };
   }
-
   normFile = e => {
-    console.log("Upload event:", e);
+
+    if(e.fileList.length >=2) {
+      console.log("Upload event:", this.state.fileList);
+      e.fileList.shift();//Removing Elements from Beginning of a Array
+    }
+   
     if (Array.isArray(e)) {
       return e;
     }
@@ -23,38 +27,23 @@ class InfoAccountTutor extends Component {
   onHandle() {
     this.setState({
       check: false,
-      //imageInfo: this.props.imageInfo
     });
   }
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields(async(err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
         let formData = new FormData();
         let imageData = values.file[0];
         formData.append("file", imageData.originFileObj);
         try{
-          await this.props.onChangeImage(formData);
+          await this.props.onChangeImage(formData);//change image
+          this.setState({
+            imageInfo: values.file[0].thumbUrl,
+          })
         } catch(e) {
           console.log(`có vấn đề tại ${ e }`)
         }
-        callApi(
-          `api/tutors/readImage?idUser=${this.props.userInfo.idUser}`,
-          "GET",
-          null
-        )
-          .then(res => {
-            if (res.status === 200) {
-              this.setState({
-                imageInfo: res.data.result
-              });
-            }
-            
-          })
-          .catch(error => {
-            console.log(error);
-          });
       }
     });
 
@@ -63,15 +52,14 @@ class InfoAccountTutor extends Component {
     let { userInfo } = this.props;
     let { tutorInfo } = this.props;
     let { imageInfo } = this.props;
-    
     const { getFieldDecorator } = this.props.form;
     let { check } = this.state;
+    
     return (
       <div className="row giasu-tieubieu">
         <div className="col-lg-4 col-md-4 col-sm-4">
-          <img
+        {this.state.imageInfo ===""  ? <img
             alt="anh-gs"
-            // src="images/man.jpg"
             src={`data:image/jpg;base64,${imageInfo}`}
             className="imageTutor"
             style={{
@@ -80,7 +68,18 @@ class InfoAccountTutor extends Component {
               marginTop: 15,
               boxShadow: "1px 2px 2px 1px #e8e4e3"
             }}
-          />
+          /> : <img
+          alt="anh-gs"
+          src={this.state.imageInfo}
+          className="imageTutor"
+          style={{
+            width: 230,
+            height: 270,
+            marginTop: 15,
+            boxShadow: "1px 2px 2px 1px #e8e4e3"
+          }}
+        />}
+          
           <Form
             style={{ marginTop: 15 }}
             layout="vertical"

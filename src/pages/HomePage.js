@@ -3,7 +3,7 @@ import QuickMenu from "../components/QuickMenu";
 import ClassList from "../components/ClassList";
 import { Link } from "react-router-dom";
 import ClassItem from "../components/ClassItem";
-
+import { actFetchClassesRequest } from "./../actions/index";
 import { actFetchTopSixRequest } from "./../actions/index";
 import callApi from "../utils/apiCaller";
 import { connect } from "react-redux";
@@ -33,6 +33,10 @@ class HomePage extends Component {
     });
   }
 
+  handleOnClickMore = () => {
+    this.props.fetchAllClasses(0);
+  }
+
   render() {
     let content = this.props.classes;
     var { isAuthenticated } = this.props.auth;
@@ -55,7 +59,7 @@ class HomePage extends Component {
         </div>
         <ClassList>{this.showClasses(content)}</ClassList>
         <div className="xemthem">
-          <Link to="/class-list">
+          <Link to="/class-list" onClick={this.handleOnClickMore}>
             <i className="fa fa-play" />
             Xem thêm...
           </Link>
@@ -87,12 +91,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // fetchAllClasses: () => {
-    //   dispatch(actFetchClassesRequest());
-    // },
-    // onSearch: searchInfo => {
-    //   dispatch(actSearchRequest(searchInfo));
-    // },
+    fetchAllClasses: page => {
+      dispatch(actFetchClassesRequest(page));
+    },
     fetchTopSixClass: () => {
       dispatch(actFetchTopSixRequest());
     }

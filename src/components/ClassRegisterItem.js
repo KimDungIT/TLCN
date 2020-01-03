@@ -10,7 +10,7 @@ class ClassRegisterItem extends Component {
   
   render() {
     let { tutorRegisterClassItem } = this.props;
-    console.log("tutor: ", tutorRegisterClassItem);
+    console.log("id: ", this.props.id);
     let colorStatus = 
       tutorRegisterClassItem.status === "Xem xét"
         ? '#d6d6d6'

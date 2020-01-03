@@ -4,7 +4,9 @@ import { actDeleteClassRequest } from './../actions/index';
 
 class StatusClassParentRegisterItem extends Component {
   onDelete = (idClass) => {
-    this.props.onDeleteClass(idClass);
+    if(confirm('Bạn chắc chắn muốn xóa?')){ //eslint-disable-line
+      this.props.onDeleteClass(idClass);
+    }
   }
   render() {
     var { parentRegisterClassItem } = this.props;

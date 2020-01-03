@@ -6,7 +6,9 @@ import { actDeleteClassRegisterRequest } from './../actions/index';
 
 class StatusClassTutorRegisterItem extends Component {
   onDelete = (idClassRegister) => {
-    this.props.onDeleteClassRegister(idClassRegister);
+    if(confirm('Bạn chắc chắn muốn xóa?')){ //eslint-disable-line
+      this.props.onDeleteClassRegister(idClassRegister);
+    }
   }
   render() {
     var { tutorRegisterClassItem } = this.props;
@@ -14,15 +16,13 @@ class StatusClassTutorRegisterItem extends Component {
     let colorStatus = 
     tutorRegisterClassItem.status === "Xem xét"
         ? '#d6d6d6'
-        // : tutorRegisterClassItem.status === "Đủ điều kiện"
-        // ? '#84b919'
         : tutorRegisterClassItem.status === "Đã nhận lớp"
         ? '#20adbd'
         : '#9b0000';
     
     return (
       <tr>
-        <td>{tutorRegisterClassItem.idClassRegister}</td>
+        <td>{tutorRegisterClassItem.classes.idClass}</td>
         <td>{tutorRegisterClassItem.classes.classTeach} - Môn { tutorRegisterClassItem.classes.subject}</td>
         <td>{tutorRegisterClassItem.classes.salary}</td>
         <td>{tutorRegisterClassItem.payments}</td>

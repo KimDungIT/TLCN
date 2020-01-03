@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Form,Input, Radio, Select, Checkbox, Row, Col, notification} from "antd";
+import {Form,Input, Radio, Select, Checkbox, Row, Col, notification } from "antd";
 import "./../style/signup.css";
 import { connect } from "react-redux";
 import {actFetchUserRequest, actFetchTutorRequest, actChangeInfoUserRequest, actChangeInforTutorRequest} from "../actions";
@@ -433,6 +433,7 @@ class AccountTutorEditPage extends Component {
               </Form.Item>
             </Form>
           </div>
+          
         </div>
       </div>
     );

@@ -30,7 +30,7 @@ class ClassListPage extends Component {
     }
 
   }
-  onSave = (search) => {
+  onSave = (search) => {/
     this.setState({
       activePage: 1,
     }, () => {    
@@ -51,7 +51,7 @@ class ClassListPage extends Component {
       this.props.onSearch(searchInfo, number);
     }
   });};
-  onChange = page => {
+  onChange = page => {//
     // if(this.state.type){
     //   this.setState({
     //     ...this.state,

@@ -17,7 +17,7 @@ class RegisterClassPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      content: []
+      content: [],
     };
   }
   componentDidMount() {
@@ -27,7 +27,6 @@ class RegisterClassPage extends Component {
       this.props.onRegisterClass(id);
       this.props.onFetchTutorRegisterClass(id);
     }
-    
   }
 
   handleSubmit = e => {
@@ -40,7 +39,6 @@ class RegisterClassPage extends Component {
         ...values,
         dateReceive: values["dateReceive"].format("YYYY-MM-DD")
       };
-      console.log("Received values of form: ", fieldsValue);
       let idClass = this.props.classRegister.idClass;
       this.props.onTutorRegisterClass(fieldsValue, idClass);
     });
@@ -50,6 +48,7 @@ class RegisterClassPage extends Component {
     let { classRegister } = this.props;
     let  {tutorRegisterClass}  = this.props;
     const { getFieldDecorator } = this.props.form;
+    let {idUser} = this.state;
     return (
       <div className="col-lg-9 col-md-9 col-sm-9">
         <div className="row">
@@ -114,7 +113,7 @@ class RegisterClassPage extends Component {
           </div>
         ) : (
           <ClassRegisterList>
-            {this.showClassRegisterList(tutorRegisterClass)}
+            {this.showClassRegisterList(tutorRegisterClass, idUser)}
           </ClassRegisterList>
         )}
         <div className="row luu-y">
@@ -140,7 +139,7 @@ class RegisterClassPage extends Component {
     );
   }
  
-  showClassRegisterList(tutorRegisterClass) {
+  showClassRegisterList(tutorRegisterClass, idUser) {
     var result = null;
     if (tutorRegisterClass === undefined) {
       return;

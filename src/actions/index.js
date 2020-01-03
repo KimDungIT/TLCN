@@ -227,6 +227,7 @@ export const actChangeImageRequest = (formData) => {
     return  callApi("api/tutors/changeImage", "POST", formData).then(res => {
       if (res.status === 200) {
         dispatch(actChangeImage(res.data));
+        console.log("redux: ",res.data.result);
         notification.success({
           message: "Success",
           description: "Cập nhật ảnh thành công!"
