@@ -63,7 +63,7 @@ public class ClassesController {
                page);
     }
     @GetMapping(value = "/{id}/register")
-    @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
+//    @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
     public ApiResponse getClassById(@PathVariable("id") int id) {
         logger.info("Get class by id: " + id);
         return  new ApiResponse(
