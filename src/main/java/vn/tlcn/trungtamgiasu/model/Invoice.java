@@ -23,20 +23,16 @@ public class Invoice implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_invoice;
+    private int idInvoice;
 
-    private double service_fee;
+    private double serviceFee;
 
     @CreatedDate
     private Date time;
 
-    @ManyToOne
-    @JoinColumn(name = "id_class", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_class_register")
     @JsonIgnore
-    private Classes classes;
-
-    @ManyToOne
-    @JoinColumn(name = "id_tutor", nullable = false)
-    @JsonIgnore
-    private Tutors tutors;
+    private ClassRegister classRegister;
+    
 }

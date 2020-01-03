@@ -1,4 +1,13 @@
+oauth2:
+  client-id: client
+  client-secret: ttgs123
+
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 200MB
+      max-request-size: 200MB
   profiles:
     include: default
   datasource:
@@ -13,3 +22,15 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+  flyway:
+    url: jdbc:mysql://localhost:3306/mysql
+    schemas: db_giasu
+    user: root
+    password: dungkim
+    baseline-on-migrate: true
+    check-location: true
+
+
+file:
+  upload-dir: uploads
