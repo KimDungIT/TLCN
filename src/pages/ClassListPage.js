@@ -21,16 +21,17 @@ class ClassListPage extends Component {
   }
   componentDidMount() {
     let number = this.state.activePage - 1;
-    if (
+    if ((this.props.search.classTeach === undefined &&
+      this.props.search.subject === undefined &&
+      this.props.search.district === undefined) || 
       (this.props.search.classTeach === "" &&
       this.props.search.subject === "" &&
       this.props.search.district === "")
     ) {
       this.props.fetchAllClasses(number);
     }
-
   }
-  onSave = (search) => {/
+  onSave = (search) => {
     this.setState({
       activePage: 1,
     }, () => {    
@@ -51,33 +52,15 @@ class ClassListPage extends Component {
       this.props.onSearch(searchInfo, number);
     }
   });};
-  onChange = page => {//
-    // if(this.state.type){
-    //   this.setState({
-    //     ...this.state,
-    //     activePage: 1,
-    //     type:false,
-    //   });
-    // }
-    // else{
-    // this.setState({
-    //   ...this.state,
-    //   activePage: page,
-    // });
+  onChange = page => {
     this.setState({
         activePage: page,
       });
   
     let number = page - 1;
-    if(
-      !(this.props.search.classTeach === undefined &&
-      this.props.search.subject === undefined &&
-      this.props.search.district === undefined) || 
-      (this.props.search.classTeach === "" &&
-      this.props.search.subject === "" &&
-      this.props.search.district === "")){
+    if(this.props.search.isSearch) {
       this.props.onSearch(this.props.search, number);
-    } else {
+    }else {
       this.props.fetchAllClasses(number);
     }
   };
@@ -99,7 +82,7 @@ class ClassListPage extends Component {
         <ClassList>{this.showClasses(content)}</ClassList>
         {totalElements > 0 ? (
           <Pagination
-            current={this.state.activePage}
+            current={this.props.classes.number + 1}
             onChange={this.onChange}
             defaultPageSize={size}
             total={totalElements}

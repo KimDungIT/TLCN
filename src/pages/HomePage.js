@@ -6,6 +6,7 @@ import ClassItem from "../components/ClassItem";
 import { actFetchClassesRequest } from "./../actions/index";
 import { actFetchTopSixRequest } from "./../actions/index";
 import callApi from "../utils/apiCaller";
+import {actSearchInputRequest} from './../actions/index';
 import { connect } from "react-redux";
 
 class HomePage extends Component {
@@ -34,6 +35,13 @@ class HomePage extends Component {
   }
 
   handleOnClickMore = () => {
+    let searchInfo = {
+      classTeach: "",
+      subject: "",
+      district: "",
+      isSearch: false
+    };
+    this.props.onSearchInput(searchInfo);
     this.props.fetchAllClasses(0);
   }
 
@@ -96,7 +104,10 @@ const mapDispatchToProps = (dispatch) => {
     },
     fetchTopSixClass: () => {
       dispatch(actFetchTopSixRequest());
-    }
+    },
+    onSearchInput: (search) => {
+      dispatch(actSearchInputRequest(search));
+    },
   };
 };
 

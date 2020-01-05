@@ -6,11 +6,13 @@ import {actSearchInputRequest} from './../actions/index';
 import { connect } from "react-redux";
 
 class PanelLeft extends Component {
+    
     handleOnClick = event => {
         let searchInfo = {
             classTeach: event.target.id,
             subject: "",
-            district: ""
+            district: "",
+            isSearch: true
           };
         this.props.onSearch(searchInfo, 0);
         this.props.onSearchInput(searchInfo);
@@ -19,7 +21,8 @@ class PanelLeft extends Component {
         let searchInfo = {
             classTeach: "",
             subject: event.target.id,
-            district: ""
+            district: "",
+            isSearch: true
           };
         this.props.onSearch(searchInfo, 0);
         this.props.onSearchInput(searchInfo);
@@ -28,12 +31,20 @@ class PanelLeft extends Component {
         let searchInfo = {
             classTeach: "",
             subject: "",
-            district: event.target.id
+            district: event.target.id,
+            isSearch: true
           };
         this.props.onSearch(searchInfo, 0);
         this.props.onSearchInput(searchInfo);
     }
     handleOnClickMore = () => {
+        let searchInfo = {
+            classTeach: "",
+            subject: "",
+            district: "",
+            isSearch: false
+          };
+        this.props.onSearchInput(searchInfo);
         this.props.fetchAllClasses(0);
     }
     render() {

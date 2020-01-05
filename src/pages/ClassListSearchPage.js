@@ -15,11 +15,6 @@ class ClassListSearchPage extends Component {
   }
   componentDidMount() {
     let number = this.state.activePage - 1;
-    var { match } = this.props;
-    if (match) {
-      var { value } = match.params;
-      console.log("info: ", value);
-    }
     this.props.onFetchClassSuggest(this.props.auth.user.idUser, number);
   }
   onChange = page => {
@@ -31,7 +26,10 @@ class ClassListSearchPage extends Component {
     this.props.onFetchClassSuggest(this.props.auth.user.idUser, number);
   };
   render() {
-    let content = this.props.classes.content;
+    let {classSuggest} = this.props;
+    let size = classSuggest.size;
+    let totalElements = classSuggest.totalElements;
+    let content = this.props.classSuggest.content;
     return (
       <div className="col-lg-9 col-md-9 col-sm-9">
         <div className="row">
@@ -41,12 +39,16 @@ class ClassListSearchPage extends Component {
           </div>
         </div>
         <ClassList>{this.showClasses(content)}</ClassList>
-        <Pagination
-          current={this.state.activePage}
-          onChange={this.onChange}
-          defaultPageSize={this.props.classes.size}
-          total={this.props.classes.totalElements}
-        />
+        {totalElements > 0 ? (
+          <Pagination
+            current={this.props.classSuggest.number + 1}
+            onChange={this.onChange}
+            defaultPageSize={size}
+            total={totalElements}
+          />
+        ) : (
+          ""
+        )}
       </div>
     );
   }
@@ -66,7 +68,7 @@ class ClassListSearchPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    classes: state.classSuggest,
+    classSuggest: state.classSuggest,
     auth: state.auth
   };
 };

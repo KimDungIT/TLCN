@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Menu, Dropdown, Icon, Avatar} from "antd";
 import { actFetchClassesRequest } from "./../actions/index";
 import { logout } from "./../actions/index";
+import {actSearchInputRequest} from './../actions/index';
 
 const menuPH = (
   <Menu>
@@ -27,6 +28,13 @@ class MenuMain extends Component {
     this.props.logout();
   }
   handleOnClick = () => {
+    let searchInfo = {
+      classTeach: "",
+      subject: "",
+      district: "",
+      isSearch: false
+    };
+    this.props.onSearchInput(searchInfo);
     this.props.fetchAllClasses(0);
 }
   render() {
@@ -117,11 +125,6 @@ class MenuMain extends Component {
             Quy trình nhận lớp
           </Link>
         </li>
-        {/* <li>
-          <Link className="nav-link" to='/signup'>
-            Đăng ký
-          </Link>
-        </li> */}
         <li>
           <Link className="nav-link" to="/login">
             <i className="fa fa-fw fa-user"></i>Đăng nhập
@@ -147,12 +150,6 @@ class MenuMain extends Component {
             Lớp đã đăng
           </Link>
         </li>
-        
-        {/* <li className="nav-item">
-          <Link className="nav-link" to="/class-list">
-            Phụ huynh lưu ý
-          </Link>
-        </li> */}
         <li className="nav-item">
           <Link className="nav-link" to="/tutor-fee">
             Học phí gia sư
@@ -243,6 +240,9 @@ const mapDispatchToProps = dispatch => {
     },
     logout: () => {
       dispatch(logout());
+    },
+    onSearchInput: (search) => {
+      dispatch(actSearchInputRequest(search));
     }
   };
 };

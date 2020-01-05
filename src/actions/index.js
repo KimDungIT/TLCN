@@ -44,10 +44,7 @@ export const actFetchClassesSuggestRequest = (id, page) => {
         dispatch(actFetchClassesSuggest(res.data));
       }
     }).catch(error => {
-      notification.error({
-        message: "Error ",
-        description: error.message
-      });
+      console.log(error);
     });
   }
 }
@@ -192,7 +189,7 @@ export const actFetchListClassParentRegister = classes => {
   };
 };
 
-//get list tutor register class by idUser
+//get list class  tutor register
 export const actFetchListClassTutorRegisterRequest = idUser => {
   return dispatch => {
     return callApi(
@@ -206,10 +203,7 @@ export const actFetchListClassTutorRegisterRequest = idUser => {
         }
       })
       .catch(error => {
-        notification.error({
-          message: "Error get list tutor register class",
-          description: error.message
-        });
+        console.log(error);
       });
   };
 };
@@ -322,10 +316,7 @@ export const actFetchTutorRegisterClassRequest = idClass => {
         }
       })
       .catch(error => {
-        notification.error({
-          message: "Error get list tutor register class",
-          description: error.message
-        });
+        console.log(error);
       });
   };
 };
@@ -433,13 +424,13 @@ export const actAddTutorRequest = (tutor, idUser, history) => {
         history.push("/login");
         notification.success({
           message: "Success",
-          description: "Add tutor successfully!"
+          description: "Đăng ký tài khoản gia sư thành công!"
         });
       }
     })
     .catch(error => {
       notification.error({
-        message: "Error create tutor",
+        message: "Đăng ký tài khoản gia sư thất bại",
         description: error.message
       });
     });
@@ -480,12 +471,6 @@ export const actAddClassRequest = (classes, history) => {
       });
   };
 };
-// export const actAddClass = classes => {
-//   return {
-//     type: Types.ADD_CLASSES,
-//     classes
-//   };
-// };
 
 //logout
 export const logout = () => {
@@ -502,11 +487,6 @@ export const actFetchClassesRequest = (page) => {
   return dispatch => {
     return callApi(`api/classes?page=${page}`, "GET", null).then(res => {
       dispatch(actFetchClasses(res.data));
-      // notification.success({
-      //   message: "Success",
-      //   description:
-      //     "Get classes by status successful!"
-      // });
     });
   };
 };

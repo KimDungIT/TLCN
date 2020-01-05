@@ -1,7 +1,19 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import {actSearchInputRequest} from './../actions/index';
+import { connect } from "react-redux";
 
 class QuickMenu extends Component {
+    handleOnClick = () => {
+        let searchInfo = {
+          classTeach: "",
+          subject: "",
+          district: "",
+          isSearch: false
+        };
+        this.props.onSearchInput(searchInfo);
+    
+    }
     render() {
         return (
             <div className="row menu-nhanh">
@@ -31,7 +43,7 @@ class QuickMenu extends Component {
                     <ul className="menu-phuhuynh">
                         <li>
                             <Link 
-                                to='/class-list'>Lớp dạy mới
+                                to='/class-list' onClick={this.handleOnClick}>Lớp dạy mới
                             </Link>
                         </li>
                         <li>
@@ -50,4 +62,12 @@ class QuickMenu extends Component {
     }
 }
 
-export default QuickMenu;
+const mapDispatchToProps = dispatch => {
+    return {
+      onSearchInput: (search) => {
+        dispatch(actSearchInputRequest(search));
+      },
+    };
+  };
+
+export default connect(null, mapDispatchToProps)(QuickMenu);
