@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import "./../style/signup.css";
 import "antd/dist/antd.css";
 import { Form, Input, Button, notification } from "antd";
+import {logout} from "./../actions/index";
 import callApi from "../utils/apiCaller";
+import { connect } from "react-redux";
 
 class ChangePasswordPage extends Component {
   constructor(props) {
@@ -22,8 +24,8 @@ class ChangePasswordPage extends Component {
           newPassword: values.newPassword
         })
           .then(res => {
-            console.log(res);
             if (res.data.status === 200) {
+              this.props.logout();
               history.push("/login");
               notification.success({
                 message: "Success",
@@ -152,7 +154,15 @@ class ChangePasswordPage extends Component {
     );
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => {
+      dispatch(logout());
+    },
+    };
+};
+
 const ChangePasswordForm = Form.create({ name: "change-password" })(
   ChangePasswordPage
 );
-export default ChangePasswordForm;
+export default connect(null, mapDispatchToProps)(ChangePasswordForm);
