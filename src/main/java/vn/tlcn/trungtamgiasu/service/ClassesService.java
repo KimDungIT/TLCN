@@ -108,8 +108,10 @@ public class ClassesService {
                 result.addAll(classesRepository.findAllByClassTeachAndDistrict(item, district));
             }
         }
-        System.out.printf(result.toString());
-        Page<Classes> listClasses = new PageImpl<>(result, pageable, result.size());
+        int start = (int) pageable.getOffset();
+        int end = (start + pageable.getPageSize()) > result.size() ? result.size() : (start + pageable.getPageSize());
+        Page<Classes> listClasses = new PageImpl<Classes>(result.subList(start, end), pageable, result.size());
+       // Page<Classes> listClasses = new PageImpl<>(result, pageable, result.size());
         return  listClasses;
     }
 

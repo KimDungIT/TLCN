@@ -76,7 +76,6 @@ public class ClassesController {
     @PreAuthorize("hasAnyAuthority('[ADMIN]', '[GIASU]')")
     public ApiResponse getListClassTutorCanTeach(@RequestParam(value = "idUser")int idUser,
                                                  @PageableDefault(size = 9) Pageable pageable) {
-        logger.info("Search class");
         logger.info("Get list classes tutor can teach");
 
         return new ApiResponse(
