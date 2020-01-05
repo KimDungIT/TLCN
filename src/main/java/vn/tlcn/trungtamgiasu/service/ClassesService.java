@@ -97,6 +97,7 @@ public class ClassesService {
 
     public Page<Classes> getListClassesTutorCanTeach(int idUser, Pageable pageable) {
         logger.info("Get list class tutor can teach");
+        String status = "Lớp mới";
         Tutors tutors = tutorsService.getTutorByIdUser(idUser);
         String classTeach = tutors.getClasses();
         String districtCanTeach = tutors.getDistrictCanTeach();
@@ -105,7 +106,7 @@ public class ClassesService {
         List<Classes> result = new ArrayList<>();
         for (String item: classArr) {
             for (String district: districtArr) {
-                result.addAll(classesRepository.findAllByClassTeachAndDistrict(item, district));
+                result.addAll(classesRepository.findAllByClassTeachAndDistrictAndStatus(item, district, status));
             }
         }
         int start = (int) pageable.getOffset();

@@ -32,7 +32,7 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer>, JpaS
     List<Classes> getListClassByUser(int idUser);
 
     Page<Classes> findAllByClassTeach(String classTeach, Pageable pageable);
-    List<Classes> findAllByClassTeachAndDistrict(String classTeach, String district);
+    List<Classes> findAllByClassTeachAndDistrictAndStatus(String classTeach, String district, String status);
 
     List<Classes> findAllBySubject(String subject);
 
@@ -41,7 +41,7 @@ public interface ClassesRepository extends JpaRepository<Classes, Integer>, JpaS
     @Query(value = "select * from classes where class_teach = ?1 limit 3", nativeQuery = true)
     List<Classes> getListClassRelate(String classTeach);
 
-    @Query(value = "select * from classes order by salary desc limit 6", nativeQuery = true)
+    @Query(value = "select * from classes where status = 'Lớp mới' order by salary desc limit 6", nativeQuery = true)
     List<Classes> getListClassesTop();
 
     @Modifying
