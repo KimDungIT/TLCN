@@ -25,7 +25,7 @@ class ClassItem extends Component {
                                 <strong>
                                     <i className="ha-red fa fa-map-marker fa-2x" />
                                 </strong>
-                                {classItem.address}, {classItem.district}, TP. Hồ Chí Minh
+                                {classItem.district}, TP. Hồ Chí Minh
                             </a>
                         </p>
                         <p>
